@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_add_todo.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_filter_icon.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_main_logo.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_todo_logo_small.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/rectangle_rounded.xml" value="0.262" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/add_todo.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/show_todo.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/todo_view.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/todos_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/todos_recycler.xml" value="0.36041666666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

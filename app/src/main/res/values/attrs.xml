@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TodosView">
+        <attr name="subject" format="string"/>
+        <attr name="contents" format="string"/>
+        <attr name="dateOfDeadline" format="string"/>
+    </declare-styleable>
+
+</resources>

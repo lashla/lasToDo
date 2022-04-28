@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">lasToDo</string>
+    <string name="add_new_todo">Add new todo</string>
+    <string name="filter">filter</string>
+</resources>
