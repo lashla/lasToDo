@@ -6,17 +6,25 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_add_todo.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_button_background.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_calendar.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_dialog_line.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_filter_icon.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_main_logo.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_rectangle_rounded_dialogbc.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_rectangle_rounded_et.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_rectangle_rounded_text_cont.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_todo_logo_small.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/rectangle_rounded.xml" value="0.262" />
+        <entry key="app/src/main/res/font/fonts.xml" value="0.390625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/add_edit_dialog.xml" value="0.33" />
         <entry key="app/src/main/res/layout/add_todo.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/show_todo.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/todo_view.xml" value="0.36041666666666666" />
-        <entry key="app/src/main/res/layout/todos_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/todos_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/todos_recycler.xml" value="0.36041666666666666" />
       </map>
     </option>

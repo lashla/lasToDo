@@ -12,10 +12,16 @@ class TodosRecyclerAdapter: RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder
 
     private var todoList = ArrayList<Todos>()
 
+    private lateinit var mlistner: onItemClickListener
+
+    fun onItemClickListener(listener: onItemClickListener){
+        mlistner = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.todo_view, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, mlistner)
     }
 
     fun updateTodoInfo(newInfo: ArrayList<Todos>){
@@ -33,9 +39,18 @@ class TodosRecyclerAdapter: RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder
     override fun getItemCount(): Int { return todoList.size }
 
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View, listener: onItemClickListener): RecyclerView.ViewHolder(itemView){
         val subject: TextView = itemView.findViewById(R.id.subject)
         val todoContents: TextView = itemView.findViewById(R.id.contents)
         val dateOfDeadline: TextView = itemView.findViewById(R.id.dateOfDeadline)
+        init {
+            itemView.setOnClickListener {
+                listener.onItemClick(adapterPosition)
+            }
+        }
     }
+    interface onItemClickListener{
+        fun onItemClick(position: Int)
+    }
+
 }

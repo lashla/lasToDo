@@ -9,5 +9,18 @@
         android:id="@+id/todosFragment"
         android:name="com.lasha.lastodo.ui.todos.TodosFragment"
         android:label="TodosFragment"
-        tools:layout="@layout/todos_fragment"/>
+        tools:layout="@layout/todos_fragment">
+        <action
+            android:id="@+id/action_todosFragment_to_showTodoFragment"
+            app:destination="@id/showTodoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showTodoFragment"
+        android:name="com.lasha.lastodo.ui.show_todo.ShowTodoFragment"
+        android:label="ShowTodoFragment"
+        tools:layout="@layout/show_todo">
+        <action
+            android:id="@+id/action_showTodoFragment_to_todosFragment"
+            app:destination="@id/todosFragment" />
+    </fragment>
 </navigation>
