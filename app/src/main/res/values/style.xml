@@ -7,4 +7,9 @@
     <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+    <style name="datePicker" parent="@android:style/Widget.DeviceDefault.DatePicker">
+        <item name="background">?android:colorBackground</item>
+        <item name="cornerRadius">20dp</item>
+        <item name="fontFamily">Montserrat</item>
+    </style>
 </resources>
