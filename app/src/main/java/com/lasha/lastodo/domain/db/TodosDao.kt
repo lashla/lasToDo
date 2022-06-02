@@ -1,9 +1,6 @@
 package com.lasha.lastodo.domain.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.lasha.lastodo.data.model.Todos
 
 @Dao
@@ -16,5 +13,11 @@ interface TodosDao {
 
     @Query("SELECT * FROM todos ORDER BY date ASC")
     suspend fun getSortedByDate(): List<Todos>
+
+    @Delete(entity = Todos::class)
+    suspend fun deleteCurrentTodo(id: Int?)
+
+    @Update(entity = Todos::class)
+    suspend fun updateCurrentTodo(todos: Todos)
 
 }

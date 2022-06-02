@@ -19,4 +19,12 @@ class RoomRepositoryImpl(private val todosDao: TodosDao): RoomRepository {
         return todosDao.intert(todos)
     }
 
+    override suspend fun deleteCurrentTodo(id: Int?) {
+        return todosDao.deleteCurrentTodo(id)
+    }
+
+    override suspend fun updateCurrentTodo(todos: Todos) {
+        return todosDao.updateCurrentTodo(todos)
+    }
+
 }

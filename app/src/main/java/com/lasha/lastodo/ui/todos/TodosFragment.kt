@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -68,7 +69,8 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
             showAdditionSheetDialog()
         }
         adapter.setOnItemClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_todosFragment_to_showTodoFragment)
+            val action = TodosFragmentDirections.actionTodosFragmentToShowTodoFragment(it)
+            findNavController().navigate(action)
         }
     }
 
