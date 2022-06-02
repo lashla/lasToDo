@@ -24,9 +24,11 @@
     <TextView
         android:id="@+id/contents"
         android:layout_width="270dp"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
+        android:maxLength="67"
+        android:maxLines="3"
         android:text="i need to learn room better"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"

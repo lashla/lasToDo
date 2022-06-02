@@ -5,6 +5,7 @@ buildscript {
     ext.compose_version = '1.0.2'
     repositories {
         google()
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         def gradle = '7.0.2'

@@ -1,5 +1,6 @@
 package com.lasha.lastodo.ui.todos
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,12 +20,12 @@ class TodosViewModel @Inject constructor(private val roomRepository: RoomReposit
         val todosData = MutableLiveData<List<Todos>>()
         getAllData()
     }
-    fun insertHandler(subject: String, description: String, date: String, filePath: String, deadlineDate: String){
+    fun insertHandler(subject: String, description: String, date: String, filePath: Uri?, deadlineDate: String?){
         viewModelScope.launch {
             insertDataIntoDatabase(subject, description, date, filePath, deadlineDate)
         }
     }
-    private fun insertDataIntoDatabase(subject: String, description: String, date: String, filePath: String, deadlineDate: String){
+    private fun insertDataIntoDatabase(subject: String, description: String, date: String, filePath: Uri?, deadlineDate: String?){
         viewModelScope.launch(Dispatchers.IO){
             roomRepository.insertTodo(Todos(subject, description, date, filePath, deadlineDate))
             Log.i("Insert", "Inserted new todo")
