@@ -67,13 +67,9 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
         addNewTodoBtn.setOnClickListener {
             showAdditionSheetDialog()
         }
-
-        adapter.onItemClickListener(object : TodosRecyclerAdapter.onItemClickListener{
-            override fun onItemClick(position: Int) {
-                Navigation.findNavController(requireView()).navigate(R.id.action_todosFragment_to_showTodoFragment)
-            }
-        })
-
+        adapter.setOnItemClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_todosFragment_to_showTodoFragment)
+        }
     }
 
     private fun selectDatePicker(){
