@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
@@ -61,14 +62,15 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
         bottomSheetDialog.setCancelable(false)
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.edgeToEdgeEnabled
-        bottomSheetDialog.show()
+        BottomSheetBehavior.STATE_EXPANDED
         setupBottomSheetButtons()
-        val editBtnText = "Edit current todo"
-        addEditBtn.text = editBtnText
         addEditBtn.setOnClickListener{
             updateTodo()
             bottomSheetDialog.dismiss()
         }
+        val editBtnText = "Edit current todo"
+        addEditBtn.text = editBtnText
+        bottomSheetDialog.show()
 
     }
 

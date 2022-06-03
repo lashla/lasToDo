@@ -18,6 +18,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
@@ -99,14 +100,13 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
         bottomSheetDialog.setCancelable(false)
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.edgeToEdgeEnabled
-        bottomSheetDialog.show()
         setupBottomSheetButtons()
-
+        BottomSheetBehavior.STATE_EXPANDED
         addEditBtn.setOnClickListener{
             populateTodos()
             bottomSheetDialog.dismiss()
         }
-
+        bottomSheetDialog.show()
     }
 
     private fun setupBottomSheetButtons(){
