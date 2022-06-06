@@ -27,4 +27,9 @@ class AddEditViewModel @Inject constructor(private val roomRepository: RoomRepos
             Log.i("Insert", "Inserted new todo")
         }
     }
+    fun updateTodo(todos: Todos){
+        viewModelScope.launch(Dispatchers.IO) {
+            roomRepository.updateCurrentTodo(todos)
+        }
+    }
 }

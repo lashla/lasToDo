@@ -64,7 +64,7 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
     }
 
     private fun showAdditionSheetDialog(){
-        
+        findNavController().navigate(R.id.action_todosFragment_to_bottomSheet)
     }
 
     private fun initViewModel(){

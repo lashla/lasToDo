@@ -21,11 +21,6 @@ class TodosViewModel @Inject constructor(private val roomRepository: RoomReposit
         val todosData = MutableLiveData<List<Todos>>()
         getAllData()
     }
-    fun insertHandler(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
-        viewModelScope.launch {
-            insertDataIntoDatabase(subject, description, date, filePath, deadlineDate)
-        }
-    }
     private fun insertDataIntoDatabase(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
         viewModelScope.launch(Dispatchers.IO){
             roomRepository.insertTodo(Todos(id, subject, description, date, filePath, deadlineDate))

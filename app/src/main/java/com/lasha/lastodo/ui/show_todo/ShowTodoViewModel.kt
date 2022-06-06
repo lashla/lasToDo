@@ -17,10 +17,4 @@ class ShowTodoViewModel @Inject constructor(private val roomRepository: RoomRepo
             roomRepository.deleteCurrentTodo(todos)
         }
     }
-
-    fun updateTodo(todos: Todos){
-        viewModelScope.launch(Dispatchers.IO) {
-            roomRepository.updateCurrentTodo(todos)
-        }
-    }
 }

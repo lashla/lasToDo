@@ -8,6 +8,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -46,7 +47,7 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
 
         }
         editBtn.setOnClickListener {
-            showAdditionSheetDialog()
+            showEditSheetDialog()
         }
         deleteBtn.setOnClickListener {
             viewModel.deleteTodo(navArgs.currentTodo)
@@ -56,22 +57,9 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
         }
     }
 
-    private fun showAdditionSheetDialog(){
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
-        val view = layoutInflater.inflate(R.layout.add_edit_dialog, null)
-        bottomSheetDialog.setCancelable(false)
-        bottomSheetDialog.setContentView(view)
-        bottomSheetDialog.edgeToEdgeEnabled
-        BottomSheetBehavior.STATE_EXPANDED
-        setupBottomSheetButtons()
-        addEditBtn.setOnClickListener{
-            updateTodo()
-            bottomSheetDialog.dismiss()
-        }
-        val editBtnText = "Edit current todo"
-        addEditBtn.text = editBtnText
-        bottomSheetDialog.show()
-
+    private fun showEditSheetDialog(){
+        val action = ShowTodoFragmentDirections.actionShowTodoFragmentToBottomSheet(navArgs.currentTodo)
+        findNavController().navigate(action)
     }
 
     private fun setupBottomSheetButtons(){
@@ -80,13 +68,6 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
         }
         addImageBtn.setOnClickListener {
             openGalleryForImage()
-        }
-    }
-
-    private fun updateTodo(){
-        val currentDate = LocalDateTime.now()
-        if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
-            viewModel.updateTodo(Todos(navArgs.currentTodo.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), navArgs.currentTodo.photoPath.toString(), deadlineBtn.text.toString()))
         }
     }
 

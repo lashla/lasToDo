@@ -37,18 +37,6 @@
         android:name="com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragment"
         tools:layout="@layout/add_edit_dialog"
         >
-        <action
-            android:id="@+id/action_bottomSheet_to_todosFragment"
-            app:destination="@id/todosFragment" />
-        <action
-            android:id="@+id/action_bottomSheet_to_todosFragment2"
-            app:destination="@id/todosFragment" />
-        <action
-            android:id="@+id/action_bottomSheet_to_showTodoFragment"
-            app:destination="@id/showTodoFragment" />
-        <action
-            android:id="@+id/action_bottomSheet_to_todosFragment3"
-            app:destination="@id/todosFragment" />
         <argument
             android:name="currentTodo"
             app:argType="com.lasha.lastodo.data.model.Todos"
