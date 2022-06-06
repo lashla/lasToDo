@@ -14,16 +14,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
-import com.lasha.lastodo.ui.show_todo.ShowTodoFragmentArgs
+import com.lasha.lastodo.data.model.Todos
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.add_edit_dialog.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
 @AndroidEntryPoint
 class AddEditDialogFragment: BottomSheetDialogFragment() {
 
-    private val navArgs by navArgs<ShowTodoFragmentArgs>()
+    private val navArgs by navArgs<AddEditDialogFragmentArgs>()
 
     private lateinit var viewModel: AddEditViewModel
     private var filePathUri: Uri? = null
@@ -49,7 +50,9 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
     }
 
     private fun setupBottomSheetButtons(){
-        addEditBtn.text = "Edit todo"
+        if (navArgs.currentTodo == null){
+            addEditBtn.text = "Edit todo"
+        }
         deadlineBtn.setOnClickListener{
             selectDatePicker()
         }
@@ -57,8 +60,11 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
             openGalleryForImage()
         }
         addEditBtn.setOnClickListener {
-            populateTodos()
-            dismissAllowingStateLoss()
+            if (navArgs.currentTodo != null){
+                editTodo()
+            } else {
+                populateTodos()
+            }
         }
     }
 
@@ -69,6 +75,12 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         }
     }
 
+    private fun editTodo(){
+        val currentDate = LocalDateTime.now()
+        if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
+            viewModel.updateTodo(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
+        }
+    }
     private fun selectDatePicker(){
         val myCalendar = Calendar.getInstance()
         val year = myCalendar.get(Calendar.YEAR)
@@ -77,8 +89,8 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         val dpd = DatePickerDialog(requireContext(), R.style.datePicker,
             { _, selectedYear, selectedMonth, selectedDayOfMonth ->
 
-                val selectedDate = "$selectedDayOfMonth/${selectedMonth+1}/$selectedYear"
-                deadlineBtn.text = selectedDate
+                val date = LocalDate.of(selectedYear,selectedMonth,selectedDayOfMonth)
+                deadlineBtn.text = date.toString()
             },
             year,
             month,

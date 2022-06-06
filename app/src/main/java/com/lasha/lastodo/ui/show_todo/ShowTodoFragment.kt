@@ -23,11 +23,9 @@ import java.util.*
 
 @AndroidEntryPoint
 class ShowTodoFragment: Fragment(R.layout.show_todo) {
+
     private val navArgs by navArgs<ShowTodoFragmentArgs>()
-
     private lateinit var viewModel: ShowTodoViewModel
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,40 +58,5 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
     private fun showEditSheetDialog(){
         val action = ShowTodoFragmentDirections.actionShowTodoFragmentToBottomSheet(navArgs.currentTodo)
         findNavController().navigate(action)
-    }
-
-    private fun setupBottomSheetButtons(){
-        deadlineBtn.setOnClickListener{
-            selectDatePicker()
-        }
-        addImageBtn.setOnClickListener {
-            openGalleryForImage()
-        }
-    }
-
-    private fun openGalleryForImage(){
-        val pickPhoto = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
-        startActivityForResult(pickPhoto, 1)
-    }
-    private fun selectDatePicker(){
-        val myCalendar = Calendar.getInstance()
-        val year = myCalendar.get(Calendar.YEAR)
-        val month = myCalendar.get(Calendar.MONTH)
-        val day  = myCalendar.get(Calendar.DAY_OF_MONTH)
-        val dpd = DatePickerDialog(requireContext(), R.style.datePicker,
-            { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-
-                val selectedDate = "$selectedDayOfMonth/${selectedMonth+1}/$selectedYear"
-                deadlineBtn.text = selectedDate
-            },
-            year,
-            month,
-            day
-        )
-        dpd.datePicker.minDate = System.currentTimeMillis()
-        dpd.show()
     }
 }
