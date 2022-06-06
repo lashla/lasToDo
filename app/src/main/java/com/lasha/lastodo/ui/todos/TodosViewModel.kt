@@ -16,18 +16,20 @@ import javax.inject.Inject
 @HiltViewModel
 class TodosViewModel @Inject constructor(private val roomRepository: RoomRepository): ViewModel() {
     val todosData = MutableLiveData<List<Todos>>()
+    private var id = 0
     init {
         val todosData = MutableLiveData<List<Todos>>()
         getAllData()
     }
-    fun insertHandler(subject: String, description: String, date: String, filePath: Uri?, deadlineDate: String?){
+    fun insertHandler(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
         viewModelScope.launch {
             insertDataIntoDatabase(subject, description, date, filePath, deadlineDate)
         }
     }
-    private fun insertDataIntoDatabase(subject: String, description: String, date: String, filePath: Uri?, deadlineDate: String?){
+    private fun insertDataIntoDatabase(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
         viewModelScope.launch(Dispatchers.IO){
-            roomRepository.insertTodo(Todos(subject, description, date, filePath, deadlineDate))
+            roomRepository.insertTodo(Todos(id, subject, description, date, filePath, deadlineDate))
+            id++
             Log.i("Insert", "Inserted new todo")
         }
     }

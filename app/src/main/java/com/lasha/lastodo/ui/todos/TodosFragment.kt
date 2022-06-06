@@ -56,7 +56,7 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
     private fun populateTodos(){
         val currentDate = LocalDateTime.now()
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
-            viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri, deadlineBtn.text.toString())
+            viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
         }
     }
 

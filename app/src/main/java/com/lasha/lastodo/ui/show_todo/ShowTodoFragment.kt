@@ -49,7 +49,7 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
             showAdditionSheetDialog()
         }
         deleteBtn.setOnClickListener {
-            viewModel.deleteTodo(navArgs.currentTodo.id)
+            viewModel.deleteTodo(navArgs.currentTodo)
         }
         backBtn.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_showTodoFragment_to_todosFragment)
@@ -86,7 +86,7 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
     private fun updateTodo(){
         val currentDate = LocalDateTime.now()
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
-            viewModel.updateTodo(Todos(titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), navArgs.currentTodo.photoPath, deadlineBtn.text.toString()))
+            viewModel.updateTodo(Todos(navArgs.currentTodo.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), navArgs.currentTodo.photoPath.toString(), deadlineBtn.text.toString()))
         }
     }
 

@@ -8,6 +8,6 @@ interface RoomRepository {
     suspend fun getAllTodos(): List<Todos>
     suspend fun getSortedTodos(): List<Todos>
     suspend fun insertTodo(todos: Todos)
-    suspend fun deleteCurrentTodo(id: Int?)
+    suspend fun deleteCurrentTodo(todos: Todos)
     suspend fun updateCurrentTodo(todos: Todos)
 }

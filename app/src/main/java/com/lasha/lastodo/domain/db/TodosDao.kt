@@ -15,7 +15,7 @@ interface TodosDao {
     suspend fun getSortedByDate(): List<Todos>
 
     @Delete(entity = Todos::class)
-    suspend fun deleteCurrentTodo(id: Int?)
+    suspend fun deleteCurrentTodo(todos: Todos)
 
     @Update(entity = Todos::class)
     suspend fun updateCurrentTodo(todos: Todos)
