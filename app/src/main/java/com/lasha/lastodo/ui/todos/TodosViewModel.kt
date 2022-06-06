@@ -1,6 +1,5 @@
 package com.lasha.lastodo.ui.todos
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.lasha.lastodo.data.model.Todos
 import com.lasha.lastodo.domain.repository.RoomRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,17 +14,9 @@ import javax.inject.Inject
 @HiltViewModel
 class TodosViewModel @Inject constructor(private val roomRepository: RoomRepository): ViewModel() {
     val todosData = MutableLiveData<List<Todos>>()
-    private var id = 0
     init {
         val todosData = MutableLiveData<List<Todos>>()
         getAllData()
-    }
-    private fun insertDataIntoDatabase(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
-        viewModelScope.launch(Dispatchers.IO){
-            roomRepository.insertTodo(Todos(id, subject, description, date, filePath, deadlineDate))
-            id++
-            Log.i("Insert", "Inserted new todo")
-        }
     }
 
     private fun getAllData(){

@@ -2,7 +2,6 @@ package com.lasha.lastodo.ui.bottom_sheet
 
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -39,6 +38,7 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[AddEditViewModel::class.java]
+        setupBottomSheetButtons()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -51,7 +51,8 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
 
     private fun setupBottomSheetButtons(){
         if (navArgs.currentTodo == null){
-            addEditBtn.text = "Edit todo"
+            val editTodoText = "Edit todo"
+            addEditBtn.text = editTodoText
         }
         deadlineBtn.setOnClickListener{
             selectDatePicker()

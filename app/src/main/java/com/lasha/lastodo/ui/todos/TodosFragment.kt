@@ -1,34 +1,20 @@
 package com.lasha.lastodo.ui.todos
 
-import android.R.attr
-import android.app.Activity.RESULT_OK
-import android.app.DatePickerDialog
-import android.app.ProgressDialog.show
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
-import com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.add_edit_dialog.*
 import kotlinx.android.synthetic.main.todos_fragment.*
-import java.time.LocalDateTime
 import java.util.*
 
 

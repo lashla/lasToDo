@@ -1,25 +1,15 @@
 package com.lasha.lastodo.ui.show_todo
 
-import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lasha.lastodo.R
-import com.lasha.lastodo.data.model.Todos
-import com.lasha.lastodo.ui.todos.TodosViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.add_edit_dialog.*
 import kotlinx.android.synthetic.main.show_todo.*
-import java.time.LocalDateTime
-import java.util.*
 
 @AndroidEntryPoint
 class ShowTodoFragment: Fragment(R.layout.show_todo) {
