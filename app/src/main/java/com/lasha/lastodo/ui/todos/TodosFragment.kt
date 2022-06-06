@@ -3,6 +3,7 @@ package com.lasha.lastodo.ui.todos
 import android.R.attr
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
+import android.app.ProgressDialog.show
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -20,8 +21,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
+import com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.add_edit_dialog.*
 import kotlinx.android.synthetic.main.todos_fragment.*
@@ -34,8 +37,6 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
 
     private val adapter = TodosRecyclerAdapter()
     private lateinit var viewModel: TodosViewModel
-    private var filePathUri: Uri? = null
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,25 +47,12 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
         checkPermissions()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK){
-            filePathUri = data!!.data
-        }
-    }
-
-    private fun populateTodos(){
-        val currentDate = LocalDateTime.now()
-        if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
-            viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
-        }
-    }
-
     private fun initTodosView(){
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
     }
+
     private fun setupBtnListeners(){
         addNewTodoBtn.setOnClickListener {
             showAdditionSheetDialog()
@@ -75,55 +63,8 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
         }
     }
 
-    private fun selectDatePicker(){
-        val myCalendar = Calendar.getInstance()
-        val year = myCalendar.get(Calendar.YEAR)
-        val month = myCalendar.get(Calendar.MONTH)
-        val day  = myCalendar.get(Calendar.DAY_OF_MONTH)
-        val dpd = DatePickerDialog(requireContext(), R.style.datePicker,
-            { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-
-                val selectedDate = "$selectedDayOfMonth/${selectedMonth+1}/$selectedYear"
-                deadlineBtn.text = selectedDate
-            },
-            year,
-            month,
-            day
-        )
-        dpd.datePicker.minDate = System.currentTimeMillis()
-        dpd.show()
-    }
-
     private fun showAdditionSheetDialog(){
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
-        val view = layoutInflater.inflate(R.layout.add_edit_dialog, null)
-        bottomSheetDialog.setCancelable(false)
-        bottomSheetDialog.setContentView(view)
-        bottomSheetDialog.edgeToEdgeEnabled
-        setupBottomSheetButtons()
-        BottomSheetBehavior.STATE_EXPANDED
-        addEditBtn.setOnClickListener{
-            populateTodos()
-            bottomSheetDialog.dismiss()
-        }
-        bottomSheetDialog.show()
-    }
-
-    private fun setupBottomSheetButtons(){
-        deadlineBtn.setOnClickListener{
-            selectDatePicker()
-        }
-        addImageBtn.setOnClickListener {
-            openGalleryForImage()
-        }
-    }
-
-    private fun openGalleryForImage(){
-        val pickPhoto = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
-        startActivityForResult(pickPhoto, 1)
+        
     }
 
     private fun initViewModel(){
