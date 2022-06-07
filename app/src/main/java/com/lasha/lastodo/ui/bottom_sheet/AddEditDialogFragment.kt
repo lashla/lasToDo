@@ -2,6 +2,7 @@ package com.lasha.lastodo.ui.bottom_sheet
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
@@ -28,12 +30,22 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
     private lateinit var viewModel: AddEditViewModel
     private var filePathUri: Uri? = null
 
+    override fun getTheme(): Int {
+        return R.style.BottomSheetDialog
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return BottomSheetDialog(requireContext(), theme)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.add_edit_dialog, container, false)
+        val view = View.inflate(requireContext(), R.layout.add_edit_dialog, null)
+        view.setBackgroundResource(R.drawable.ic_rectangle_rounded_dialogbc)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
