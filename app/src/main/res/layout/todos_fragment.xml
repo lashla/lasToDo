@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/todo"
                 android:src="@drawable/ic_main_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:background="@android:color/transparent"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/todo"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
                 android:src="@drawable/ic_settings"
@@ -54,7 +54,7 @@
         android:src="@drawable/ic_todo_logo_small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:contentDescription="TODO" />
+        android:contentDescription="@string/todo" />
 
     <TextView
         android:id="@+id/textView"
@@ -62,7 +62,7 @@
         android:layout_height="34dp"
         android:layout_marginStart="4dp"
         android:fontFamily="@font/bebas_neue"
-        android:text="TextView"
+        android:text="@string/todo_list"
         android:textColor="@color/orange_primary"
         android:textSize="36sp"
         app:layout_constraintStart_toEndOf="@+id/imageView2"

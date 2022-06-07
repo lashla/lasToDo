@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ShowTodoViewModel @Inject constructor(private val roomRepository: RoomRepository): ViewModel() {
+class DeleteTodoViewModel @Inject constructor(private val roomRepository: RoomRepository): ViewModel() {
 
     fun deleteTodo(todos: Todos){
         viewModelScope.launch(Dispatchers.IO) {

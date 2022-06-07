@@ -15,11 +15,9 @@ import kotlinx.android.synthetic.main.show_todo.*
 class ShowTodoFragment: Fragment(R.layout.show_todo) {
 
     private val navArgs by navArgs<ShowTodoFragmentArgs>()
-    private lateinit var viewModel: ShowTodoViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ShowTodoViewModel::class.java]
         initViews()
         setupClickListeners()
     }
