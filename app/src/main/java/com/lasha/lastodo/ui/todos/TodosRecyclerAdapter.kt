@@ -1,5 +1,6 @@
 package com.lasha.lastodo.ui.todos
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,18 +20,18 @@ class TodosRecyclerAdapter: RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder
 //    fun onItemClickListener(listener: onItemClickListener){
 //        mlistner = listener
 //    }
-
-    private val differCallBack = object : DiffUtil.ItemCallback<Todos>() {
-        override fun areItemsTheSame(oldItem: Todos, newItem: Todos): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Todos, newItem: Todos): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    private val differ = AsyncListDiffer(this, differCallBack)
+//
+//    private val differCallBack = object : DiffUtil.ItemCallback<Todos>() {
+//        override fun areItemsTheSame(oldItem: Todos, newItem: Todos): Boolean {
+//            return oldItem.id == newItem.id
+//        }
+//
+//        override fun areContentsTheSame(oldItem: Todos, newItem: Todos): Boolean {
+//            return oldItem == newItem
+//        }
+//    }
+//
+//    private val differ = AsyncListDiffer(this, differCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -45,6 +46,7 @@ class TodosRecyclerAdapter: RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = todoList[position]
+        Log.i("Recycler todoList", todoList.size.toString() + todoList[position])
         holder.itemView.apply {
             subject.text = items.subject
             dateOfDeadline.text = items.date
@@ -57,7 +59,7 @@ class TodosRecyclerAdapter: RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder
         }
     }
 
-    override fun getItemCount(): Int { return differ.currentList.size }
+    override fun getItemCount(): Int { return todoList.size }
 
     private var onItemClickListener: ((Todos) -> Unit)? = null
 

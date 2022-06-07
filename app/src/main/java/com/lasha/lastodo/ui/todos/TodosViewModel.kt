@@ -19,11 +19,12 @@ class TodosViewModel @Inject constructor(private val roomRepository: RoomReposit
         getAllData()
     }
 
-    private fun getAllData(){
+    fun getAllData(){
         viewModelScope.launch(Dispatchers.Main) {
             roomRepository.getAllTodos().let {
                 if (it.isNotEmpty()){
                     todosData.value = it
+                    Log.i("DatabaseData", it.toString())
                     Log.i("GetData", "Database data fetched")
                 }
             }

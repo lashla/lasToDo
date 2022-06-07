@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_showTodoFragment_to_bottomSheet"
             app:destination="@id/bottomSheet" />
+        <action
+            android:id="@+id/action_showTodoFragment_to_deleteTodoDialog2"
+            app:destination="@id/deleteTodoDialog" />
     </fragment>
     <dialog
         android:id="@+id/bottomSheet"
@@ -39,7 +42,19 @@
         >
         <argument
             android:name="currentTodo"
+            android:defaultValue="@null"
             app:argType="com.lasha.lastodo.data.model.Todos"
             app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/deleteTodoDialog"
+        android:name="com.lasha.lastodo.ui.show_todo.DeleteTodoDialog"
+        tools:layout="@layout/delete_todo"
+        android:label="DeleteTodoDialog" >
+        <argument
+            android:name="currentTodo"
+            app:argType="com.lasha.lastodo.data.model.Todos"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </dialog>
 </navigation>

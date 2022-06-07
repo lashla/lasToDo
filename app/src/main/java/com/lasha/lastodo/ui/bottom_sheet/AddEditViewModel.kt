@@ -24,6 +24,9 @@ class AddEditViewModel @Inject constructor(private val roomRepository: RoomRepos
             roomRepository.insertTodo(Todos(id, subject, description, date, filePath, deadlineDate))
             id++
             Log.i("Insert", "Inserted new todo")
+            Log.i("Insert",
+                Todos(id, subject, description, date, filePath, deadlineDate).toString()
+            )
         }
     }
     fun updateTodo(todos: Todos){

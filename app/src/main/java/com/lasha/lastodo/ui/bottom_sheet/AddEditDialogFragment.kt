@@ -50,7 +50,7 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
     }
 
     private fun setupBottomSheetButtons(){
-        if (navArgs.currentTodo == null){
+        if (navArgs.currentTodo != null){
             val editTodoText = "Edit todo"
             addEditBtn.text = editTodoText
         }
@@ -63,8 +63,10 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         addEditBtn.setOnClickListener {
             if (navArgs.currentTodo != null){
                 editTodo()
+                dismiss()
             } else {
                 populateTodos()
+                dismiss()
             }
         }
     }

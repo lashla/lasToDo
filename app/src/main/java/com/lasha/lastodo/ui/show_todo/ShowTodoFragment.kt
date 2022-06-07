@@ -38,7 +38,8 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
             showEditSheetDialog()
         }
         deleteBtn.setOnClickListener {
-            viewModel.deleteTodo(navArgs.currentTodo)
+            val action = ShowTodoFragmentDirections.actionShowTodoFragmentToDeleteTodoDialog2(navArgs.currentTodo)
+            findNavController().navigate(action)
         }
         backBtn.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_showTodoFragment_to_todosFragment)

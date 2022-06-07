@@ -26,9 +26,8 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[TodosViewModel::class.java]
-        initViewModel()
         initTodosView()
+        initViewModel()
         setupBtnListeners()
         checkPermissions()
     }
@@ -54,6 +53,8 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
     }
 
     private fun initViewModel(){
+        viewModel = ViewModelProvider(this)[TodosViewModel::class.java]
+        viewModel.getAllData()
         viewModel.todosData.observe(viewLifecycleOwner){
             if (it.isNotEmpty()){
                 adapter.updateTodoInfo(it as ArrayList<Todos>)
