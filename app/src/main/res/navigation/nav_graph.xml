@@ -20,6 +20,13 @@
             android:name="isAddPressed"
             app:argType="boolean"
             android:defaultValue="false" />
+        <action
+            android:id="@+id/action_todosFragment_to_filterDialogFragment"
+            app:destination="@id/filterDialogFragment" />
+        <argument
+            android:name="filterArgs"
+            app:argType="string"
+            android:defaultValue="All" />
     </fragment>
     <fragment
         android:id="@+id/showTodoFragment"
@@ -68,6 +75,16 @@
             android:defaultValue="@null" />
         <action
             android:id="@+id/action_deleteTodoDialog_to_todosFragment"
+            app:destination="@id/todosFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/filterDialogFragment"
+        android:name="com.lasha.lastodo.ui.todos.FilterDialogFragment"
+        android:label="FilterDialogFragment"
+        tools:layout="@layout/filer_dialog"
+        >
+        <action
+            android:id="@+id/action_filterDialogFragment_to_todosFragment"
             app:destination="@id/todosFragment" />
     </dialog>
 </navigation>

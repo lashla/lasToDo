@@ -15,6 +15,10 @@ class RoomRepositoryImpl(private val todosDao: TodosDao): RoomRepository {
         return todosDao.getSortedByDate()
     }
 
+    override suspend fun getSortedDeadline(): List<Todos> {
+        return todosDao.getSortedByDeadline()
+    }
+
     override suspend fun insertTodo(todos: Todos) {
         return todosDao.intert(todos)
     }

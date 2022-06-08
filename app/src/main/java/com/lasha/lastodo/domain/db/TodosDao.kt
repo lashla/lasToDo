@@ -14,6 +14,9 @@ interface TodosDao {
     @Query("SELECT * FROM todos ORDER BY date ASC")
     suspend fun getSortedByDate(): List<Todos>
 
+    @Query("SELECT * FROM todos ORDER BY deadline_date ASC")
+    suspend fun getSortedByDeadline(): List<Todos>
+
     @Delete(entity = Todos::class)
     suspend fun deleteCurrentTodo(todos: Todos)
 

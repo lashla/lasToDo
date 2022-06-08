@@ -10,4 +10,7 @@
     <string name="cancel">cancel</string>
     <string name="todo_list">TODO LIST</string>
     <string name="todo">TODO</string>
+    <string name="all">All</string>
+    <string name="by_time">By Time</string>
+    <string name="deadline">DeadLine</string>
 </resources>

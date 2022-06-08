@@ -30,4 +30,22 @@ class TodosViewModel @Inject constructor(private val roomRepository: RoomReposit
             }
         }
     }
+    fun getSortedByDeadline(){
+        viewModelScope.launch(Dispatchers.Main) {
+            roomRepository.getSortedDeadline().let {
+                if (it.isNotEmpty()){
+                    todosData.value = it
+                }
+            }
+        }
+    }
+    fun getSortedByDate(){
+        viewModelScope.launch(Dispatchers.Main) {
+            roomRepository.getSortedTodos().let {
+                if (it.isNotEmpty()){
+                    todosData.value = it
+                }
+            }
+        }
+    }
 }

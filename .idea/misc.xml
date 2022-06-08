@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/ic_calendar.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_dialog_line.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_filter_icon.xml" value="0.262" />
+        <entry key="app/src/main/res/drawable/ic_image.xml" value="0.3045" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_main_logo.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_rectangle_rounded_dialogbc.xml" value="0.262" />
@@ -24,6 +25,7 @@
         <entry key="app/src/main/res/layout/add_todo.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/delete_tod.xml" value="0.359375" />
         <entry key="app/src/main/res/layout/delete_todo.xml" value="0.359375" />
+        <entry key="app/src/main/res/layout/filer_dialog.xml" value="0.9" />
         <entry key="app/src/main/res/layout/show_todo.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/todo_view.xml" value="0.67" />
         <entry key="app/src/main/res/layout/todos_fragment.xml" value="0.33" />

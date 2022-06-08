@@ -36,6 +36,7 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
         setupBtnListeners()
         checkPermissions()
         isNewItemAdded()
+        filterList()
     }
 
     private fun initTodosView(){
@@ -52,6 +53,10 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
             val action = TodosFragmentDirections.actionTodosFragmentToShowTodoFragment(it)
             findNavController().navigate(action)
         }
+        filterBtn.setOnClickListener {
+            val action = TodosFragmentDirections.actionTodosFragmentToFilterDialogFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun showAdditionSheetDialog(){
@@ -61,6 +66,17 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
     private fun isNewItemAdded(){
         if (navArgs.isAddPressed) {
             adapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun filterList(){
+        when (navArgs.filterArgs){
+            "time" -> {
+                viewModel.getSortedByDate()
+            }
+            "deadline" -> {
+                viewModel.getSortedByDeadline()
+            }
         }
     }
 
