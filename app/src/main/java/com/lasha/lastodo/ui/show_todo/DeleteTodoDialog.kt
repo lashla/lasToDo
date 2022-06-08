@@ -33,7 +33,7 @@ class DeleteTodoDialog: DialogFragment() {
         val view = View.inflate(requireContext(), R.layout.delete_todo, null)
         dialog.let {
             it?.window?.requestFeature(Window.FEATURE_NO_TITLE)
-//            it?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            it?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
         return view
     }

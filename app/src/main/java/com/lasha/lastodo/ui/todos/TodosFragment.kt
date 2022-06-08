@@ -4,15 +4,18 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Adapter
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
+import com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.todos_fragment.*
 import java.util.*
@@ -20,6 +23,8 @@ import java.util.*
 
 @AndroidEntryPoint
 class TodosFragment: Fragment(R.layout.todos_fragment) {
+
+    private val navArgs by navArgs<TodosFragmentArgs>()
 
     private val adapter = TodosRecyclerAdapter()
     private lateinit var viewModel: TodosViewModel
@@ -30,6 +35,7 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
         initViewModel()
         setupBtnListeners()
         checkPermissions()
+        isNewItemAdded()
     }
 
     private fun initTodosView(){
@@ -50,6 +56,12 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
 
     private fun showAdditionSheetDialog(){
         findNavController().navigate(R.id.action_todosFragment_to_bottomSheet)
+    }
+
+    private fun isNewItemAdded(){
+        if (navArgs.isAddPressed) {
+            adapter.notifyDataSetChanged()
+        }
     }
 
     private fun initViewModel(){

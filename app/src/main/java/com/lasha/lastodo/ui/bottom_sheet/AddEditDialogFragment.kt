@@ -11,13 +11,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
+import com.lasha.lastodo.ui.todos.TodosRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.add_edit_dialog.*
+import kotlinx.android.synthetic.main.todos_fragment.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
@@ -75,10 +79,10 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         addEditBtn.setOnClickListener {
             if (navArgs.currentTodo != null){
                 editTodo()
-                dismiss()
             } else {
                 populateTodos()
-                dismiss()
+                val action = AddEditDialogFragmentDirections.actionBottomSheetToTodosFragment(true)
+                findNavController().navigate(action)
             }
         }
     }
@@ -94,6 +98,8 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         val currentDate = LocalDateTime.now()
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
             viewModel.updateTodo(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
+        val action = AddEditDialogFragmentDirections.actionBottomSheetToShowTodoFragment(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
+        findNavController().navigate(action)
         }
     }
     private fun selectDatePicker(){

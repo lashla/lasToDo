@@ -16,6 +16,10 @@
         <action
             android:id="@+id/action_todosFragment_to_bottomSheet"
             app:destination="@id/bottomSheet" />
+        <argument
+            android:name="isAddPressed"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/showTodoFragment"
@@ -45,6 +49,12 @@
             android:defaultValue="@null"
             app:argType="com.lasha.lastodo.data.model.Todos"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_bottomSheet_to_todosFragment"
+            app:destination="@id/todosFragment" />
+        <action
+            android:id="@+id/action_bottomSheet_to_showTodoFragment"
+            app:destination="@id/showTodoFragment" />
     </dialog>
     <dialog
         android:id="@+id/deleteTodoDialog"
