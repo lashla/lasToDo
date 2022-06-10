@@ -28,14 +28,24 @@ class FilterDialogFragment: DialogFragment() {
 
     private fun setupFilterButtons(){
         filterAllBtn.setOnClickListener {
+            filterByTimeBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+            filterByDeadlineBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+            filterAllBtn.setTextColor(com.google.android.material.R.attr.colorSecondary)
             val action = FilterDialogFragmentDirections.actionFilterDialogFragmentToTodosFragment(false, "all")
             findNavController().navigate(action)
         }
         filterByTimeBtn.setOnClickListener {
+            filterByTimeBtn.setTextColor(com.google.android.material.R.attr.colorSecondary)
+            filterByDeadlineBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+            filterAllBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+
             val action = FilterDialogFragmentDirections.actionFilterDialogFragmentToTodosFragment(false, "time")
             findNavController().navigate(action)
         }
         filterByDeadlineBtn.setOnClickListener {
+            filterByDeadlineBtn.setTextColor(com.google.android.material.R.attr.colorSecondary)
+            filterAllBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+            filterByTimeBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
             val action = FilterDialogFragmentDirections.actionFilterDialogFragmentToTodosFragment(false, "deadline")
             findNavController().navigate(action)
         }
