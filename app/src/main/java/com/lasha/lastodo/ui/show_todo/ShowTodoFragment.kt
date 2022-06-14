@@ -1,5 +1,6 @@
 package com.lasha.lastodo.ui.show_todo
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lasha.lastodo.R
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.show_todo.*
 
@@ -25,6 +27,15 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
     private fun initViews(){
         titleOfCurrentTodo.text = navArgs.currentTodo.subject
         todoDescription.text = navArgs.currentTodo.contents
+        if (!navArgs.currentTodo.photoPath.isNullOrEmpty()){
+            Picasso.get()
+                .load(navArgs.currentTodo.photoPath)
+                .error(com.google.android.material.R.drawable.abc_btn_check_material)
+                .resize(300,400)
+                .centerCrop()
+                .into(imageInTv)
+        }
+
         dateOfTodo.text = navArgs.currentTodo.date
     }
 

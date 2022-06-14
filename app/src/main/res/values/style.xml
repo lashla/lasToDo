@@ -7,9 +7,21 @@
     <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
-    <style name="datePicker" parent="@android:style/Widget.DeviceDefault.DatePicker">
-        <item name="background">?android:colorBackground</item>
-        <item name="cornerRadius">20dp</item>
-        <item name="fontFamily">Montserrat</item>
+    <style name="MyDatePicker" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">?colorOnPrimary</item>
+        <item name="colorPrimaryDark">?colorOnPrimary</item>
+        <item name="colorPrimary">?colorOnPrimary</item>
+        <item name="android:windowBackground">@drawable/ic_button_background</item>
+        <item name="fontFamily">@font/montserrat_alternates</item>
+        <item name="android:textColor">?colorOnSecondary</item>
+        <item name="android:textColorSecondary">?colorOnSecondary</item>
+        <item name="android:textColorPrimary">?colorOnSecondary</item>
+        <item name="android:colorControlHighlight">?colorSecondary</item>
+        <item name="android:colorControlActivated">?colorSecondary</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DatePickerTheme.ButtonBarNegativeButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerTheme.ButtonBarNegativeButtonStyle</item>
+    </style>
+    <style name="DatePickerTheme.ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?colorOnSecondary</item>
     </style>
 </resources>

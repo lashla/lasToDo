@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.add_edit_dialog.*
 import kotlinx.android.synthetic.main.todos_fragment.*
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 @AndroidEntryPoint
@@ -89,8 +90,10 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
 
     private fun populateTodos(){
         val currentDate = LocalDateTime.now()
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MMMM-dd")
+        val formattedDate = currentDate.format(dateFormatter)
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
-            viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
+            viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), formattedDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
         }
     }
 
@@ -107,7 +110,7 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         val year = myCalendar.get(Calendar.YEAR)
         val month = myCalendar.get(Calendar.MONTH)
         val day  = myCalendar.get(Calendar.DAY_OF_MONTH)
-        val dpd = DatePickerDialog(requireContext(), R.style.datePicker,
+        val dpd = DatePickerDialog(requireContext(), R.style.MyDatePicker,
             { _, selectedYear, selectedMonth, selectedDayOfMonth ->
 
                 val date = LocalDate.of(selectedYear,selectedMonth,selectedDayOfMonth)
@@ -117,6 +120,7 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
             month,
             day
         )
+        dpd.datePicker.setBackgroundResource(R.drawable.ic_button_background)
         dpd.datePicker.minDate = System.currentTimeMillis()
         dpd.show()
     }

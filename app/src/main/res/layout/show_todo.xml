@@ -98,7 +98,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleOfCurrentTodo" />
+        app:layout_constraintTop_toBottomOf="@+id/titleOfCurrentTodo">
+        <view class="android.widget.ImageView"
+            android:id="@+id/imageInTv"/>
+    </TextView>
 
     <TextView
         android:id="@+id/dateOfTodo"
