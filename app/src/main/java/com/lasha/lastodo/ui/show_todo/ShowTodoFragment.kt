@@ -33,9 +33,10 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
                 .error(com.google.android.material.R.drawable.abc_btn_check_material)
                 .resize(300,400)
                 .centerCrop()
-                .into(imageInTv)
+                .into(textImage)
+            textImage.visibility = View.VISIBLE
         }
-
+        todoDescription.visibility = View.VISIBLE
         dateOfTodo.text = navArgs.currentTodo.date
     }
 
