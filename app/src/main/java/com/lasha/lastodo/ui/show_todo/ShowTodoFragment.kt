@@ -30,7 +30,7 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
         if (!navArgs.currentTodo.photoPath.isNullOrEmpty()){
             Picasso.get()
                 .load(navArgs.currentTodo.photoPath)
-                .error(com.google.android.material.R.drawable.abc_btn_check_material)
+                .error(R.drawable.ic_dialog_line)
                 .resize(300,400)
                 .centerCrop()
                 .into(textImage)
