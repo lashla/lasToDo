@@ -26,7 +26,7 @@
         <entry key="app/src/main/res/layout/delete_tod.xml" value="0.359375" />
         <entry key="app/src/main/res/layout/delete_todo.xml" value="0.359375" />
         <entry key="app/src/main/res/layout/filer_dialog.xml" value="0.9" />
-        <entry key="app/src/main/res/layout/show_todo.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/show_todo.xml" value="0.9" />
         <entry key="app/src/main/res/layout/todo_view.xml" value="0.67" />
         <entry key="app/src/main/res/layout/todos_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/todos_recycler.xml" value="0.36041666666666666" />

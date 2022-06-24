@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -43,6 +44,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <ImageButton
                 android:id="@+id/editBtn"
                 android:layout_width="wrap_content"
@@ -55,6 +57,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <ImageButton
                 android:id="@+id/clockBtn"
                 android:layout_width="wrap_content"
@@ -133,5 +136,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/deadlineDateViewHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.771"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:srcCompat="@drawable/ic_deadline_dialog" />
+
+    <TextView
+        android:id="@+id/deadlineDateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="7dp"
+        android:text="2202-13-11"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/deadlineDateViewHolder"
+        app:layout_constraintEnd_toEndOf="@+id/deadlineDateViewHolder"
+        app:layout_constraintStart_toStartOf="@+id/deadlineDateViewHolder" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

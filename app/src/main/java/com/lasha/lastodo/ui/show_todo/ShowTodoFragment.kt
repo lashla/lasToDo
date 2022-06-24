@@ -37,12 +37,14 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
             textImage.visibility = View.VISIBLE
         }
         todoDescription.visibility = View.VISIBLE
+        deadlineDateView.text = navArgs.currentTodo.deadlineDate
         dateOfTodo.text = navArgs.currentTodo.date
     }
 
     private fun setupClickListeners(){
         clockBtn.setOnClickListener{
-
+            deadlineDateView.visibility = View.VISIBLE
+            deadlineDateViewHolder.visibility = View.VISIBLE
         }
         editBtn.setOnClickListener {
             showEditSheetDialog()
