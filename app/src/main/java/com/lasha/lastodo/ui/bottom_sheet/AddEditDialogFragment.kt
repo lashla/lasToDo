@@ -79,6 +79,13 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         }
         addEditBtn.setOnClickListener {
             if (navArgs.currentTodo != null){
+                titleEt.setText(navArgs.currentTodo!!.subject)
+                descriptionEt.setText(navArgs.currentTodo!!.contents)
+
+                if (navArgs.currentTodo!!.date.isNotEmpty()) {
+                    deadlineBtn.text = navArgs.currentTodo!!.deadlineDate
+                }
+
                 editTodo()
             } else {
                 populateTodos()
