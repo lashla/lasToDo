@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/addEditDialog"
@@ -17,7 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/nothing" />
 
     <EditText
         android:id="@+id/titleEt"
@@ -35,7 +35,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        android:autofillHints="@string/title"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/descriptionEt"
@@ -55,7 +57,8 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleEt" />
+        app:layout_constraintTop_toBottomOf="@+id/titleEt"
+        android:autofillHints="@string/description" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/deadlineBtn"
@@ -81,6 +84,7 @@
         android:layout_marginEnd="8dp"
         android:alpha="0.5"
         android:src="@drawable/ic_calendar"
+        android:contentDescription="@string/deadline_optional"
         app:layout_constraintBottom_toBottomOf="@+id/deadlineBtn"
         app:layout_constraintEnd_toEndOf="@+id/deadlineBtn"
         app:layout_constraintTop_toTopOf="@+id/deadlineBtn" />
@@ -93,7 +97,8 @@
         android:src="@drawable/ic_image"
         app:layout_constraintBottom_toBottomOf="@+id/addImageBtn"
         app:layout_constraintEnd_toEndOf="@+id/addImageBtn"
-        app:layout_constraintTop_toTopOf="@+id/addImageBtn" />
+        app:layout_constraintTop_toTopOf="@+id/addImageBtn"
+        android:contentDescription="@string/add_image_optional" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addImageBtn"
@@ -121,8 +126,26 @@
         android:layout_marginVertical="16dp"
         android:background="@drawable/ic_button_background"
         android:fontFamily="@font/mandali"
-        android:text="Add Todo"
+        android:text="@string/add_todo"
         android:textColor="#DD2C00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notifyCheckBtn" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/notifyCheckBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginVertical="16dp"
+        android:alpha="0.5"
+        android:background="@drawable/ic_rectangle_rounded_text_cont"
+        android:fontFamily="@font/mandali"
+        android:layoutDirection="rtl"
+        android:paddingHorizontal="8dp"
+        android:text="@string/notify_me_15_mins_before_end"
+        android:textAlignment="textStart"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addImageBtn" />

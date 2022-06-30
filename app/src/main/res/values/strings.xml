@@ -13,4 +13,7 @@
     <string name="all">All</string>
     <string name="by_time">By Time</string>
     <string name="deadline">DeadLine</string>
+    <string name="notify_me_15_mins_before_end">Notify me 15 mins before end</string>
+    <string name="add_todo">Add Todo</string>
+    <string name="nothing">nothing</string>
 </resources>

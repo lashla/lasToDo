@@ -27,7 +27,7 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
     private fun initViews(){
         titleOfCurrentTodo.text = navArgs.currentTodo.subject
         todoDescription.text = navArgs.currentTodo.contents
-        if (!navArgs.currentTodo.photoPath.isNullOrEmpty()){
+        if (navArgs.currentTodo.photoPath != "null"){
             Picasso.get()
                 .load(navArgs.currentTodo.photoPath)
                 .error(R.drawable.ic_dialog_line)

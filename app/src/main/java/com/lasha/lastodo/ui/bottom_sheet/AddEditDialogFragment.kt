@@ -1,31 +1,31 @@
 package com.lasha.lastodo.ui.bottom_sheet
 
-import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.Dialog
+import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
-import com.lasha.lastodo.ui.todos.TodosRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.android.synthetic.main.add_edit_dialog.*
 import kotlinx.android.synthetic.main.todos_fragment.*
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 @AndroidEntryPoint
 class AddEditDialogFragment: BottomSheetDialogFragment() {
@@ -34,6 +34,7 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
 
     private lateinit var viewModel: AddEditViewModel
     private var filePathUri: Uri? = null
+
 
     override fun getTheme(): Int {
         return R.style.BottomSheetDialog
@@ -61,8 +62,10 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK){
-            filePathUri = data!!.data
+        filePathUri = if (requestCode == 1 && resultCode == Activity.RESULT_OK){
+            data!!.data
+        } else {
+            null
         }
     }
 
@@ -97,11 +100,15 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
 
     private fun populateTodos(){
         val currentDate = LocalDateTime.now()
-        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MMMM-dd")
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MMMM-dd HH::mm")
         val formattedDate = currentDate.format(dateFormatter)
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
             viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), formattedDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
+            if (notifyCheckBtn.isActivated && deadlineBtn.text != "Deadline(Optional)"){
+                setupNotification(deadlineBtn.text.toString())
+            }
         }
+
     }
 
     private fun editTodo(){
@@ -110,26 +117,39 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
             viewModel.updateTodo(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
         val action = AddEditDialogFragmentDirections.actionBottomSheetToShowTodoFragment(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
         findNavController().navigate(action)
-        }
-    }
-    private fun selectDatePicker(){
-        val myCalendar = Calendar.getInstance()
-        val year = myCalendar.get(Calendar.YEAR)
-        val month = myCalendar.get(Calendar.MONTH)
-        val day  = myCalendar.get(Calendar.DAY_OF_MONTH)
-        val dpd = DatePickerDialog(requireContext(), R.style.MyDatePicker,
-            { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+            if (notifyCheckBtn.isActivated && deadlineBtn.text != "Deadline(Optional)"){
+                setupNotification(deadlineBtn.text.toString())
+            }
 
-                val date = LocalDate.of(selectedYear,selectedMonth,selectedDayOfMonth)
-                deadlineBtn.text = date.toString()
-            },
-            year,
-            month,
-            day
-        )
-        dpd.datePicker.setBackgroundResource(R.drawable.ic_button_background)
-        dpd.datePicker.minDate = System.currentTimeMillis()
-        dpd.show()
+        }
+
+    }
+
+    private fun selectDatePicker() {
+        val currentDateTime = Calendar.getInstance()
+        val startYear = currentDateTime.get(Calendar.YEAR)
+        val startMonth = currentDateTime.get(Calendar.MONTH)
+        val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
+        val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
+        val startMinute = currentDateTime.get(Calendar.MINUTE)
+
+        DatePickerDialog(requireContext(), R.style.MyDatePicker, { _, year, month, day ->
+            TimePickerDialog(requireContext(), R.style.MyDatePicker, { _, hour, minute ->
+                val pickedDateTime = Calendar.getInstance()
+                pickedDateTime.set(year, month, day, hour, minute)
+                deadlineBtn.text = pickedDateTime.toString()
+            }, startHour, startMinute, DateFormat.is24HourFormat(requireContext())).show()
+        }, startYear, startMonth, startDay).show()
+    }
+
+    private fun setupNotification(time: String){
+        val intent = Intent(activity, NotificationReceiver::class.java)
+        intent.putExtra("title", titleEt.text)
+        intent.putExtra("text", descriptionEt.text)
+        val pending =
+            PendingIntent.getBroadcast(activity, 42, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val manager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.toLong() - 900000, pending)
     }
 
     private fun openGalleryForImage(){
@@ -139,5 +159,18 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         )
         startActivityForResult(pickPhoto, 1)
     }
-
+    fun cancelAlarm(){
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as? AlarmManager?
+        val intent = Intent(context, NotificationReceiver::class.java)
+        val pendingIntent =
+            PendingIntent.getService(
+                context,
+                42,
+                intent,
+                PendingIntent.FLAG_NO_CREATE
+            )
+        pendingIntent?.let { _pendingIntent->
+            alarmManager?.cancel(_pendingIntent)
+        }
+    }
 }
