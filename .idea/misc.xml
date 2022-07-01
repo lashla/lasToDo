@@ -36,6 +36,7 @@
         <entry key="app/src/main/res/layout/todo_view.xml" value="0.67" />
         <entry key="app/src/main/res/layout/todos_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/todos_recycler.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.278" />
       </map>
     </option>
   </component>

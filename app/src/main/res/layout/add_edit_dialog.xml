@@ -132,7 +132,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notifyCheckBtn" />
 
-    <androidx.appcompat.widget.AppCompatCheckBox
+    <CheckBox
         android:id="@+id/notifyCheckBtn"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -140,12 +140,15 @@
         android:layout_marginVertical="16dp"
         android:alpha="0.5"
         android:background="@drawable/ic_rectangle_rounded_text_cont"
+        android:checked="false"
         android:fontFamily="@font/mandali"
         android:layoutDirection="rtl"
         android:paddingHorizontal="8dp"
         android:text="@string/notify_me_15_mins_before_end"
         android:textAlignment="textStart"
+        android:textAllCaps="true"
         android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addImageBtn" />

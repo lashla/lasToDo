@@ -97,6 +97,14 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
                 findNavController().navigate(action)
             }
         }
+        notifyCheckBtn.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                Log.i("NotifyButton", notifyCheckBtn.isChecked.toString())
+                setupNotification()
+            } else {
+                Log.i("NotifyButton", notifyCheckBtn.isChecked.toString())
+            }}
+
     }
 
     private fun populateTodos(){
@@ -104,10 +112,6 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MMMM-dd HH:mm")
         val formattedDate = currentDate.format(dateFormatter)
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
-
-                Log.i("NotifyButton", notifyCheckBtn.isActivated.toString())
-                setupNotification()
-
             viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), formattedDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
         }
 
@@ -117,13 +121,8 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         val currentDate = LocalDateTime.now()
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
             viewModel.updateTodo(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
-        val action = AddEditDialogFragmentDirections.actionBottomSheetToShowTodoFragment(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
-        findNavController().navigate(action)
-            if (notifyCheckBtn.isActivated && deadlineBtn.text != "Deadline(Optional)"){
-                Log.i("NotifyButton", notifyCheckBtn.isActivated.toString())
-                setupNotification()
-            }
-
+            val action = AddEditDialogFragmentDirections.actionBottomSheetToShowTodoFragment(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
+            findNavController().navigate(action)
         }
 
     }
@@ -156,7 +155,7 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
             PendingIntent.getBroadcast(activity, 42, intent, PendingIntent.FLAG_IMMUTABLE)
         val manager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         Log.i("Time", timeInMillis.toString())
-        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeInMillis, pending)
+        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeInMillis - java.time.Duration.ofMinutes(15).toMillis(), pending)
     }
 
     private fun openGalleryForImage(){
