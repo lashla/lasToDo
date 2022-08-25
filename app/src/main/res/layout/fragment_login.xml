@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_login_logo"
+        android:contentDescription="@string/todo_list" />
+
+    <EditText
+        android:id="@+id/loginEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="170dp"
+        android:autofillHints="@string/title"
+        android:background="@drawable/ic_rectangle_rounded_black"
+        android:fontFamily="@font/mandali"
+        android:hint="@string/title"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:paddingHorizontal="12dp"
+        android:textColor="@color/gray"
+        android:textColorHint="@color/gray"
+        android:textColorLink="@color/gray"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/passwordEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:autofillHints="@string/title"
+        android:background="@drawable/ic_rectangle_rounded_black"
+        android:fontFamily="@font/mandali"
+        android:hint="@string/title"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:paddingHorizontal="12dp"
+        android:textColor="@color/gray"
+        android:textColorHint="@color/gray"
+        android:textColorLink="@color/gray"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginEt"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/passwordVisibleBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/cancel"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_eye_off"
+        app:layout_constraintBottom_toBottomOf="@+id/passwordEt"
+        app:layout_constraintEnd_toEndOf="@+id/passwordEt"
+        app:layout_constraintTop_toTopOf="@+id/passwordEt" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/loginBtn"
+        android:text="@string/sign_in"
+        android:fontFamily="@font/mandali"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_button_background_orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEt" />
+
+    <TextView
+        android:id="@+id/dontHaveAccountTv"
+        android:layout_width="192dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:text="@string/don_t_have_"
+        android:textAppearance="@style/don_t_have_"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

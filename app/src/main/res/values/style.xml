@@ -25,4 +25,15 @@
     <style name="DatePickerTheme.ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">?colorOnSecondary</item>
     </style>
+    <style name="don_t_have_">
+
+        <item name="android:textSize">
+            12sp
+        </item>
+
+        <item name="android:textColor">
+            #66272727
+        </item>
+
+    </style>
 </resources>

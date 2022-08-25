@@ -16,4 +16,7 @@
     <string name="notify_me_15_mins_before_end">Notify me 15 mins before end</string>
     <string name="add_todo">Add Todo</string>
     <string name="nothing">nothing</string>
+    <string name="sign_in">Sign In</string>
+    <string name="don_t_have_">Don\'t have an account? Sign up</string>
+    <string name="have_an_account_log_in">Have an account? Log in</string>
 </resources>

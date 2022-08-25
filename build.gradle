@@ -8,6 +8,7 @@ buildscript {
 //        maven { url 'https://jitpack.io' }
     }
     dependencies {
+        classpath 'com.google.gms:google-services:4.3.3'
         def gradle = '7.2.0'
         classpath "com.android.tools.build:gradle:$gradle"
 
