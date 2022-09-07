@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "250578498863",
+    "project_id": "lastodo-c7210",
+    "storage_bucket": "lastodo-c7210.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250578498863:android:e24c985ccf0decdbd15dda",
+        "android_client_info": {
+          "package_name": "com.lasha.lastodo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250578498863-b4d30o1s3sn50qoctqqhkba2u6ih659m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjfU5L4yDelLq4dk0VULzEl55vDDs0OOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250578498863-b4d30o1s3sn50qoctqqhkba2u6ih659m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
