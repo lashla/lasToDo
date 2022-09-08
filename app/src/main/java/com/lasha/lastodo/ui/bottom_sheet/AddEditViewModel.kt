@@ -4,14 +4,14 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lasha.lastodo.data.model.Todos
-import com.lasha.lastodo.domain.repository.RoomRepository
+import com.lasha.lastodo.domain.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddEditViewModel @Inject constructor(private val roomRepository: RoomRepository): ViewModel() {
+class AddEditViewModel @Inject constructor(private val roomRepository: Repository): ViewModel() {
     private var id = 0
 
     fun insertHandler(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){

@@ -3,36 +3,26 @@ package com.lasha.lastodo.ui.sign_in
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
-import dagger.hilt.android.scopes.ViewModelScoped
+import com.google.firebase.auth.FirebaseUser
+import com.lasha.lastodo.data.repository.RepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-import java.lang.Exception
+import javax.inject.Inject
 
-@ViewModelScoped
-class SignInViewModel: ViewModel() {
+@HiltViewModel
+class SignInViewModel @Inject constructor(private val repositoryImpl: RepositoryImpl) : ViewModel() {
 
     val exception = MutableLiveData<String>()
-    val nav = MutableLiveData<Boolean>()
-    private var auth = FirebaseAuth.getInstance()
+    val currentUser = MutableLiveData<FirebaseUser?>()
 
     fun loginUser(email: String, password: String){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                auth.signInWithEmailAndPassword(email.lowercase(), password).await()
-                checkLoggedInState()
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main){
-                    exception.postValue(e.message)
-                }
+                currentUser.postValue(repositoryImpl.signInWIthEmailPassword(email, password))
+            } catch (e: Exception){
+                exception.postValue(e.message)
             }
         }
-    }
-    private fun checkLoggedInState(){
-        if (auth.currentUser != null){
-            nav.postValue(true)
-        } else nav.postValue(false)
     }
 }

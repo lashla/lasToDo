@@ -2,12 +2,12 @@ package com.lasha.lastodo.ui.sign_in
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.lasha.lastodo.R
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 
 @AndroidEntryPoint
@@ -33,11 +33,14 @@ class SignInFragment: Fragment(R.layout.fragment_login) {
 
     private fun initViewModel(){
         viewModel = ViewModelProvider(this)[SignInViewModel::class.java]
-        viewModel.nav.observe(viewLifecycleOwner){
-            if (it == true){
+        viewModel.currentUser.observe(viewLifecycleOwner){
+            if (it != null){
                 val action = SignInFragmentDirections.actionSignInFragmentToTodosFragment()
                 findNavController().navigate(action)
             }
+        }
+        viewModel.exception.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
         }
     }
 }

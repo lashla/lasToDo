@@ -1,12 +1,15 @@
 package com.lasha.lastodo.data.repository
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.lasha.lastodo.data.model.Todos
 import com.lasha.lastodo.domain.db.TodosDao
-import com.lasha.lastodo.domain.repository.RoomRepository
+import com.lasha.lastodo.domain.repository.Repository
+import kotlinx.coroutines.tasks.await
 import javax.inject.Singleton
 
 @Singleton
-class RoomRepositoryImpl(private val todosDao: TodosDao): RoomRepository {
+class RepositoryImpl(private val todosDao: TodosDao, private val firebaseAuth: FirebaseAuth): Repository {
     override suspend fun getAllTodos(): List<Todos> {
         return todosDao.getAll()
     }
@@ -29,6 +32,16 @@ class RoomRepositoryImpl(private val todosDao: TodosDao): RoomRepository {
 
     override suspend fun updateCurrentTodo(todos: Todos) {
         return todosDao.updateCurrentTodo(todos)
+    }
+
+    override suspend fun signUpWIthEmailPassword(email: String, password: String): FirebaseUser? {
+        firebaseAuth.createUserWithEmailAndPassword(email,password).await()
+        return firebaseAuth.currentUser
+    }
+
+    override suspend fun signInWIthEmailPassword(email: String, password: String): FirebaseUser? {
+        firebaseAuth.signInWithEmailAndPassword(email, password).await()
+        return firebaseAuth.currentUser
     }
 
 }

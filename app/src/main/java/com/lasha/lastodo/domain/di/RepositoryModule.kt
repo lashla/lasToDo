@@ -1,8 +1,8 @@
 package com.lasha.lastodo.domain.di
 
-import com.lasha.lastodo.data.repository.RoomRepositoryImpl
+import com.lasha.lastodo.data.repository.RepositoryImpl
 import com.lasha.lastodo.domain.db.TodosDao
-import com.lasha.lastodo.domain.repository.RoomRepository
+import com.lasha.lastodo.domain.repository.Repository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +16,7 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesRoomRepositry(todosDao: TodosDao): RoomRepository{
-        return RoomRepositoryImpl(todosDao)
+    fun providesRoomRepositry(todosDao: TodosDao): Repository{
+        return RepositoryImpl(todosDao)
     }
 }

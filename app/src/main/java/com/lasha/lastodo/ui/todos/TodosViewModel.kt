@@ -5,14 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lasha.lastodo.data.model.Todos
-import com.lasha.lastodo.domain.repository.RoomRepository
+import com.lasha.lastodo.domain.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TodosViewModel @Inject constructor(private val roomRepository: RoomRepository): ViewModel() {
+class TodosViewModel @Inject constructor(private val roomRepository: Repository): ViewModel() {
     val todosData = MutableLiveData<List<Todos>>()
     init {
         val todosData = MutableLiveData<List<Todos>>()

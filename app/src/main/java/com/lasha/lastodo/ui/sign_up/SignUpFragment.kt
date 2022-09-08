@@ -46,8 +46,8 @@ class SignUpFragment: Fragment(R.layout.fragment_sign_up) {
 
     private fun initViewModel(){
         viewModel = ViewModelProvider(this)[SignUpViewModel::class.java]
-        viewModel.nav.observe(viewLifecycleOwner){
-            if (it == true){
+        viewModel.currentUser.observe(viewLifecycleOwner){
+            if (it != null){
                 val action = SignUpFragmentDirections.actionSignUpFragmentToTodosFragment()
                 findNavController().navigate(action)
             }
