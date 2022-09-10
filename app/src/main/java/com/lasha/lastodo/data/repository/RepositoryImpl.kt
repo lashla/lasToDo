@@ -2,6 +2,8 @@ package com.lasha.lastodo.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.lasha.lastodo.data.model.Todos
 import com.lasha.lastodo.domain.db.TodosDao
 import com.lasha.lastodo.domain.repository.Repository
@@ -9,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Singleton
 
 @Singleton
-class RepositoryImpl(private val todosDao: TodosDao, private val firebaseAuth: FirebaseAuth): Repository {
+class RepositoryImpl(private val todosDao: TodosDao, private val firebaseAuth: FirebaseAuth, private val firestore: FirebaseFirestore): Repository {
     override suspend fun getAllTodos(): List<Todos> {
         return todosDao.getAll()
     }
@@ -44,4 +46,22 @@ class RepositoryImpl(private val todosDao: TodosDao, private val firebaseAuth: F
         return firebaseAuth.currentUser
     }
 
+    override suspend fun saveTodoToFirestore(todos: Todos) {
+        firestore.collection("todos").add(todos).await()
+    }
+
+    override suspend fun saveTodosToFirestore(todos: List<Todos>) {
+        for (element in todos){
+            firestore.collection("todos").add(element).await()
+        }
+    }
+
+    override suspend fun getFromFirestore(): List<Todos> {
+        val querySnapshot = firestore.collection("todos").get().await()
+        val todoList = ArrayList<Todos>()
+        for (document in querySnapshot){
+            todoList.add(document.toObject(Todos::class.java))
+        }
+        return todoList
+    }
 }

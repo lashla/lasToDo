@@ -14,4 +14,7 @@ interface Repository {
     suspend fun updateCurrentTodo(todos: Todos)
     suspend fun signUpWIthEmailPassword(email: String, password: String) : FirebaseUser?
     suspend fun signInWIthEmailPassword(email: String, password: String) : FirebaseUser?
+    suspend fun saveTodoToFirestore(todos: Todos)
+    suspend fun saveTodosToFirestore(todos: List<Todos>)
+    suspend fun getFromFirestore(): List<Todos>
 }
