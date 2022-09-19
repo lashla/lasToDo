@@ -1,9 +1,12 @@
 package com.lasha.lastodo.data.repository
 
+import android.net.Uri
+import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
 import com.lasha.lastodo.data.model.Todos
 import com.lasha.lastodo.domain.db.TodosDao
 import com.lasha.lastodo.domain.repository.Repository
@@ -11,7 +14,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Singleton
 
 @Singleton
-class RepositoryImpl(private val todosDao: TodosDao, private val firebaseAuth: FirebaseAuth, private val firestore: FirebaseFirestore): Repository {
+class RepositoryImpl(private val todosDao: TodosDao, private val firebaseAuth: FirebaseAuth, private val fireCloud: FirebaseStorage, private val firestore: FirebaseFirestore): Repository {
     override suspend fun getAllTodos(): List<Todos> {
         return todosDao.getAll()
     }
@@ -63,5 +66,15 @@ class RepositoryImpl(private val todosDao: TodosDao, private val firebaseAuth: F
             todoList.add(document.toObject(Todos::class.java))
         }
         return todoList
+    }
+
+    override suspend fun uploadImage(path: Uri) {
+        val ref = fireCloud.reference.child("Images/")
+        val uploadTask = ref.putFile(path)
+        uploadTask.await()
+    }
+
+    override suspend fun getImage(): String {
+        return "Todo"
     }
 }

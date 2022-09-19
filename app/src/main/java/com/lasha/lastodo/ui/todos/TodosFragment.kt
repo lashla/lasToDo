@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
 import com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragmentArgs
+import com.lasha.lastodo.utils.CheckInternetConnection
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.todos_fragment.*
 import java.util.*
@@ -82,7 +83,7 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
 
     private fun initViewModel(){
         viewModel = ViewModelProvider(this)[TodosViewModel::class.java]
-        viewModel.getAllData()
+        viewModel.getAllData(isInternetConnected())
         viewModel.todosData.observe(viewLifecycleOwner){
             if (it.isNotEmpty()){
                 adapter.updateTodoInfo(it as ArrayList<Todos>)
@@ -111,5 +112,8 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
             ).apply {
             }.toTypedArray()
+    }
+    private fun isInternetConnected(): Boolean{
+        return CheckInternetConnection.connectivityStatus(requireContext())
     }
 }

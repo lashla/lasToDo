@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.lasha.lastodo.domain.db.TodoDatabase
 import com.lasha.lastodo.domain.db.TodosDao
 import dagger.Module
@@ -25,6 +26,10 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun providesFirestore() = FirebaseFirestore.getInstance()
+
+    @Provides
+    @Singleton
+    fun providesFireCloud() = FirebaseStorage.getInstance().reference
 
     @Provides
     @Singleton

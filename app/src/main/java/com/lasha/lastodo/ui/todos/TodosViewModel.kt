@@ -14,15 +14,24 @@ import javax.inject.Inject
 @HiltViewModel
 class TodosViewModel @Inject constructor(private val roomRepository: Repository): ViewModel() {
     val todosData = MutableLiveData<List<Todos>>()
-    init {
-        val todosData = MutableLiveData<List<Todos>>()
-        getAllData()
-    }
 
-    fun getAllData(){
+    fun getAllData(isInternetConnected: Boolean){
         viewModelScope.launch(Dispatchers.Main) {
             roomRepository.getAllTodos().let {
                 if (it.isNotEmpty()){
+                    if (isInternetConnected){
+                        val todosFromFirebaseStorage = roomRepository.getFromFirestore()
+                        for (fireStoreItem in todosFromFirebaseStorage){
+                            for (localItem in it){
+                                if (checkIfLocalItemsUpToDate(fireStoreItem, localItem)){
+                                    roomRepository.updateCurrentTodo(Todos(localItem.id, fireStoreItem.subject, fireStoreItem.contents, fireStoreItem.date, fireStoreItem.photoPath, fireStoreItem.deadlineDate))
+                                }
+                                if (checkIfRemoteItemsUpToDate(fireStoreItem, localItem)){
+                                    roomRepository.saveTodoToFirestore(Todos(fireStoreItem.id, localItem.subject, localItem.contents, localItem.date, localItem.photoPath, localItem.deadlineDate))
+                                }
+                            }
+                        }
+                    }
                     todosData.value = it
                     Log.i("DatabaseData", it.toString())
                     Log.i("GetData", "Database data fetched")
@@ -39,6 +48,7 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
             }
         }
     }
+
     fun getSortedByDate(){
         viewModelScope.launch(Dispatchers.Main) {
             roomRepository.getSortedTodos().let {
@@ -47,5 +57,22 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
                 }
             }
         }
+    }
+
+    private fun checkIfLocalItemsUpToDate(remoteItem: Todos, localItem: Todos): Boolean{
+        if (localItem.id == remoteItem.id){
+            if (localItem.date < remoteItem.date){
+                return true
+            }
+        }
+        return false
+    }
+    private fun checkIfRemoteItemsUpToDate(remoteItem: Todos, localItem: Todos): Boolean{
+        if (localItem.id == remoteItem.id){
+            if (localItem.date > remoteItem.date){
+                return true
+            }
+        }
+        return false
     }
 }

@@ -19,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
+import com.lasha.lastodo.utils.CheckInternetConnection
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.android.synthetic.main.add_edit_dialog.*
@@ -112,6 +113,9 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MMMM-dd HH:mm")
         val formattedDate = currentDate.format(dateFormatter)
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
+            if (isInternetAvailable()){
+                viewModel.insertDataToFireStore(titleEt.text.toString(), descriptionEt.text.toString(), formattedDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
+            }
             viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), formattedDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
         }
 
@@ -120,11 +124,13 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
     private fun editTodo(){
         val currentDate = LocalDateTime.now()
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
+            if (isInternetAvailable()){
+                viewModel.updateDataFireStore(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
+            }
             viewModel.updateTodo(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
             val action = AddEditDialogFragmentDirections.actionBottomSheetToShowTodoFragment(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
             findNavController().navigate(action)
         }
-
     }
 
     private fun selectDatePicker() {
@@ -164,6 +170,10 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         )
         startActivityForResult(pickPhoto, 1)
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        return CheckInternetConnection.connectivityStatus(requireContext())
     }
 
 }

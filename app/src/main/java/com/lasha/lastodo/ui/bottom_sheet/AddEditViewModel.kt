@@ -34,4 +34,14 @@ class AddEditViewModel @Inject constructor(private val roomRepository: Repositor
             roomRepository.updateCurrentTodo(todos)
         }
     }
+    fun insertDataToFireStore(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
+        viewModelScope.launch(Dispatchers.IO) {
+            roomRepository.saveTodoToFirestore(Todos(id, subject, description, date, filePath, deadlineDate))
+        }
+    }
+    fun updateDataFireStore(id: Int, subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
+        viewModelScope.launch(Dispatchers.IO) {
+            roomRepository.saveTodoToFirestore(Todos(id, subject, description, date, filePath, deadlineDate))
+        }
+    }
 }

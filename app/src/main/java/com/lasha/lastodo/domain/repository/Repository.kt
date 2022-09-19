@@ -1,5 +1,6 @@
 package com.lasha.lastodo.domain.repository
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
 import com.lasha.lastodo.data.model.Todos
 import javax.inject.Singleton
@@ -17,4 +18,6 @@ interface Repository {
     suspend fun saveTodoToFirestore(todos: Todos)
     suspend fun saveTodosToFirestore(todos: List<Todos>)
     suspend fun getFromFirestore(): List<Todos>
+    suspend fun uploadImage(path: Uri)
+    suspend fun getImage(): String
 }
