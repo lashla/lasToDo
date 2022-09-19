@@ -20,19 +20,23 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
             roomRepository.getAllTodos().let {
                 if (it.isNotEmpty()){
                     if (isInternetConnected){
+                        val todos = it.toMutableList()
                         val todosFromFirebaseStorage = roomRepository.getFromFirestore()
                         for (fireStoreItem in todosFromFirebaseStorage){
                             for (localItem in it){
                                 if (checkIfLocalItemsUpToDate(fireStoreItem, localItem)){
                                     roomRepository.updateCurrentTodo(Todos(localItem.id, fireStoreItem.subject, fireStoreItem.contents, fireStoreItem.date, fireStoreItem.photoPath, fireStoreItem.deadlineDate))
+                                    todos[localItem.id] = Todos(localItem.id, fireStoreItem.subject, fireStoreItem.contents, fireStoreItem.date, fireStoreItem.photoPath, fireStoreItem.deadlineDate)
                                 }
                                 if (checkIfRemoteItemsUpToDate(fireStoreItem, localItem)){
                                     roomRepository.saveTodoToFirestore(Todos(fireStoreItem.id, localItem.subject, localItem.contents, localItem.date, localItem.photoPath, localItem.deadlineDate))
                                 }
                             }
                         }
+                        todosData.postValue(todos)
+                    } else {
+                        todosData.postValue(it)
                     }
-                    todosData.value = it
                     Log.i("DatabaseData", it.toString())
                     Log.i("GetData", "Database data fetched")
                 }
