@@ -29,7 +29,7 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesFireCloud() = FirebaseStorage.getInstance().reference
+    fun providesFireCloud() = FirebaseStorage.getInstance()
 
     @Provides
     @Singleton

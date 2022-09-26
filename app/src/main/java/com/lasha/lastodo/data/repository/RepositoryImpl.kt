@@ -1,6 +1,7 @@
 package com.lasha.lastodo.data.repository
 
 import android.net.Uri
+import android.util.Log
 import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -59,11 +60,20 @@ class RepositoryImpl(private val todosDao: TodosDao, private val firebaseAuth: F
         }
     }
 
+    override suspend fun updateFirestore(id: Int, todo: Todos) {
+        val querySnapshot = firestore.collection("todos").whereEqualTo("id", id).get().await()
+        if (querySnapshot.documents.isNotEmpty()){
+            for (document in querySnapshot){
+                firestore.collection("todos").document(document.id).set(todo).await()
+            }
+        }
+    }
+
     override suspend fun getFromFirestore(): List<Todos> {
         val querySnapshot = firestore.collection("todos").get().await()
         val todoList = ArrayList<Todos>()
         for (document in querySnapshot){
-            todoList.add(document.toObject(Todos::class.java))
+            todoList.add(document.toObject<Todos>())
         }
         return todoList
     }

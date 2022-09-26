@@ -20,7 +20,7 @@
         android:id="@+id/login"
         style="@style/LoginTextInputLayout"
         android:layout_marginTop="128dp"
-        android:hint="@string/title"
+        android:hint="Login"
         android:inputType="text"
         android:textColor="@color/gray"
         android:textColorHint="@color/gray"

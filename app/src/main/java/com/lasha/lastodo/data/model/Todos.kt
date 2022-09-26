@@ -9,10 +9,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(tableName = "todos")
 data class Todos(
-    @PrimaryKey(autoGenerate = true) var id: Int,
-    @ColumnInfo(name = "subject")var subject: String,
-    @ColumnInfo(name = "content")var contents: String,
-    @ColumnInfo(name = "date")var date: String,
-    @ColumnInfo(name = "photo_path") var photoPath: String?,
-    @ColumnInfo(name = "deadline_date") var deadlineDate: String?
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @ColumnInfo(name = "subject")var subject: String = "",
+    @ColumnInfo(name = "content")var contents: String = "",
+    @ColumnInfo(name = "date")var date: String = "",
+    @ColumnInfo(name = "photo_path") var photoPath: String? = "",
+    @ColumnInfo(name = "deadline_date") var deadlineDate: String? = ""
 ): Parcelable

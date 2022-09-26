@@ -18,6 +18,7 @@ interface Repository {
     suspend fun saveTodoToFirestore(todos: Todos)
     suspend fun saveTodosToFirestore(todos: List<Todos>)
     suspend fun getFromFirestore(): List<Todos>
+    suspend fun updateFirestore(id: Int, todo: Todos)
     suspend fun uploadImage(path: Uri)
     suspend fun getImage(): String
 }
