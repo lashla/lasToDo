@@ -15,6 +15,7 @@ class SignInViewModel @Inject constructor(private val repository: Repository) : 
 
     val exception = MutableLiveData<String>()
     val currentUser = MutableLiveData<FirebaseUser?>()
+    val isLoggedIn = MutableLiveData<Boolean>()
 
     fun loginUser(email: String, password: String){
         viewModelScope.launch(Dispatchers.IO) {
@@ -25,4 +26,14 @@ class SignInViewModel @Inject constructor(private val repository: Repository) : 
             }
         }
     }
+
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            isLoggedIn.postValue(repository.checkLoginState())
+        }
+    }
+
+
+
 }

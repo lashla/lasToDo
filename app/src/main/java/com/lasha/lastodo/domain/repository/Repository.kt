@@ -21,4 +21,6 @@ interface Repository {
     suspend fun updateFirestore(id: Int, todo: Todos)
     suspend fun uploadImage(path: Uri)
     suspend fun getImage(): String
+    suspend fun checkLoginState(): Boolean
+    suspend fun logout()
 }

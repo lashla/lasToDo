@@ -23,6 +23,14 @@ class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireClou
         return firebaseAuth.currentUser
     }
 
+    suspend fun checkLoginState(): Boolean{
+        return firebaseAuth.currentUser != null
+    }
+
+    suspend fun logout(){
+        firebaseAuth.signOut()
+    }
+
     suspend fun saveTodoToFirestore(todos: Todos) {
         firestore.collection("todos").add(todos).await()
     }
