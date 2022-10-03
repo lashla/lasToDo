@@ -5,8 +5,9 @@ import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.lasha.lastodo.domain.db.TodoDatabase
-import com.lasha.lastodo.domain.db.TodosDao
+import com.lasha.lastodo.data.db.TodoDatabase
+import com.lasha.lastodo.data.db.TodosDao
+import com.lasha.lastodo.data.remote.RemoteService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +19,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+
+    @Provides
+    @Singleton
+    fun provideRemoteService() = RemoteService(provideFirebaseAuth(), providesFireCloud(),
+        providesFirestore())
 
     @Provides
     @Singleton

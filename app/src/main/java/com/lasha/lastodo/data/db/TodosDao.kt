@@ -1,4 +1,4 @@
-package com.lasha.lastodo.domain.db
+package com.lasha.lastodo.data.db
 
 import androidx.room.*
 import com.lasha.lastodo.data.model.Todos
