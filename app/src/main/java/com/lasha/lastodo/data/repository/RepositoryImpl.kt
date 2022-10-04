@@ -78,4 +78,8 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
     override suspend fun logout() {
         remoteService.logout()
     }
+
+    override fun getUser(): FirebaseUser? {
+        return remoteService.getUser()
+    }
 }

@@ -23,6 +23,10 @@ class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireClou
         return firebaseAuth.currentUser
     }
 
+    fun getUser():  FirebaseUser?{
+        return firebaseAuth.currentUser
+    }
+
     suspend fun checkLoginState(): Boolean{
         return firebaseAuth.currentUser != null
     }

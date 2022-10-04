@@ -27,6 +27,9 @@
             android:name="filterArgs"
             app:argType="string"
             android:defaultValue="All" />
+        <action
+            android:id="@+id/action_todosFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/showTodoFragment"
@@ -109,6 +112,19 @@
             app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/action_signInFragment_to_todosFragment"
+            app:destination="@id/todosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        tools:layout="@layout/fragment_profile"
+        android:name="com.lasha.lastodo.ui.profile.ProfileFragment"
+        android:label="ProfileFragment">
+
+        <action
+            android:id="@+id/action_profileFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_todosFragment"
             app:destination="@id/todosFragment" />
     </fragment>
 </navigation>
