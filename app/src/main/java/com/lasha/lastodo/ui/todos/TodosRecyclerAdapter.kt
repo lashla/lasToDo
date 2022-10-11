@@ -15,23 +15,10 @@ class TodosRecyclerAdapter: RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder
 
     private var todoList = ArrayList<Todos>()
 
-//    private lateinit var mlistner: onItemClickListener
-//
-//    fun onItemClickListener(listener: onItemClickListener){
-//        mlistner = listener
-//    }
-//
-//    private val differCallBack = object : DiffUtil.ItemCallback<Todos>() {
-//        override fun areItemsTheSame(oldItem: Todos, newItem: Todos): Boolean {
-//            return oldItem.id == newItem.id
-//        }
-//
-//        override fun areContentsTheSame(oldItem: Todos, newItem: Todos): Boolean {
-//            return oldItem == newItem
-//        }
-//    }
-//
-//    private val differ = AsyncListDiffer(this, differCallBack)
+    fun clearTodos(){
+        todoList.clear()
+        notifyItemRangeRemoved(0, todoList.count())
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

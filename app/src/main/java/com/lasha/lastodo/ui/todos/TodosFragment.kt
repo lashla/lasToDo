@@ -86,8 +86,8 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
         viewModel.getAllData(isInternetConnected())
         viewModel.todosData.observe(viewLifecycleOwner){
             if (it.isNotEmpty()){
+                adapter.clearTodos()
                 adapter.updateTodoInfo(it as ArrayList<Todos>)
-                Log.i("ViewTodos", "Todos inserted")
             }
         }
     }

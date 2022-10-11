@@ -21,6 +21,7 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
         viewModelScope.launch(ioDispatcher) {
             roomRepository.getAllTodos().let {
                 if (it.isNotEmpty()){
+                    todosData.postValue(it)
                     if (isInternetConnected){
                         val todos = it.toMutableList()
                         val todosFromFirebaseStorage = roomRepository.getFromFirestore()
