@@ -1,6 +1,5 @@
 package com.lasha.lastodo.ui.todos
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TodosViewModel @Inject constructor(private val roomRepository: Repository): ViewModel() {
     val todosData = MutableLiveData<List<Todos>>()
-    val ioDispatcher = Dispatchers.IO
+    private val ioDispatcher = Dispatchers.IO
 
     fun getAllData(isInternetConnected: Boolean){
         viewModelScope.launch(ioDispatcher) {
@@ -45,8 +44,6 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
                     } else {
                         todosData.postValue(it)
                     }
-                    Log.i("DatabaseData", it.toString())
-                    Log.i("GetData", "Database data fetched")
                 }
             }
         }

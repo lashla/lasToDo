@@ -11,7 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,10 +20,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
 import com.lasha.lastodo.utils.CheckInternetConnection
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.android.synthetic.main.add_edit_dialog.*
-import kotlinx.android.synthetic.main.todos_fragment.*
+import kotlinx.android.synthetic.main.show_todo.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -59,13 +59,13 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[AddEditViewModel::class.java]
         setupBottomSheetButtons()
+        setupViews()
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        filePathUri = if (requestCode == 1 && resultCode == Activity.RESULT_OK){
-            data!!.data
+    private var resultGetFileLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result->
+        filePathUri = if (result.resultCode == Activity.RESULT_OK){
+            result!!.data?.data
         } else {
             null
         }
@@ -90,7 +90,6 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
                 if (navArgs.currentTodo!!.date.isNotEmpty()) {
                     deadlineBtn.text = navArgs.currentTodo!!.deadlineDate
                 }
-
                 editTodo()
             } else {
                 populateTodos()
@@ -98,7 +97,7 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
                 findNavController().navigate(action)
             }
         }
-        notifyCheckBtn.setOnCheckedChangeListener { buttonView, isChecked ->
+        notifyCheckBtn.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked){
                 Log.i("NotifyButton", notifyCheckBtn.isChecked.toString())
                 setupNotification()
@@ -118,7 +117,21 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
             }
             viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), formattedDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
         }
+    }
 
+    private fun setupViews(){
+        titleEt.setText(navArgs.currentTodo?.subject)
+        descriptionEt.setText(navArgs.currentTodo?.contents)
+        deadlineBtn.text = navArgs.currentTodo?.deadlineDate
+        if (navArgs.currentTodo?.photoPath != "null" || navArgs.currentTodo?.photoPath!!.isNotEmpty()){
+            Picasso.get()
+                .load(navArgs.currentTodo?.photoPath)
+                .error(R.drawable.ic_image)
+                .resize(300,400)
+                .centerCrop()
+                .into(textImage)
+            textImage.visibility = View.VISIBLE
+        }
     }
 
     private fun editTodo(){
@@ -169,7 +182,7 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
             Intent.ACTION_PICK,
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         )
-        startActivityForResult(pickPhoto, 1)
+        resultGetFileLauncher.launch(pickPhoto)
     }
 
     private fun isInternetAvailable(): Boolean {

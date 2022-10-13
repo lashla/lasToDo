@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import com.lasha.lastodo.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class SignInFragment: Fragment(R.layout.fragment_login) {

@@ -1,16 +1,11 @@
 package com.lasha.lastodo.data.repository
 
 import android.net.Uri
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.storage.FirebaseStorage
 import com.lasha.lastodo.data.model.Todos
 import com.lasha.lastodo.data.db.TodosDao
 import com.lasha.lastodo.data.remote.RemoteService
 import com.lasha.lastodo.domain.repository.Repository
-import kotlinx.coroutines.tasks.await
 import javax.inject.Singleton
 
 @Singleton
@@ -48,19 +43,19 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
     }
 
     override suspend fun saveTodoToFirestore(todos: Todos) {
-        remoteService.saveTodoToFirestore(todos)
+        remoteService.saveTodoToFirebase(todos)
     }
 
     override suspend fun saveTodosToFirestore(todos: List<Todos>) {
-        remoteService.saveTodosToFirestore(todos)
+        remoteService.saveTodosToFirebase(todos)
     }
 
     override suspend fun updateFirestore(id: Int, todo: Todos) {
-        remoteService.updateFirestore(id, todo)
+        remoteService.updateFirebase(id, todo)
     }
 
     override suspend fun getFromFirestore(): List<Todos> {
-        return remoteService.getFromFirestore()
+        return remoteService.getFromFirebase()
     }
 
     override suspend fun uploadImage(path: Uri) {
@@ -77,6 +72,10 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
 
     override suspend fun logout() {
         remoteService.logout()
+    }
+
+    override suspend fun downloadFile(fileName: String) {
+        return remoteService.downloadFile(fileName)
     }
 
     override fun getUser(): FirebaseUser? {

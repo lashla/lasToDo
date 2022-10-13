@@ -1,8 +1,5 @@
 package com.lasha.lastodo.domain.di
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import com.lasha.lastodo.data.repository.RepositoryImpl
 import com.lasha.lastodo.data.db.TodosDao
 import com.lasha.lastodo.data.remote.RemoteService

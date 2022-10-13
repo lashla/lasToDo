@@ -9,11 +9,9 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lasha.lastodo.R
-import com.lasha.lastodo.data.model.Todos
 import com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.delete_todo.*

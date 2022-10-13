@@ -90,6 +90,7 @@
         app:layout_constraintTop_toTopOf="@+id/deadlineBtn" />
 
     <ImageView
+        android:id="@+id/ivEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

@@ -4,8 +4,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
@@ -56,8 +54,5 @@ class TodosRecyclerAdapter: RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
-//    interface onItemClickListener{
-//        fun onItemClick(position: Int)
-//    }
 
 }

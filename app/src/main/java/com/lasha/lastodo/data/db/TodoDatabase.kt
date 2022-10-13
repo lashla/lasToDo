@@ -8,7 +8,7 @@ import com.lasha.lastodo.data.model.Todos
 abstract class TodoDatabase: RoomDatabase() {
     abstract fun todosDao(): TodosDao
     companion object {
-        val DATABASE_NAME = "todo database"
+        const val DATABASE_NAME = "todo database"
     }
 
 }

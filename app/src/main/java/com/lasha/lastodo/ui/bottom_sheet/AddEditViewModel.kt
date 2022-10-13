@@ -1,6 +1,6 @@
 package com.lasha.lastodo.ui.bottom_sheet
 
-import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lasha.lastodo.data.model.Todos
@@ -17,16 +17,14 @@ class AddEditViewModel @Inject constructor(private val roomRepository: Repositor
     fun insertHandler(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
         viewModelScope.launch {
             insertDataIntoDatabase(subject, description, date, filePath, deadlineDate)
+            roomRepository.uploadImage(filePath!!.toUri())
         }
+
     }
     private fun insertDataIntoDatabase(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
         viewModelScope.launch(Dispatchers.IO){
             roomRepository.insertTodo(Todos(id, subject, description, date, filePath, deadlineDate))
             id++
-            Log.i("Insert", "Inserted new todo")
-            Log.i("Insert",
-                Todos(id, subject, description, date, filePath, deadlineDate).toString()
-            )
         }
     }
     fun updateTodo(todos: Todos){

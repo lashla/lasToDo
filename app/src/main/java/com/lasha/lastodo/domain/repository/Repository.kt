@@ -23,5 +23,6 @@ interface Repository {
     suspend fun getImage(): String
     suspend fun checkLoginState(): Boolean
     suspend fun logout()
+    suspend fun downloadFile(fileName: String)
     fun getUser():  FirebaseUser?
 }
