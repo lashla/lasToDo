@@ -26,6 +26,10 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
         return todosDao.intert(todos)
     }
 
+    override suspend fun insertTodos(todos: List<Todos>) {
+        return todosDao.insertTodos(todos)
+    }
+
     override suspend fun deleteCurrentTodo(todos: Todos) {
         return todosDao.deleteCurrentTodo(todos)
     }

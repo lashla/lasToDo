@@ -5,11 +5,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.lasha.lastodo.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 @AndroidEntryPoint
-class ProfileFragment: Fragment() {
+class ProfileFragment: Fragment(R.layout.fragment_profile) {
 
     private val  viewModel: ProfileViewModel by viewModels()
 

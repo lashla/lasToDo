@@ -11,6 +11,7 @@ interface Repository {
     suspend fun getSortedTodos(): List<Todos>
     suspend fun getSortedDeadline(): List<Todos>
     suspend fun insertTodo(todos: Todos)
+    suspend fun insertTodos(todos: List<Todos>)
     suspend fun deleteCurrentTodo(todos: Todos)
     suspend fun updateCurrentTodo(todos: Todos)
     suspend fun signUpWIthEmailPassword(email: String, password: String) : FirebaseUser?

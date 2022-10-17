@@ -59,7 +59,6 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[AddEditViewModel::class.java]
         setupBottomSheetButtons()
-        setupViews()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -75,6 +74,7 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         if (navArgs.currentTodo != null){
             val editTodoText = "Edit todo"
             addEditBtn.text = editTodoText
+            setupViews()
         }
         deadlineBtn.setOnClickListener{
             selectDatePicker()
@@ -86,7 +86,6 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
             if (navArgs.currentTodo != null){
                 titleEt.setText(navArgs.currentTodo!!.subject)
                 descriptionEt.setText(navArgs.currentTodo!!.contents)
-
                 if (navArgs.currentTodo!!.date.isNotEmpty()) {
                     deadlineBtn.text = navArgs.currentTodo!!.deadlineDate
                 }
@@ -123,13 +122,13 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         titleEt.setText(navArgs.currentTodo?.subject)
         descriptionEt.setText(navArgs.currentTodo?.contents)
         deadlineBtn.text = navArgs.currentTodo?.deadlineDate
-        if (navArgs.currentTodo?.photoPath != "null" || navArgs.currentTodo?.photoPath!!.isNotEmpty()){
-            Picasso.get()
-                .load(navArgs.currentTodo?.photoPath)
-                .error(R.drawable.ic_image)
-                .resize(300,400)
-                .centerCrop()
-                .into(textImage)
+        if (navArgs.currentTodo?.photoPath != "null" || navArgs.currentTodo?.photoPath!!.isNotEmpty() && textImage != null){
+//            Picasso.get()
+//                .load(navArgs.currentTodo?.photoPath)
+//                .error(R.drawable.ic_image)
+//                .resize(300,400)
+//                .centerCrop()
+//                .into(textImage)
             textImage.visibility = View.VISIBLE
         }
     }
@@ -140,7 +139,7 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
             if (isInternetAvailable()){
                 viewModel.updateDataFireStore(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
             }
-            viewModel.updateTodo(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
+            viewModel.updateTodo(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()), isInternetAvailable())
             val action = AddEditDialogFragmentDirections.actionBottomSheetToShowTodoFragment(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
             findNavController().navigate(action)
         }

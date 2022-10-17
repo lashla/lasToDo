@@ -11,6 +11,9 @@ interface TodosDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun intert(todos: Todos)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTodos(todos: List<Todos>)
+
     @Query("SELECT * FROM todos ORDER BY date ASC")
     suspend fun getSortedByDate(): List<Todos>
 

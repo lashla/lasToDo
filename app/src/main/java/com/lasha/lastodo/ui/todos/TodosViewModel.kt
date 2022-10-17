@@ -1,5 +1,6 @@
 package com.lasha.lastodo.ui.todos
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -41,8 +42,6 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
                             }
                         }
                         todosData.postValue(todos)
-                    } else {
-                        todosData.postValue(it)
                     }
                 }
             }
@@ -76,6 +75,12 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
     }
     private fun checkIfRemoteItemsUpToDate(remoteItem: Todos, localItem: Todos): Boolean{
         if (localItem.id == remoteItem.id && localItem.date > remoteItem.date){
+            return true
+        }
+        return false
+    }
+    private fun checkIfRemoteItemsExists(remoteItem: Todos, localItem: Todos): Boolean{
+        if (localItem.id == remoteItem.id){
             return true
         }
         return false

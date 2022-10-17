@@ -58,6 +58,10 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
             val action = TodosFragmentDirections.actionTodosFragmentToFilterDialogFragment()
             findNavController().navigate(action)
         }
+        settingsBtn.setOnClickListener{
+            val action = TodosFragmentDirections.actionTodosFragmentToProfileFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun showAdditionSheetDialog(){

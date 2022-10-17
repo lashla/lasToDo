@@ -27,9 +27,12 @@ class AddEditViewModel @Inject constructor(private val roomRepository: Repositor
             id++
         }
     }
-    fun updateTodo(todos: Todos){
+    fun updateTodo(todos: Todos, isInternetConnected: Boolean){
         viewModelScope.launch(Dispatchers.IO) {
             roomRepository.updateCurrentTodo(todos)
+            if (isInternetConnected){
+                roomRepository.updateFirestore(todos.id, todos)
+            }
         }
     }
     fun insertDataToFireStore(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
