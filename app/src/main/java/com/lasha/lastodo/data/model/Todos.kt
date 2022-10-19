@@ -14,5 +14,6 @@ data class Todos(
     @ColumnInfo(name = "content")var contents: String = "",
     @ColumnInfo(name = "date")var date: String = "",
     @ColumnInfo(name = "photo_path") var photoPath: String? = "",
-    @ColumnInfo(name = "deadline_date") var deadlineDate: String? = ""
+    @ColumnInfo(name = "deadline_date") var deadlineDate: String? = "",
+    @ColumnInfo(name = "uid", defaultValue = "")var uid: String? = ""
 ): Parcelable
