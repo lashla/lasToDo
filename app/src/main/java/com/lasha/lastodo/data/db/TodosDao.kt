@@ -23,6 +23,9 @@ interface TodosDao {
     @Delete(entity = Todos::class)
     suspend fun deleteCurrentTodo(todos: Todos)
 
+    @Query("DELETE FROM todos")
+    suspend fun clearData()
+
     @Update(entity = Todos::class)
     suspend fun updateCurrentTodo(todos: Todos)
 

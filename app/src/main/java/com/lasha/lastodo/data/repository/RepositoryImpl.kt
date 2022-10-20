@@ -82,7 +82,11 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
         return remoteService.downloadFile(fileName)
     }
 
-    override fun getUser(): FirebaseUser? {
+    override suspend fun clearData() {
+        return todosDao.clearData()
+    }
+
+    override suspend fun getUser(): FirebaseUser? {
         return remoteService.getUser()
     }
 }

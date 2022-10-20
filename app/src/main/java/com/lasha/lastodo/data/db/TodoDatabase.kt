@@ -5,8 +5,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.lasha.lastodo.data.model.Todos
 
-@Database(entities = [Todos::class], version = 5,
-    autoMigrations = [AutoMigration(from = 4, to = 5)]
+@Database(entities = [Todos::class], version = 6,
+    autoMigrations = [AutoMigration(from = 5, to = 6)]
 )
 abstract class TodoDatabase: RoomDatabase() {
     abstract fun todosDao(): TodosDao

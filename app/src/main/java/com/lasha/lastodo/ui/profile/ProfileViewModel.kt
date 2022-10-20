@@ -16,11 +16,14 @@ class ProfileViewModel @Inject constructor(private val repository: Repository): 
     var user = MutableLiveData<FirebaseUser?>()
 
     init {
-        user.postValue(repository.getUser())
+        viewModelScope.launch(Dispatchers.IO){
+            user.postValue(repository.getUser())
+        }
     }
 
     fun logout(){
         viewModelScope.launch(Dispatchers.IO) {
+            repository.clearData()
             repository.logout()
         }
     }

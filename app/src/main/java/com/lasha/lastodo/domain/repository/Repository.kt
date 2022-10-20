@@ -25,5 +25,6 @@ interface Repository {
     suspend fun checkLoginState(): Boolean
     suspend fun logout()
     suspend fun downloadFile(fileName: String)
-    fun getUser():  FirebaseUser?
+    suspend fun getUser():  FirebaseUser?
+    suspend fun clearData()
 }
