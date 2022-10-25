@@ -2,6 +2,8 @@ package com.lasha.lastodo.data.remote
 
 import android.net.Uri
 import android.util.Log
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,6 +15,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Singleton
+
 
 @Singleton
 class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireCloud: FirebaseStorage, private val FireStore: FirebaseFirestore) {
@@ -72,11 +75,30 @@ class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireClou
         return todoList
     }
 
-    suspend fun uploadImage(path: Uri) {
+    suspend fun uploadImage(path: Uri, id: Int) {
         val name = path.lastPathSegment
         val ref = fireCloud.reference.child("Images/${firebaseAuth.currentUser!!.uid}/$name")
-        val uploadTask = ref.putFile(path)
-        uploadTask.await()
+        val querySnapshot = FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+            .collection("todos").whereEqualTo("id", id).get().await()
+        var imageLink  = ""
+        ref.putFile(path).addOnSuccessListener {
+            val result = it.metadata!!.reference!!.downloadUrl
+            result.addOnSuccessListener { uri ->
+                imageLink = uri.toString()
+            }
+        }
+        if (querySnapshot.documents.isNotEmpty() && imageLink != ""){
+            for (document in querySnapshot){
+                val todo = FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+                    .collection("todos").document(document.id).get().await()
+                todo.toObject<Todos>()?.let {
+                    it.photoLink = imageLink
+                    FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+                        .collection("todos").document(document.id).set(it).await()
+                }
+            }
+        }
+
     }
 
     suspend fun downloadFile(fileName: String){
@@ -88,5 +110,4 @@ class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireClou
             Log.i("Got file", "true")
         }
     }
-
 }
