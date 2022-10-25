@@ -33,6 +33,14 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
                 .centerCrop()
                 .into(textImage)
             textImage.visibility = View.VISIBLE
+        } else if (!navArgs.currentTodo.photoLink.isNullOrEmpty() && navArgs.currentTodo.photoLink != "null"){
+            Picasso.get()
+                .load(navArgs.currentTodo.photoLink)
+                .error(R.drawable.ic_dialog_line)
+                .resize(300,400)
+                .centerCrop()
+                .into(textImage)
+            textImage.visibility = View.VISIBLE
         }
         todoDescription.visibility = View.VISIBLE
         deadlineDateView.text = navArgs.currentTodo.deadlineDate
