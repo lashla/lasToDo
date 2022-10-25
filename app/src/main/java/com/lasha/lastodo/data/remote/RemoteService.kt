@@ -74,15 +74,15 @@ class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireClou
 
     suspend fun uploadImage(path: Uri) {
         val name = path.lastPathSegment
-        val ref = fireCloud.reference.child("Images/${firebaseAuth.currentUser!!.uid}_$name")
+        val ref = fireCloud.reference.child("Images/${firebaseAuth.currentUser!!.uid}/$name")
         val uploadTask = ref.putFile(path)
         uploadTask.await()
     }
 
     suspend fun downloadFile(fileName: String){
-        val ref = fireCloud.reference.child("Images/$fileName")
+        val ref = fireCloud.reference.child("Images/${firebaseAuth.currentUser!!.uid}/$fileName")
         val file = withContext(Dispatchers.IO) {
-            File.createTempFile("Images/", "png")
+            File.createTempFile("Images/$fileName", "png")
         }
         ref.getFile(file).addOnSuccessListener {
             Log.i("Got file", "true")
