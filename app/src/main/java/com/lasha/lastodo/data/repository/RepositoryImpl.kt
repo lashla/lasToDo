@@ -67,7 +67,7 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
     }
 
     override suspend fun getImage(): String {
-        return "DD"
+        return ""
     }
 
     override suspend fun checkLoginState(): Boolean {

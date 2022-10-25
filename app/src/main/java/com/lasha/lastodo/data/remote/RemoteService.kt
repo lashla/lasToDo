@@ -40,7 +40,8 @@ class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireClou
     }
 
     suspend fun saveTodoToFirebase(todos: Todos) {
-        FireStore.collection("todos").add(todos).await()
+        FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+            .collection("todos").add(todos).await()
     }
 
     suspend fun saveTodosToFirebase(todos: List<Todos>) {
@@ -73,7 +74,7 @@ class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireClou
 
     suspend fun uploadImage(path: Uri) {
         val name = path.lastPathSegment
-        val ref = fireCloud.reference.child("Images/$name")
+        val ref = fireCloud.reference.child("Images/${firebaseAuth.currentUser!!.uid}_$name")
         val uploadTask = ref.putFile(path)
         uploadTask.await()
     }
