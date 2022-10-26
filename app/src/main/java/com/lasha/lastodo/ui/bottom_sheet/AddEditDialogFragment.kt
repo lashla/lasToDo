@@ -20,10 +20,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
 import com.lasha.lastodo.utils.CheckInternetConnection
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.add_edit_dialog.*
-import kotlinx.android.synthetic.main.show_todo.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -122,15 +120,6 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         titleEt.setText(navArgs.currentTodo?.subject)
         descriptionEt.setText(navArgs.currentTodo?.contents)
         deadlineBtn.text = navArgs.currentTodo?.deadlineDate
-        if (navArgs.currentTodo?.photoPath != "null" || navArgs.currentTodo?.photoPath!!.isNotEmpty() && textImage != null){
-//            Picasso.get()
-//                .load(navArgs.currentTodo?.photoPath)
-//                .error(R.drawable.ic_image)
-//                .resize(300,400)
-//                .centerCrop()
-//                .into(textImage)
-            textImage.visibility = View.VISIBLE
-        }
     }
 
     private fun editTodo(){

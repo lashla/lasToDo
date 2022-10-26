@@ -1,5 +1,6 @@
 package com.lasha.lastodo.ui.todos
 
+import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,13 +28,19 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
                         for (fireStoreItem in todosFromFirebaseStorage){
                             for (localItem in it){
                                 if (checkIfLocalItemsUpToDate(fireStoreItem, localItem)){
-                                    roomRepository.updateCurrentTodo(Todos(localItem.id, fireStoreItem.subject, fireStoreItem.contents, fireStoreItem.date, fireStoreItem.photoPath, fireStoreItem.deadlineDate))
+                                    roomRepository.updateCurrentTodo(Todos(localItem.id, fireStoreItem.subject, fireStoreItem.contents, fireStoreItem.date, fireStoreItem.photoPath, fireStoreItem.deadlineDate, fireStoreItem.photoLink))
                                     withContext(Dispatchers.Main){
-                                        todos[localItem.id] =  Todos(localItem.id, fireStoreItem.subject, fireStoreItem.contents, fireStoreItem.date, fireStoreItem.photoPath, fireStoreItem.deadlineDate)
+                                        todos[localItem.id] =  Todos(localItem.id, fireStoreItem.subject, fireStoreItem.contents, fireStoreItem.date, fireStoreItem.photoPath, fireStoreItem.deadlineDate, fireStoreItem.photoLink)
                                     }
                                 }
                                 if (checkIfRemoteItemsUpToDate(fireStoreItem, localItem)){
-                                    roomRepository.updateFirestore(fireStoreItem.id, Todos(fireStoreItem.id, localItem.subject, localItem.contents, localItem.date, localItem.photoPath, localItem.deadlineDate))
+                                    roomRepository.updateFirestore(fireStoreItem.id, Todos(fireStoreItem.id, localItem.subject, localItem.contents, localItem.date, localItem.photoPath, localItem.deadlineDate, localItem.photoLink))
+                                }
+                                if (checkIfRemoteHaveImages(fireStoreItem, localItem)){
+                                    roomRepository.uploadImage(localItem.photoPath!!.toUri(), fireStoreItem.id)
+                                }
+                                if (checkIfLocalHaveLink(fireStoreItem, localItem)){
+                                    roomRepository.updateCurrentTodo(Todos(localItem.id, localItem.subject, localItem.contents, localItem.date, fireStoreItem.photoPath, localItem.deadlineDate, fireStoreItem.photoLink))
                                 }
                             }
                         }
@@ -78,8 +85,14 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
         }
         return false
     }
-    private fun checkIfRemoteItemsExists(remoteItem: Todos, localItem: Todos): Boolean{
-        if (localItem.id == remoteItem.id){
+    private fun checkIfRemoteHaveImages(remoteItem: Todos, localItem: Todos): Boolean{
+        if (!localItem.photoPath.isNullOrEmpty() && remoteItem.photoLink.isNullOrEmpty()){
+            return true
+        }
+        return false
+    }
+    private fun checkIfLocalHaveLink(remoteItem: Todos, localItem: Todos): Boolean{
+        if (!remoteItem.photoLink.isNullOrEmpty() && localItem.photoLink.isNullOrEmpty()){
             return true
         }
         return false

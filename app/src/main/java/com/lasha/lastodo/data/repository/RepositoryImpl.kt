@@ -62,8 +62,8 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
         return remoteService.getFromFirebase()
     }
 
-    override suspend fun uploadImage(path: Uri) {
-        remoteService.uploadImage(path)
+    override suspend fun uploadImage(path: Uri, id: Int) {
+        remoteService.uploadImage(path, id)
     }
 
     override suspend fun getImage(): String {
