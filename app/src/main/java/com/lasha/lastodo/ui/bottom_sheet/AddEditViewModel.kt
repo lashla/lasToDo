@@ -1,6 +1,5 @@
 package com.lasha.lastodo.ui.bottom_sheet
 
-import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lasha.lastodo.data.model.Todos
@@ -30,20 +29,4 @@ class AddEditViewModel @Inject constructor(private val roomRepository: Repositor
             roomRepository.updateCurrentTodo(todos)
         }
     }
-//    fun insertDataToFireStore(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
-//        viewModelScope.launch(Dispatchers.IO) {
-//            roomRepository.saveTodoToFirestore(Todos(id, subject, description, date, filePath, deadlineDate))
-//            if (!filePath.isNullOrEmpty()){
-//                roomRepository.uploadImage(filePath.toUri(), id)
-//            }
-//        }
-//    }
-//    fun updateDataFireStore(id: Int, subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
-//        viewModelScope.launch(Dispatchers.IO) {
-//            roomRepository.updateFirestore(id, Todos(id, subject, description, date, filePath, deadlineDate))
-//            if (!filePath.isNullOrEmpty()){
-//                roomRepository.uploadImage(filePath.toUri(), id)
-//            }
-//        }
-//    }
 }

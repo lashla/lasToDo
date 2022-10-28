@@ -19,7 +19,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todos
-import com.lasha.lastodo.utils.CheckInternetConnection
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.add_edit_dialog.*
 import java.time.LocalDateTime
@@ -82,11 +81,6 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         }
         addEditBtn.setOnClickListener {
             if (navArgs.currentTodo != null){
-//                titleEt.setText(navArgs.currentTodo!!.subject)
-//                descriptionEt.setText(navArgs.currentTodo!!.contents)
-//                if (navArgs.currentTodo!!.date.isNotEmpty()) {
-//                    deadlineBtn.text = navArgs.currentTodo!!.deadlineDate
-//                }
                 editTodo()
             } else {
                 populateTodos()
@@ -118,9 +112,6 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         val currentDate = System.currentTimeMillis()
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
             viewModel.updateTodo(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
-//            if (isInternetAvailable()){
-//                viewModel.updateDataFireStore(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
-//            }
             Log.i("Updates todo", Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()).toString())
             val action = AddEditDialogFragmentDirections.actionBottomSheetToShowTodoFragment(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
             findNavController().navigate(action)
@@ -165,9 +156,4 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         )
         resultGetFileLauncher.launch(pickPhoto)
     }
-
-//    private fun isInternetAvailable(): Boolean {
-//        return CheckInternetConnection.connectivityStatus(requireContext())
-//    }
-
 }

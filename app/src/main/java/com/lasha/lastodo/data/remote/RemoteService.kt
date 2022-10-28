@@ -14,7 +14,6 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Singleton
 
-
 @Singleton
 class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireCloud: FirebaseStorage, private val FireStore: FirebaseFirestore) {
 
@@ -78,25 +77,25 @@ class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireClou
         val ref = fireCloud.reference.child("Images/${firebaseAuth.currentUser!!.uid}/$name")
         val querySnapshot = FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
             .collection("todos").whereEqualTo("id", id).get().await()
-        var imageLink  = ""
         ref.putFile(path).addOnSuccessListener {
             val result = it.metadata!!.reference!!.downloadUrl
             result.addOnSuccessListener { uri ->
-                imageLink = uri.toString()
-            }
-        }
-        if (querySnapshot.documents.isNotEmpty() && imageLink != ""){
-            for (document in querySnapshot){
-                val todo = FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
-                    .collection("todos").document(document.id).get().await()
-                todo.toObject<Todos>()?.let {
-                    it.photoLink = imageLink
-                    FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
-                        .collection("todos").document(document.id).set(it).await()
+                if (querySnapshot.documents.isNotEmpty()){
+                    for (document in querySnapshot){
+                        FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+                            .collection("todos").document(document.id).get().addOnSuccessListener { todo ->
+                                todo.toObject<Todos>()?.let { item ->
+                                    item.photoLink = uri.toString()
+                                    FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+                                        .collection("todos").document(document.id).set(item).addOnSuccessListener {
+                                            Log.i("INSERTEEED", "AAAAAAAAAA")
+                                        }
+                                }
+                            }
+                    }
                 }
             }
         }
-
     }
 
     suspend fun downloadFile(fileName: String){

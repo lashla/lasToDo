@@ -1,6 +1,5 @@
 package com.lasha.lastodo.ui.todos
 
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -45,7 +44,9 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
                                     roomRepository.updateFirestore(fireStoreItem.id, Todos(fireStoreItem.id, localItem.subject, localItem.contents, localItem.date, localItem.photoPath, localItem.deadlineDate, localItem.photoLink))
                                 }
                                 if (checkIfRemoteHaveImages(fireStoreItem, localItem)){
-                                    roomRepository.uploadImage(localItem.photoPath!!.toUri(), fireStoreItem.id)
+                                    if (!localItem.photoPath.isNullOrEmpty()){
+                                        roomRepository.uploadImage(localItem.photoPath!!.toUri(), fireStoreItem.id)
+                                    }
                                 }
                                 if (checkIfLocalHaveLink(fireStoreItem, localItem)){
                                     roomRepository.updateCurrentTodo(Todos(localItem.id, localItem.subject, localItem.contents, localItem.date, fireStoreItem.photoPath, localItem.deadlineDate, fireStoreItem.photoLink))
