@@ -82,11 +82,11 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         }
         addEditBtn.setOnClickListener {
             if (navArgs.currentTodo != null){
-                titleEt.setText(navArgs.currentTodo!!.subject)
-                descriptionEt.setText(navArgs.currentTodo!!.contents)
-                if (navArgs.currentTodo!!.date.isNotEmpty()) {
-                    deadlineBtn.text = navArgs.currentTodo!!.deadlineDate
-                }
+//                titleEt.setText(navArgs.currentTodo!!.subject)
+//                descriptionEt.setText(navArgs.currentTodo!!.contents)
+//                if (navArgs.currentTodo!!.date.isNotEmpty()) {
+//                    deadlineBtn.text = navArgs.currentTodo!!.deadlineDate
+//                }
                 editTodo()
             } else {
                 populateTodos()
@@ -96,23 +96,15 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         }
         notifyCheckBtn.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked){
-                Log.i("NotifyButton", notifyCheckBtn.isChecked.toString())
                 setupNotification()
-            } else {
-                Log.i("NotifyButton", notifyCheckBtn.isChecked.toString())
-            }}
-
+            }
+        }
     }
 
     private fun populateTodos(){
-        val currentDate = LocalDateTime.now()
-        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MMMM-dd HH:mm")
-        val formattedDate = currentDate.format(dateFormatter)
+        val currentDate = System.currentTimeMillis()
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
-            if (isInternetAvailable()){
-                viewModel.insertDataToFireStore(titleEt.text.toString(), descriptionEt.text.toString(), formattedDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
-            }
-            viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), formattedDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
+            viewModel.insertHandler(titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
         }
     }
 
@@ -123,12 +115,13 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
     }
 
     private fun editTodo(){
-        val currentDate = LocalDateTime.now()
+        val currentDate = System.currentTimeMillis()
         if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()){
-            if (isInternetAvailable()){
-                viewModel.updateDataFireStore(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
-            }
-            viewModel.updateTodo(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()), isInternetAvailable())
+            viewModel.updateTodo(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
+//            if (isInternetAvailable()){
+//                viewModel.updateDataFireStore(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString())
+//            }
+            Log.i("Updates todo", Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()).toString())
             val action = AddEditDialogFragmentDirections.actionBottomSheetToShowTodoFragment(Todos(navArgs.currentTodo!!.id, titleEt.text.toString(), descriptionEt.text.toString(), currentDate.toString(), filePathUri.toString(), deadlineBtn.text.toString()))
             findNavController().navigate(action)
         }
@@ -173,8 +166,8 @@ class AddEditDialogFragment: BottomSheetDialogFragment() {
         resultGetFileLauncher.launch(pickPhoto)
     }
 
-    private fun isInternetAvailable(): Boolean {
-        return CheckInternetConnection.connectivityStatus(requireContext())
-    }
+//    private fun isInternetAvailable(): Boolean {
+//        return CheckInternetConnection.connectivityStatus(requireContext())
+//    }
 
 }

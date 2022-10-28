@@ -25,31 +25,25 @@ class AddEditViewModel @Inject constructor(private val roomRepository: Repositor
             id++
         }
     }
-    fun updateTodo(todos: Todos, isInternetConnected: Boolean){
+    fun updateTodo(todos: Todos){
         viewModelScope.launch(Dispatchers.IO) {
             roomRepository.updateCurrentTodo(todos)
-            if (isInternetConnected){
-                roomRepository.updateFirestore(todos.id, todos)
-                if (!todos.photoPath.isNullOrEmpty()){
-                    roomRepository.uploadImage(todos.photoPath!!.toUri(), id)
-                }
-            }
         }
     }
-    fun insertDataToFireStore(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
-        viewModelScope.launch(Dispatchers.IO) {
-            roomRepository.saveTodoToFirestore(Todos(id, subject, description, date, filePath, deadlineDate))
-            if (!filePath.isNullOrEmpty()){
-                roomRepository.uploadImage(filePath.toUri(), id)
-            }
-        }
-    }
-    fun updateDataFireStore(id: Int, subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
-        viewModelScope.launch(Dispatchers.IO) {
-            roomRepository.saveTodoToFirestore(Todos(id, subject, description, date, filePath, deadlineDate))
-            if (!filePath.isNullOrEmpty()){
-                roomRepository.uploadImage(filePath.toUri(), id)
-            }
-        }
-    }
+//    fun insertDataToFireStore(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
+//        viewModelScope.launch(Dispatchers.IO) {
+//            roomRepository.saveTodoToFirestore(Todos(id, subject, description, date, filePath, deadlineDate))
+//            if (!filePath.isNullOrEmpty()){
+//                roomRepository.uploadImage(filePath.toUri(), id)
+//            }
+//        }
+//    }
+//    fun updateDataFireStore(id: Int, subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
+//        viewModelScope.launch(Dispatchers.IO) {
+//            roomRepository.updateFirestore(id, Todos(id, subject, description, date, filePath, deadlineDate))
+//            if (!filePath.isNullOrEmpty()){
+//                roomRepository.uploadImage(filePath.toUri(), id)
+//            }
+//        }
+//    }
 }

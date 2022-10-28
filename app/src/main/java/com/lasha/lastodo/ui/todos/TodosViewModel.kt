@@ -1,5 +1,6 @@
 package com.lasha.lastodo.ui.todos
 
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +26,13 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
                     if (isInternetConnected){
                         val todos = it.toMutableList()
                         val todosFromFirebaseStorage = roomRepository.getFromFirestore()
+                        if (todosFromFirebaseStorage.size < it.size){
+                            roomRepository.saveTodosToFirestore(it)
+                        } else if (todosFromFirebaseStorage.size > it.size){
+                            roomRepository.insertTodos(todosFromFirebaseStorage)
+                            todos.removeAll(it)
+                            todos.addAll(roomRepository.getAllTodos())
+                        }
                         for (fireStoreItem in todosFromFirebaseStorage){
                             for (localItem in it){
                                 if (checkIfLocalItemsUpToDate(fireStoreItem, localItem)){
@@ -43,9 +51,6 @@ class TodosViewModel @Inject constructor(private val roomRepository: Repository)
                                     roomRepository.updateCurrentTodo(Todos(localItem.id, localItem.subject, localItem.contents, localItem.date, fireStoreItem.photoPath, localItem.deadlineDate, fireStoreItem.photoLink))
                                 }
                             }
-                        }
-                        if (todosFromFirebaseStorage.size < it.size){
-                            roomRepository.saveTodosToFirestore(it)
                         }
                         todosData.postValue(todos)
                     }

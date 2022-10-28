@@ -8,10 +8,10 @@ interface TodosDao {
     @Query("SELECT * FROM todos")
     suspend fun getAll(): List<Todos>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(entity = Todos::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun intert(todos: Todos)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(entity = Todos::class, onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTodos(todos: List<Todos>)
 
     @Query("SELECT * FROM todos ORDER BY date ASC")

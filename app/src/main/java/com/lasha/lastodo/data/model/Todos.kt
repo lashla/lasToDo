@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(tableName = "todos")
 data class Todos(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @ColumnInfo(name = "id")@PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo(name = "subject")var subject: String = "",
     @ColumnInfo(name = "content")var contents: String = "",
     @ColumnInfo(name = "date")var date: String = "",
