@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Adapter
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -31,6 +33,11 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
     private lateinit var viewModel: TodosViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.finish()
+            }
+        })
         super.onViewCreated(view, savedInstanceState)
         initTodosView()
         initViewModel()
@@ -62,6 +69,7 @@ class TodosFragment: Fragment(R.layout.todos_fragment) {
             val action = TodosFragmentDirections.actionTodosFragmentToProfileFragment()
             findNavController().navigate(action)
         }
+
     }
 
     private fun showAdditionSheetDialog(){
