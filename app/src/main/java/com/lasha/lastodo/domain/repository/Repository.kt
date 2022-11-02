@@ -20,6 +20,7 @@ interface Repository {
     suspend fun saveTodosToFirestore(todos: List<Todos>)
     suspend fun getFromFirestore(): List<Todos>
     suspend fun updateFirestore(id: Int, todo: Todos)
+    suspend fun deleteFromRemote(todo: Todos)
     suspend fun uploadImage(path: Uri, id: Int)
     suspend fun getImage(): String
     suspend fun checkLoginState(): Boolean

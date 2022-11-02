@@ -12,8 +12,11 @@ import javax.inject.Inject
 @HiltViewModel
 class DeleteTodoViewModel @Inject constructor(private val roomRepository: Repository): ViewModel() {
 
-    fun deleteTodo(todos: Todos){
+    fun deleteTodo(todos: Todos, isInternetConnected: Boolean){
         viewModelScope.launch(Dispatchers.IO) {
+            if (isInternetConnected){
+                roomRepository.deleteFromRemote(todos)
+            }
             roomRepository.deleteCurrentTodo(todos)
         }
     }

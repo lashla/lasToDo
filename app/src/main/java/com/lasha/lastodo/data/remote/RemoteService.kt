@@ -51,6 +51,17 @@ class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireClou
         }
     }
 
+    suspend fun deleteTodoFromRemote(todo: Todos){
+        val querySnapshot = FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+            .collection("todos").whereEqualTo("id", todo.id).get().await()
+        if (querySnapshot.documents.isNotEmpty()){
+            for (document in querySnapshot){
+                FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+                    .collection("todos").document(document.id).delete().await()
+            }
+        }
+    }
+
     suspend fun updateFirebase(id: Int, todo: Todos) {
         val querySnapshot = FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
             .collection("todos").whereEqualTo("id", id).get().await()

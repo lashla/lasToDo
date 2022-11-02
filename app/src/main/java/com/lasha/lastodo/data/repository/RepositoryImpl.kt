@@ -58,6 +58,10 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
         remoteService.updateFirebase(id, todo)
     }
 
+    override suspend fun deleteFromRemote(todo: Todos) {
+        remoteService.deleteTodoFromRemote(todo)
+    }
+
     override suspend fun getFromFirestore(): List<Todos> {
         return remoteService.getFromFirebase()
     }
@@ -69,6 +73,7 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
     override suspend fun getImage(): String {
         return ""
     }
+
 
     override suspend fun checkLoginState(): Boolean {
         return remoteService.checkLoginState()

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lasha.lastodo.R
 import com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragmentArgs
+import com.lasha.lastodo.utils.CheckInternetConnection
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.delete_todo.*
 
@@ -20,8 +21,6 @@ import kotlinx.android.synthetic.main.delete_todo.*
 class DeleteTodoDialog: DialogFragment() {
     private lateinit var viewModel: DeleteTodoViewModel
     private val navArgs by navArgs<AddEditDialogFragmentArgs>()
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,11 +50,14 @@ class DeleteTodoDialog: DialogFragment() {
 
     private fun deleteClickListeners(){
         deleteTodo.setOnClickListener {
-            viewModel.deleteTodo(navArgs.currentTodo!!)
+            viewModel.deleteTodo(navArgs.currentTodo!!, isInternetConnected())
             findNavController().navigate(R.id.action_deleteTodoDialog_to_todosFragment)
         }
         cancelTodo.setOnClickListener {
             dismiss()
         }
+    }
+    private fun isInternetConnected(): Boolean{
+        return CheckInternetConnection.connectivityStatus(requireContext())
     }
 }
