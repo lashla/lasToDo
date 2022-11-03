@@ -2,11 +2,14 @@ package com.lasha.lastodo.ui.show_todo
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lasha.lastodo.R
+import com.lasha.lastodo.ui.todos.TodosViewModel
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.show_todo.*
@@ -15,9 +18,11 @@ import kotlinx.android.synthetic.main.show_todo.*
 class ShowTodoFragment: Fragment(R.layout.show_todo) {
 
     private val navArgs by navArgs<ShowTodoFragmentArgs>()
+    private lateinit var viewModel: ShowTodoViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[ShowTodoViewModel::class.java]
         initViews()
         setupClickListeners()
     }
@@ -34,6 +39,10 @@ class ShowTodoFragment: Fragment(R.layout.show_todo) {
                 .into(textImage)
             textImage.visibility = View.VISIBLE
         } else if (!navArgs.currentTodo.photoLink.isNullOrEmpty() && navArgs.currentTodo.photoLink != "null"){
+            navArgs.currentTodo.photoLink!!.toUri().lastPathSegment?.let {
+                viewModel.downloadPicture(
+                    it, requireContext().contentResolver, navArgs.currentTodo)
+            }
             Picasso.get()
                 .load(navArgs.currentTodo.photoLink)
                 .error(R.drawable.ic_dialog_line)

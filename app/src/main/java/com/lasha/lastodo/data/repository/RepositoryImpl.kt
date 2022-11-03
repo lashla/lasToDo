@@ -1,5 +1,6 @@
 package com.lasha.lastodo.data.repository
 
+import android.content.ContentResolver
 import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
 import com.lasha.lastodo.data.model.Todos
@@ -83,8 +84,8 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
         remoteService.logout()
     }
 
-    override suspend fun downloadFile(fileName: String) {
-        return remoteService.downloadFile(fileName)
+    override suspend fun downloadFile(fileName: String, resolver: ContentResolver):Uri? {
+        return remoteService.downloadFile(fileName, resolver)
     }
 
     override suspend fun clearData() {

@@ -1,5 +1,6 @@
 package com.lasha.lastodo.domain.repository
 
+import android.content.ContentResolver
 import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
 import com.lasha.lastodo.data.model.Todos
@@ -25,7 +26,7 @@ interface Repository {
     suspend fun getImage(): String
     suspend fun checkLoginState(): Boolean
     suspend fun logout()
-    suspend fun downloadFile(fileName: String)
+    suspend fun downloadFile(fileName: String, resolver: ContentResolver): Uri?
     suspend fun getUser():  FirebaseUser?
     suspend fun clearData()
 }

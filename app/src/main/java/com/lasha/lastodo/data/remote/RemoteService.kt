@@ -1,17 +1,23 @@
 package com.lasha.lastodo.data.remote
 
+import android.content.ContentResolver
+import android.content.ContentValues
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.lasha.lastodo.data.model.Todos
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.text.SimpleDateFormat
 import javax.inject.Singleton
 
 @Singleton
@@ -109,13 +115,24 @@ class RemoteService(private val firebaseAuth: FirebaseAuth, private val fireClou
         }
     }
 
-    suspend fun downloadFile(fileName: String){
+    suspend fun downloadFile(fileName: String, resolver: ContentResolver): Uri?{
         val ref = fireCloud.reference.child("Images/${firebaseAuth.currentUser!!.uid}/$fileName")
-        val file = withContext(Dispatchers.IO) {
-            File.createTempFile("Images/$fileName", "png")
+        return createFileInAppStorage(fileName, ref, resolver)
+    }
+
+    private suspend fun createFileInAppStorage(fileName: String, ref: StorageReference, resolver: ContentResolver): Uri?{
+        val path = "Pictures/LasTODO"
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                put(MediaStore.Images.Media.RELATIVE_PATH, path)
+            }
         }
-        ref.getFile(file).addOnSuccessListener {
-            Log.i("Got file", "true")
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        if (uri != null) {
+            ref.getFile(uri).await()
         }
+        return uri
     }
 }
