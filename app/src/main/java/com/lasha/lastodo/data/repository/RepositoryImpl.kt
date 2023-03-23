@@ -1,42 +1,104 @@
 package com.lasha.lastodo.data.repository
 
-import android.content.ContentResolver
-import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
-import com.lasha.lastodo.data.model.Todos
 import com.lasha.lastodo.data.db.TodosDao
+import com.lasha.lastodo.data.model.Todo
 import com.lasha.lastodo.data.remote.RemoteService
+import com.lasha.lastodo.data.utils.checkIfLocalItemsUpToDate
+import com.lasha.lastodo.data.utils.checkIfRemoteItemsUpToDate
 import com.lasha.lastodo.domain.repository.Repository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Singleton
 
 @Singleton
-class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: RemoteService): Repository {
-    override suspend fun getAllTodos(): List<Todos> {
-        return todosDao.getAll()
+class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: RemoteService) :
+    Repository {
+
+    override suspend fun getAllTodos(isInternetConnected: Boolean): List<Todo> {
+        val todos = mutableListOf<Todo>()
+        todosDao.getAll().let { localTodos ->
+            if (localTodos.isNotEmpty()) {
+                todos.addAll(localTodos)
+                if (isInternetConnected) {
+                    val todosFromFirebaseStorage = getFromFirestore()
+                    if (todosFromFirebaseStorage.size < localTodos.size) {
+                        saveTodosToFirestore(localTodos)
+                    } else if (todosFromFirebaseStorage.size > localTodos.size) {
+                        insertLocalTodos(todosFromFirebaseStorage)
+                        todos.removeAll(localTodos)
+                        todos.addAll(getAllTodos(true))
+                    }
+                    for (fireStoreItem in todosFromFirebaseStorage) {
+                        for (localItem in localTodos) {
+                            if (checkIfLocalItemsUpToDate(fireStoreItem, localItem)) {
+                                updateLocalTodo(
+                                    Todo(
+                                        localItem.id,
+                                        fireStoreItem.subject,
+                                        fireStoreItem.contents,
+                                        fireStoreItem.date,
+                                        fireStoreItem.photoPath,
+                                        fireStoreItem.deadlineDate,
+                                        fireStoreItem.photoLink
+                                    )
+                                )
+                                withContext(Dispatchers.Main) {
+                                    todos[localItem.id] = Todo(
+                                        localItem.id,
+                                        fireStoreItem.subject,
+                                        fireStoreItem.contents,
+                                        fireStoreItem.date,
+                                        fireStoreItem.photoPath,
+                                        fireStoreItem.deadlineDate,
+                                        fireStoreItem.photoLink
+                                    )
+                                }
+                            }
+                            if (checkIfRemoteItemsUpToDate(fireStoreItem, localItem)) {
+                                updateFirestore(
+                                    fireStoreItem.id,
+                                    Todo(
+                                        fireStoreItem.id,
+                                        localItem.subject,
+                                        localItem.contents,
+                                        localItem.date,
+                                        localItem.photoPath,
+                                        localItem.deadlineDate,
+                                        localItem.photoLink
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return todos
     }
 
-    override suspend fun getSortedTodos(): List<Todos> {
+    override suspend fun getSortedTodos(): List<Todo> {
         return todosDao.getSortedByDate()
     }
 
-    override suspend fun getSortedDeadline(): List<Todos> {
+    override suspend fun getSortedDeadline(): List<Todo> {
         return todosDao.getSortedByDeadline()
     }
 
-    override suspend fun insertTodo(todos: Todos) {
+    override suspend fun insertLocalTodo(todos: Todo) {
         return todosDao.intert(todos)
     }
 
-    override suspend fun insertTodos(todos: List<Todos>) {
-        return todosDao.insertTodos(todos)
+    override suspend fun insertLocalTodos(todos: List<Todo>) {
+        return todosDao.insertLocalTodos(todos)
     }
 
-    override suspend fun deleteCurrentTodo(todos: Todos) {
-        return todosDao.deleteCurrentTodo(todos)
+    override suspend fun deleteLocalTodo(todos: Todo) {
+        return todosDao.deleteLocalTodo(todos)
     }
 
-    override suspend fun updateCurrentTodo(todos: Todos) {
-        return todosDao.updateCurrentTodo(todos)
+    override suspend fun updateLocalTodo(todos: Todo) {
+        return todosDao.updateLocalTodo(todos)
     }
 
     override suspend fun signUpWIthEmailPassword(email: String, password: String): FirebaseUser? {
@@ -47,34 +109,25 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
         return remoteService.signInWIthEmailPassword(email, password)
     }
 
-    override suspend fun saveTodoToFirestore(todos: Todos) {
+    override suspend fun saveTodoToFirestore(todos: Todo) {
         remoteService.saveTodoToFirebase(todos)
     }
 
-    override suspend fun saveTodosToFirestore(todos: List<Todos>) {
+    override suspend fun saveTodosToFirestore(todos: List<Todo>) {
         remoteService.saveTodosToFirebase(todos)
     }
 
-    override suspend fun updateFirestore(id: Int, todo: Todos) {
+    override suspend fun updateFirestore(id: Int, todo: Todo) {
         remoteService.updateFirebase(id, todo)
     }
 
-    override suspend fun deleteFromRemote(todo: Todos) {
+    override suspend fun deleteFromRemote(todo: Todo) {
         remoteService.deleteTodoFromRemote(todo)
     }
 
-    override suspend fun getFromFirestore(): List<Todos> {
+    override suspend fun getFromFirestore(): List<Todo> {
         return remoteService.getFromFirebase()
     }
-
-    override suspend fun uploadImage(path: Uri, id: Int) {
-        remoteService.uploadImage(path, id)
-    }
-
-    override suspend fun getImage(): String {
-        return ""
-    }
-
 
     override suspend fun checkLoginState(): Boolean {
         return remoteService.checkLoginState()
@@ -82,10 +135,6 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
 
     override suspend fun logout() {
         remoteService.logout()
-    }
-
-    override suspend fun downloadFile(fileName: String, resolver: ContentResolver):Uri? {
-        return remoteService.downloadFile(fileName, resolver)
     }
 
     override suspend fun clearData() {

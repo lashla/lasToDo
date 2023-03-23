@@ -1,58 +1,65 @@
 package com.lasha.lastodo.ui.todos
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.lasha.lastodo.R
-import com.lasha.lastodo.data.model.Todos
-import kotlinx.android.synthetic.main.todo_view.view.*
+import com.lasha.lastodo.data.model.Todo
+import com.lasha.lastodo.databinding.TodoViewBinding
 
-class TodosRecyclerAdapter: RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder>() {
+class TodosRecyclerAdapter : RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder>() {
 
-    private var todoList = ArrayList<Todos>()
+    private var todoList = mutableListOf<Todo>()
 
-    fun clearTodos(){
+    fun clearTodos() {
         todoList.clear()
-        notifyItemRangeRemoved(0, todoList.count())
+        notifyItemRangeRemoved(INSERT_POSITION, todoList.count())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.todo_view, parent, false)
-        return ViewHolder(view)
+        val binding = TodoViewBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
-    fun updateTodoInfo(newInfo: ArrayList<Todos>){
+    fun updateTodoInfo(newInfo: MutableList<Todo>) {
         todoList = newInfo
-        notifyDataSetChanged()
+        notifyItemRangeInserted(INSERT_POSITION, newInfo.count())
+    }
+
+    fun insertItem(todo: Todo) {
+        todoList.add(todo)
+        notifyItemInserted(todoList.lastIndex)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = todoList[position]
-        Log.i("Recycler todoList", todoList.size.toString() + todoList[position])
-        holder.itemView.apply {
-            subject.text = items.subject
-            dateOfDeadline.text = items.date
-            contents.text = items.contents
-            setOnClickListener {
-                onItemClickListener?.let {
-                    it(items)
+        with(holder) {
+            binding.run {
+                subject.text = items.subject
+                dateOfDeadline.text = items.date
+                contents.text = items.contents
+                root.setOnClickListener {
+                    onItemClickListener?.let {
+                        it(items)
+                    }
                 }
             }
         }
     }
 
-    override fun getItemCount(): Int { return todoList.size }
+    override fun getItemCount(): Int {
+        return todoList.size
+    }
 
-    private var onItemClickListener: ((Todos) -> Unit)? = null
+    private var onItemClickListener: ((Todo) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Todos) -> Unit) {
+    fun setOnItemClickListener(listener: (Todo) -> Unit) {
         onItemClickListener = listener
     }
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    class ViewHolder(val binding: TodoViewBinding) : RecyclerView.ViewHolder(binding.root)
 
-
+    companion object {
+        private const val INSERT_POSITION = 0
+    }
 }

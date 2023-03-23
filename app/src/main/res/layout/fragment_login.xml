@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center"
         app:srcCompat="@drawable/ic_login_logo"
         android:contentDescription="@string/todo_list" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login"
         style="@style/LoginTextInputLayout"
-        android:layout_marginTop="128dp"
-        android:hint="Login"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:hint="@string/login"
         android:inputType="text"
         android:textColor="@color/gray"
         android:textColorHint="@color/gray"
-        android:textColorLink="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        android:textColorLink="@color/gray">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/loginEt"
@@ -41,16 +44,13 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password"
         style="@style/LoginTextInputLayout"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginHorizontal="@dimen/dp_16"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:textColor="@color/gray"
         android:textColorHint="@color/gray"
         android:textColorLink="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -59,29 +59,28 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:inputType="textPassword" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginBtn"
         android:text="@string/sign_in"
+        android:layout_marginHorizontal="@dimen/dp_16"
         android:fontFamily="@font/mandali"
         android:textColor="@color/white"
-        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="@dimen/dp_8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_button_background_orange"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        android:background="@drawable/ic_button_background_orange" />
 
     <TextView
         android:id="@+id/dontHaveAccountTv"
-        android:layout_width="192dp"
-        android:layout_height="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:textSize="@dimen/sp_11"
+        android:layout_gravity="center"
+        android:textAlignment="center"
         android:clickable="true"
         android:text="@string/don_t_have_"
-        android:textAppearance="@style/don_t_have_"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textAppearance="@style/don_t_have_" />
+</androidx.appcompat.widget.LinearLayoutCompat>

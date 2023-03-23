@@ -1,32 +1,32 @@
 package com.lasha.lastodo.data.db
 
 import androidx.room.*
-import com.lasha.lastodo.data.model.Todos
+import com.lasha.lastodo.data.model.Todo
 
 @Dao
 interface TodosDao {
     @Query("SELECT * FROM todos")
-    suspend fun getAll(): List<Todos>
+    suspend fun getAll(): List<Todo>
 
-    @Insert(entity = Todos::class, onConflict = OnConflictStrategy.REPLACE)
-    suspend fun intert(todos: Todos)
+    @Insert(entity = Todo::class, onConflict = OnConflictStrategy.REPLACE)
+    suspend fun intert(todos: Todo)
 
-    @Insert(entity = Todos::class, onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTodos(todos: List<Todos>)
+    @Insert(entity = Todo::class, onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertLocalTodos(todos: List<Todo>)
 
     @Query("SELECT * FROM todos ORDER BY date ASC")
-    suspend fun getSortedByDate(): List<Todos>
+    suspend fun getSortedByDate(): List<Todo>
 
     @Query("SELECT * FROM todos ORDER BY deadline_date ASC")
-    suspend fun getSortedByDeadline(): List<Todos>
+    suspend fun getSortedByDeadline(): List<Todo>
 
-    @Delete(entity = Todos::class)
-    suspend fun deleteCurrentTodo(todos: Todos)
+    @Delete(entity = Todo::class)
+    suspend fun deleteLocalTodo(todos: Todo)
 
     @Query("DELETE FROM todos")
     suspend fun clearData()
 
-    @Update(entity = Todos::class)
-    suspend fun updateCurrentTodo(todos: Todos)
+    @Update(entity = Todo::class)
+    suspend fun updateLocalTodo(todos: Todo)
 
 }

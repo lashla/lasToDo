@@ -14,43 +14,44 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="16dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/dp_8"
                 android:contentDescription="@string/todo"
-                android:src="@drawable/ic_main_logo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_gravity="center"
+                android:src="@drawable/ic_main_logo" />
+
+            <Space
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"/>
 
             <ImageButton
                 android:id="@+id/settingsBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/dp_8"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/todo"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                android:src="@drawable/ic_settings"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:minWidth="@dimen/dp_48"
+                android:minHeight="@dimen/dp_48"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_settings" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.Toolbar>
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginStart="@dimen/dp_24"
         android:src="@drawable/ic_todo_logo_small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -58,13 +59,13 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="140dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="@dimen/dp_140"
+        android:layout_height="@dimen/dp_34"
+        android:layout_marginStart="@dimen/dp_4"
         android:fontFamily="@font/bebas_neue"
         android:text="@string/todo_list"
         android:textColor="@color/orange_primary"
-        android:textSize="36sp"
+        android:textSize="@dimen/sp_36"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -72,11 +73,11 @@
         android:id="@+id/filterBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/dp_8"
         android:background="@android:color/transparent"
         android:contentDescription="@string/filter"
-        android:minWidth="48dp"
-        android:minHeight="48dp"
+        android:minWidth="@dimen/dp_48"
+        android:minHeight="@dimen/dp_48"
         android:src="@drawable/ic_filter_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -84,9 +85,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_16"
         android:layoutAnimation="@anim/layout_animation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,8 +99,8 @@
         android:id="@+id/addNewTodoBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
         android:background="@android:color/transparent"
         android:contentDescription="@string/add_new_todo"
         android:foregroundTint="@color/white"
@@ -107,7 +108,7 @@
         app:backgroundTint="@color/orange_secondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="60dp"
+        app:maxImageSize="@dimen/dp_60"
         app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

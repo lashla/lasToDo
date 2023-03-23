@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -23,8 +23,8 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/todo"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
+                android:minWidth="@dimen/dp_48"
+                android:minHeight="@dimen/dp_48"
                 android:src="@drawable/ic_back_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,37 +35,36 @@
                 android:id="@+id/deleteBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/dp_8"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/todo"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
+                android:minWidth="@dimen/dp_48"
+                android:minHeight="@dimen/dp_48"
                 android:src="@drawable/ic_trash_bin"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/editBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:contentDescription="@string/todo"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
+                android:minWidth="@dimen/dp_48"
+                android:minHeight="@dimen/dp_48"
                 android:src="@drawable/ic_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/clockBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/todo"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
+                android:minWidth="@dimen/dp_48"
+                android:minHeight="@dimen/dp_48"
                 android:src="@drawable/ic_clock"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/editBtn"
@@ -78,11 +77,11 @@
         android:id="@+id/titleOfCurrentTodo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_8"
         android:fontFamily="@font/bebas_neue"
-        android:text="Learn Room"
-        android:textSize="24sp"
+        android:text="@string/learn_room"
+        android:textSize="@dimen/sp_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +91,7 @@
     <RelativeLayout
         android:id="@+id/relativeText"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/dp_0"
         app:layout_constraintBottom_toTopOf="@+id/dateOfTodo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,27 +101,14 @@
             android:id="@+id/todoDescription"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginHorizontal="@dimen/dp_24"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_8"
             android:fontFamily="@font/montserrat_alternates"
-            android:text="meow meow meow"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/textImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/todoDescription"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="477dp"
-            android:contentDescription="TODO"
-            android:visibility="gone" />
-
+            tools:text="meow meow meow"
+            android:textSize="@dimen/sp_16" />
 
     </RelativeLayout>
 
@@ -130,14 +116,14 @@
         android:id="@+id/dateOfTodo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp"
+        android:layout_marginVertical="@dimen/dp_4"
         android:fontFamily="@font/montserrat_alternates"
-        android:text="21 september 2022"
+        tools:text="21 september 2022"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/deadlineDateViewHolder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -152,10 +138,10 @@
         android:id="@+id/deadlineDateView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="7dp"
-        android:text="2202-13-11"
+        android:layout_marginStart="@dimen/dp_2"
+        android:layout_marginEnd="@dimen/dp_2"
+        android:layout_marginBottom="@dimen/dp_8"
+        tools:text="2202-13-11"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/deadlineDateViewHolder"
         app:layout_constraintEnd_toEndOf="@+id/deadlineDateViewHolder"
