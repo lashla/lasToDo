@@ -3,9 +3,9 @@ package com.lasha.lastodo.data.db
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.lasha.lastodo.data.model.Todos
+import com.lasha.lastodo.data.model.Todo
 
-@Database(entities = [Todos::class], version = 6,
+@Database(entities = [Todo::class], version = 6,
     autoMigrations = [AutoMigration(from = 5, to = 6)]
 )
 abstract class TodoDatabase: RoomDatabase() {

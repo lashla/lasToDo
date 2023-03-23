@@ -7,7 +7,7 @@
     <string name="title">Title</string>
     <string name="deadline_optional">Deadline(Optional)</string>
     <string name="delete_todo">Delete Todo</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="todo_list">TODO LIST</string>
     <string name="todo">TODO</string>
     <string name="all">All</string>
@@ -24,4 +24,9 @@
     <string name="e_mail">E-mail</string>
     <string name="full_name">Full name</string>
     <string name="password">Password</string>
+    <string name="learn_room">Learn Room</string>
+    <string name="email">Email</string>
+    <string name="change_password">changePassword</string>
+    <string name="sign_out">sign out</string>
+    <string name="login">Login</string>
 </resources>

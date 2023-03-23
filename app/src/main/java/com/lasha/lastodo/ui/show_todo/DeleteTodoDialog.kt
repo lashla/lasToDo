@@ -12,52 +12,60 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lasha.lastodo.R
+import com.lasha.lastodo.databinding.DeleteTodoBinding
+import com.lasha.lastodo.domain.utils.CheckInternetConnection
 import com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragmentArgs
-import com.lasha.lastodo.utils.CheckInternetConnection
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.delete_todo.*
 
 @AndroidEntryPoint
-class DeleteTodoDialog: DialogFragment() {
+class DeleteTodoDialog : DialogFragment() {
+
     private lateinit var viewModel: DeleteTodoViewModel
     private val navArgs by navArgs<AddEditDialogFragmentArgs>()
+
+    private var _binding: DeleteTodoBinding? = null
+    private val binding get() = requireNotNull(_binding)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = View.inflate(requireContext(), R.layout.delete_todo, null)
+    ): View {
+        _binding = DeleteTodoBinding.inflate(inflater, container, false)
         dialog.let {
             it?.window?.requestFeature(Window.FEATURE_NO_TITLE)
             it?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
-        return view
+        return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        dialog?:return
+        dialog ?: return
         val width = ViewGroup.LayoutParams.MATCH_PARENT
         val height = ViewGroup.LayoutParams.MATCH_PARENT
         dialog?.window?.setLayout(width, height)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[DeleteTodoViewModel::class.java]
         deleteClickListeners()
     }
 
-    private fun deleteClickListeners(){
-        deleteTodo.setOnClickListener {
-            viewModel.deleteTodo(navArgs.currentTodo!!, isInternetConnected())
-            findNavController().navigate(R.id.action_deleteTodoDialog_to_todosFragment)
-        }
-        cancelTodo.setOnClickListener {
-            dismiss()
+    private fun deleteClickListeners() {
+        binding.run {
+            deleteTodo.setOnClickListener {
+                viewModel.deleteTodo(navArgs.currentTodo!!, isInternetConnected())
+                findNavController().navigate(R.id.action_deleteTodoDialog_to_todosFragment)
+            }
+            cancelTodoDeletion.setOnClickListener {
+                dismiss()
+            }
         }
     }
-    private fun isInternetConnected(): Boolean{
+
+    private fun isInternetConnected(): Boolean {
         return CheckInternetConnection.connectivityStatus(requireContext())
     }
 }

@@ -1,131 +1,163 @@
 package com.lasha.lastodo.ui.todos
 
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Adapter
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lasha.lastodo.R
-import com.lasha.lastodo.data.model.Todos
-import com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragmentArgs
-import com.lasha.lastodo.utils.CheckInternetConnection
+import com.lasha.lastodo.data.model.Todo
+import com.lasha.lastodo.databinding.TodosFragmentBinding
+import com.lasha.lastodo.domain.utils.CheckInternetConnection
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.todos_fragment.*
-import java.util.*
-
 
 @AndroidEntryPoint
-class TodosFragment: Fragment(R.layout.todos_fragment) {
+class TodosFragment : Fragment() {
 
     private val navArgs by navArgs<TodosFragmentArgs>()
 
     private val adapter = TodosRecyclerAdapter()
-    private lateinit var viewModel: TodosViewModel
+    private val viewModel by viewModels<TodosViewModel>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                activity?.finish()
-            }
-        })
-        super.onViewCreated(view, savedInstanceState)
+    private var _binding: TodosFragmentBinding? = null
+    private val binding get() = requireNotNull(_binding)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = TodosFragmentBinding.inflate(inflater, container, false)
         initTodosView()
         initViewModel()
         setupBtnListeners()
-        checkPermissions()
-        isNewItemAdded()
+        setupBackPressAction()
         filterList()
-    }
-
-    private fun initTodosView(){
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recyclerView.itemAnimator = DefaultItemAnimator()
-        recyclerView.adapter = adapter
-    }
-
-    private fun setupBtnListeners(){
-        addNewTodoBtn.setOnClickListener {
-            showAdditionSheetDialog()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            checkPermissions()
         }
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isNewItemAdded()
+    }
+
+    private fun initTodosView() {
+        binding.recyclerView.run {
+            layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            itemAnimator = DefaultItemAnimator()
+            adapter = adapter
+        }
+    }
+
+    private fun setupBackPressAction() {
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    activity?.finish()
+                }
+            })
+    }
+
+    private fun setupBtnListeners() {
+        binding.run {
+            addNewTodoBtn.setOnClickListener {
+                showAdditionSheetDialog()
+            }
+            filterBtn.setOnClickListener {
+                val action = TodosFragmentDirections.actionTodosFragmentToFilterDialogFragment()
+                findNavController().navigate(action)
+            }
+            settingsBtn.setOnClickListener {
+                val action = TodosFragmentDirections.actionTodosFragmentToProfileFragment()
+                findNavController().navigate(action)
+            }
+        }
+
         adapter.setOnItemClickListener {
             val action = TodosFragmentDirections.actionTodosFragmentToShowTodoFragment(it)
             findNavController().navigate(action)
         }
-        filterBtn.setOnClickListener {
-            val action = TodosFragmentDirections.actionTodosFragmentToFilterDialogFragment()
-            findNavController().navigate(action)
-        }
-        settingsBtn.setOnClickListener{
-            val action = TodosFragmentDirections.actionTodosFragmentToProfileFragment()
-            findNavController().navigate(action)
-        }
-
     }
 
-    private fun showAdditionSheetDialog(){
+    private fun showAdditionSheetDialog() {
         findNavController().navigate(R.id.action_todosFragment_to_bottomSheet)
     }
 
-    private fun isNewItemAdded(){
+    private fun isNewItemAdded() {
         if (navArgs.isAddPressed) {
-            adapter.notifyDataSetChanged()
+            navArgs.newTodo?.let {
+                adapter.insertItem(it)
+            }
         }
     }
 
-    private fun filterList(){
-        when (navArgs.filterArgs){
+    private fun filterList() {
+        when (navArgs.filterArgs) {
             "time" -> {
                 viewModel.getSortedByDate()
             }
             "deadline" -> {
                 viewModel.getSortedByDeadline()
             }
-        }
-    }
-
-    private fun initViewModel(){
-        viewModel = ViewModelProvider(this)[TodosViewModel::class.java]
-        viewModel.getAllData(isInternetConnected())
-        viewModel.todosData.observe(viewLifecycleOwner){
-            if (it.isNotEmpty()){
-                adapter.clearTodos()
-                adapter.updateTodoInfo(it as ArrayList<Todos>)
+            "all" -> {
+                viewModel.getAllData(isInternetConnected())
             }
         }
     }
 
+    private fun initViewModel() {
+        viewModel.getAllData(isInternetConnected())
+        viewModel.todosData.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                adapter.clearTodos()
+                adapter.updateTodoInfo(it as ArrayList<Todo>)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun checkPermissions(){
         if (!allPermissionsGranted()){
             ActivityCompat.requestPermissions(requireActivity(),
-                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
                 REQUEST_CODE_PERMISSIONS
             )
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
             requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
-    companion object {
-        private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS =
-            mutableListOf (
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ).apply {
-            }.toTypedArray()
-    }
+
     private fun isInternetConnected(): Boolean{
         return CheckInternetConnection.connectivityStatus(requireContext())
+    }
+
+    companion object {
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+        private val REQUIRED_PERMISSIONS =
+            mutableListOf (
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ).apply {
+            }.toTypedArray()
     }
 }

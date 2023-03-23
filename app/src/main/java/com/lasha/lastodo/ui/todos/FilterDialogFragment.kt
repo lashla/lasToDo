@@ -8,18 +8,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.lasha.lastodo.R
-import kotlinx.android.synthetic.main.filer_dialog.*
+import com.lasha.lastodo.databinding.FilerDialogBinding
 
-class FilterDialogFragment: DialogFragment() {
+class FilterDialogFragment : DialogFragment() {
+
+    private var _binding: FilerDialogBinding? = null
+    private val binding get() = requireNotNull(_binding)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = View.inflate(requireContext(), R.layout.filer_dialog, null)
-        view.setBackgroundResource(R.drawable.ic_button_background)
-        return view
+    ): View {
+        _binding = FilerDialogBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun getTheme(): Int {
@@ -27,7 +29,7 @@ class FilterDialogFragment: DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return Dialog(requireContext(),theme)
+        return Dialog(requireContext(), theme)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,28 +37,45 @@ class FilterDialogFragment: DialogFragment() {
         setupFilterButtons()
     }
 
-    private fun setupFilterButtons(){
-        filterAllBtn.setOnClickListener {
-            filterByTimeBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
-            filterByDeadlineBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
-            filterAllBtn.setTextColor(com.google.android.material.R.attr.colorSecondary)
-            val action = FilterDialogFragmentDirections.actionFilterDialogFragmentToTodosFragment(false, "all")
-            findNavController().navigate(action)
-        }
-        filterByTimeBtn.setOnClickListener {
-            filterByTimeBtn.setTextColor(com.google.android.material.R.attr.colorSecondary)
-            filterByDeadlineBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
-            filterAllBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+    private fun setupFilterButtons() {
+        binding.run {
+            filterAllBtn.setOnClickListener {
+                filterByTimeBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+                filterByDeadlineBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+                filterAllBtn.setTextColor(com.google.android.material.R.attr.colorSecondary)
+                val action =
+                    FilterDialogFragmentDirections.actionFilterDialogFragmentToTodosFragment(
+                        isAddPressed = false,
+                        filterArgs = "all",
+                        newTodo = null
+                    )
+                findNavController().navigate(action)
+            }
+            filterByTimeBtn.setOnClickListener {
+                filterByTimeBtn.setTextColor(com.google.android.material.R.attr.colorSecondary)
+                filterByDeadlineBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+                filterAllBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
 
-            val action = FilterDialogFragmentDirections.actionFilterDialogFragmentToTodosFragment(false, "time")
-            findNavController().navigate(action)
-        }
-        filterByDeadlineBtn.setOnClickListener {
-            filterByDeadlineBtn.setTextColor(com.google.android.material.R.attr.colorSecondary)
-            filterAllBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
-            filterByTimeBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
-            val action = FilterDialogFragmentDirections.actionFilterDialogFragmentToTodosFragment(false, "deadline")
-            findNavController().navigate(action)
+                val action =
+                    FilterDialogFragmentDirections.actionFilterDialogFragmentToTodosFragment(
+                        newTodo = null,
+                        isAddPressed = false,
+                        filterArgs = "time"
+                    )
+                findNavController().navigate(action)
+            }
+            filterByDeadlineBtn.setOnClickListener {
+                filterByDeadlineBtn.setTextColor(com.google.android.material.R.attr.colorSecondary)
+                filterAllBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+                filterByTimeBtn.setTextColor(com.google.android.material.R.attr.colorOnPrimary)
+                val action =
+                    FilterDialogFragmentDirections.actionFilterDialogFragmentToTodosFragment(
+                        newTodo = null,
+                        isAddPressed = false,
+                        filterArgs = "deadline"
+                    )
+                findNavController().navigate(action)
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ package com.lasha.lastodo.ui.bottom_sheet
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lasha.lastodo.data.model.Todos
+import com.lasha.lastodo.data.model.Todo
 import com.lasha.lastodo.domain.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,13 +20,13 @@ class AddEditViewModel @Inject constructor(private val roomRepository: Repositor
     }
     private fun insertDataIntoDatabase(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){
         viewModelScope.launch(Dispatchers.IO){
-            roomRepository.insertTodo(Todos(id, subject, description, date, filePath, deadlineDate))
+            roomRepository.insertLocalTodo(Todo(id, subject, description, date, filePath, deadlineDate))
             id++
         }
     }
-    fun updateTodo(todos: Todos){
+    fun updateTodo(todos: Todo){
         viewModelScope.launch(Dispatchers.IO) {
-            roomRepository.updateCurrentTodo(todos)
+            roomRepository.updateLocalTodo(todos)
         }
     }
 }
