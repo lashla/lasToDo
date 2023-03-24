@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lasha.lastodo.data.model.Todo
-import com.lasha.lastodo.databinding.TodoViewBinding
+import com.lasha.lastodo.databinding.TodoItemBinding
 
 class TodosRecyclerAdapter : RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder>() {
 
@@ -16,7 +16,7 @@ class TodosRecyclerAdapter : RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolde
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = TodoViewBinding
+        val binding = TodoItemBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
@@ -57,7 +57,7 @@ class TodosRecyclerAdapter : RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolde
         onItemClickListener = listener
     }
 
-    class ViewHolder(val binding: TodoViewBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: TodoItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     companion object {
         private const val INSERT_POSITION = 0

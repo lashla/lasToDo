@@ -53,11 +53,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private fun setupViews() {
         viewModel.user.observe(viewLifecycleOwner) {
-            if (it != null) {
-                binding.run {
-                    fullnameTv.text = it.displayName
-                    emailTv.text = it.email
-                }
+            binding.run {
+                fullnameTv.text = it.displayName
+                emailTv.text = it.email
             }
         }
     }

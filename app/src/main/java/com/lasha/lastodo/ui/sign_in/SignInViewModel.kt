@@ -33,7 +33,4 @@ class SignInViewModel @Inject constructor(private val repository: Repository) : 
             isLoggedIn.postValue(repository.checkLoginState())
         }
     }
-
-
-
 }

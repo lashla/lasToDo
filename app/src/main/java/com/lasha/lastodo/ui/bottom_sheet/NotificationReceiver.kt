@@ -16,22 +16,24 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NotificationReceiver : BroadcastReceiver() {
+
     override fun onReceive(context: Context?, intent: Intent?) {
-        handleAlarmData(context, intent!!)
+        intent?.let { handleAlarmData(context, it) }
     }
 
     private fun handleAlarmData(context: Context?, intent: Intent) {
+
         context?.let {
 
             val title = intent.getStringExtra("title")
             val description = intent.getStringExtra("text")
 
             createNotificationChannel(context = it)
-
+            if (!title.isNullOrEmpty() && !description.isNullOrEmpty())
             createNotification(
                 context,
-                title = title!!,
-                description = description!!
+                title = title,
+                description = description
             )
         }
     }
@@ -39,16 +41,16 @@ class NotificationReceiver : BroadcastReceiver() {
     private fun createNotification(
         context: Context,
         title: String,
-        description: String,
-    ) {
+        description: String, ) {
 
         val intent = Intent(context, AddEditDialogFragment::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val pendingIntent: PendingIntent =
-            PendingIntent.getActivity(context, 42, intent, PendingIntent.FLAG_IMMUTABLE)
 
-        val builder = NotificationCompat.Builder(context, "CHANNEL_ID")
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(context, REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_name)
             .setContentTitle(title)
             .setContentText(description)
@@ -70,14 +72,18 @@ class NotificationReceiver : BroadcastReceiver() {
     private fun createNotificationChannel(context: Context) {
 
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel("CHANNEL_ID", "CHANNEL_NAME", importance).apply {
-            description = "CHANNEL_DESP"
+        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance).apply {
+            description = CHANNEL_DESC
         }
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
-
     }
 
-
+    companion object {
+        private const val CHANNEL_DESC = "Notifies you before deadline of your task"
+        private const val CHANNEL_ID = "CHANNEL_01"
+        private const val CHANNEL_NAME = "DEADLINE_NOTIFICATION_CHANNEL"
+        private const val REQUEST_CODE = 1
+    }
 }

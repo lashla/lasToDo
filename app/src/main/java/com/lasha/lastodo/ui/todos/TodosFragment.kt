@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todo
-import com.lasha.lastodo.databinding.TodosFragmentBinding
+import com.lasha.lastodo.databinding.FragmentTodoListBinding
 import com.lasha.lastodo.domain.utils.CheckInternetConnection
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +30,7 @@ class TodosFragment : Fragment() {
     private val adapter = TodosRecyclerAdapter()
     private val viewModel by viewModels<TodosViewModel>()
 
-    private var _binding: TodosFragmentBinding? = null
+    private var _binding: FragmentTodoListBinding? = null
     private val binding get() = requireNotNull(_binding)
 
     override fun onCreateView(
@@ -38,7 +38,7 @@ class TodosFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = TodosFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentTodoListBinding.inflate(inflater, container, false)
         initTodosView()
         initViewModel()
         setupBtnListeners()

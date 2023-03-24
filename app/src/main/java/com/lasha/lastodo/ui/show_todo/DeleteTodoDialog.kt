@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lasha.lastodo.R
-import com.lasha.lastodo.databinding.DeleteTodoBinding
+import com.lasha.lastodo.databinding.DialogDeleteTodoBinding
 import com.lasha.lastodo.domain.utils.CheckInternetConnection
 import com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,10 +20,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DeleteTodoDialog : DialogFragment() {
 
-    private lateinit var viewModel: DeleteTodoViewModel
+    private val viewModel by viewModels<DeleteTodoViewModel>()
     private val navArgs by navArgs<AddEditDialogFragmentArgs>()
 
-    private var _binding: DeleteTodoBinding? = null
+    private var _binding: DialogDeleteTodoBinding? = null
     private val binding get() = requireNotNull(_binding)
 
     override fun onCreateView(
@@ -31,7 +31,7 @@ class DeleteTodoDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DeleteTodoBinding.inflate(inflater, container, false)
+        _binding = DialogDeleteTodoBinding.inflate(inflater, container, false)
         dialog.let {
             it?.window?.requestFeature(Window.FEATURE_NO_TITLE)
             it?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -49,14 +49,13 @@ class DeleteTodoDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[DeleteTodoViewModel::class.java]
         deleteClickListeners()
     }
 
     private fun deleteClickListeners() {
         binding.run {
             deleteTodo.setOnClickListener {
-                viewModel.deleteTodo(navArgs.currentTodo!!, isInternetConnected())
+                navArgs.currentTodo?.let { itemToDelete -> viewModel.deleteTodo(itemToDelete, isInternetConnected()) }
                 findNavController().navigate(R.id.action_deleteTodoDialog_to_todosFragment)
             }
             cancelTodoDeletion.setOnClickListener {

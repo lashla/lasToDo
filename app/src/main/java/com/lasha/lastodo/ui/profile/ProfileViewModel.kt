@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
-    var user = MutableLiveData<FirebaseUser?>()
+    var user = MutableLiveData<FirebaseUser>()
 
     init {
         viewModelScope.launch(Dispatchers.IO){

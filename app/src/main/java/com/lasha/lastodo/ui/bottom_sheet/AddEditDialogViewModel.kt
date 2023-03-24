@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddEditViewModel @Inject constructor(private val roomRepository: Repository): ViewModel() {
+class AddEditDialogViewModel @Inject constructor(private val roomRepository: Repository): ViewModel() {
     private var id = 0
 
     fun insertHandler(subject: String, description: String, date: String, filePath: String?, deadlineDate: String?){

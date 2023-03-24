@@ -9,15 +9,15 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lasha.lastodo.R
-import com.lasha.lastodo.databinding.ShowTodoBinding
+import com.lasha.lastodo.databinding.FragmentTodoDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ShowTodoFragment : Fragment(R.layout.show_todo) {
+class ShowTodoFragment : Fragment(R.layout.fragment_todo_details) {
 
     private val navArgs by navArgs<ShowTodoFragmentArgs>()
 
-    private var _binding: ShowTodoBinding? = null
+    private var _binding: FragmentTodoDetailsBinding? = null
     private val binding get() = requireNotNull(_binding)
 
     override fun onCreateView(
@@ -25,7 +25,7 @@ class ShowTodoFragment : Fragment(R.layout.show_todo) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ShowTodoBinding.inflate(inflater, container, false)
+        _binding = FragmentTodoDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
