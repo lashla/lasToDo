@@ -61,19 +61,23 @@ dependencies {
     def hiltVersion = "2.44"
     def firebaseAuthVersion = "21.1.0"
     def navigationVersion = "2.5.3"
+    def workVersion = "2.8.1"
+    def gsonVersion = "2.10.1"
+
     implementation "com.squareup.picasso:picasso:$picassoVersion"
+
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+
     implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
     implementation "com.google.firebase:firebase-firestore-ktx:$firestoreVersion"
+
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
-
-    implementation("androidx.room:room-runtime:$roomVersion")
-    kapt ("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
@@ -86,6 +90,10 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+
+    implementation "androidx.work:work-runtime-ktx:$workVersion"
+
+    implementation "com.google.code.gson:gson:$gsonVersion"
 }
 kapt {
     correctErrorTypes = true

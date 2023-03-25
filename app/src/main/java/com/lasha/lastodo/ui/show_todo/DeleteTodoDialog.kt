@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lasha.lastodo.R
 import com.lasha.lastodo.databinding.DialogDeleteTodoBinding
-import com.lasha.lastodo.domain.utils.CheckInternetConnection
 import com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,16 +54,12 @@ class DeleteTodoDialog : DialogFragment() {
     private fun deleteClickListeners() {
         binding.run {
             deleteTodo.setOnClickListener {
-                navArgs.currentTodo?.let { itemToDelete -> viewModel.deleteTodo(itemToDelete, isInternetConnected()) }
+                navArgs.currentTodo?.let { itemToDelete -> viewModel.deleteTodo(itemToDelete, requireContext()) }
                 findNavController().navigate(R.id.action_deleteTodoDialog_to_todosFragment)
             }
             cancelTodoDeletion.setOnClickListener {
                 dismiss()
             }
         }
-    }
-
-    private fun isInternetConnected(): Boolean {
-        return CheckInternetConnection.connectivityStatus(requireContext())
     }
 }

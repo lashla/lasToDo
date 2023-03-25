@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodosViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+
     val todosData = MutableLiveData<List<Todo>>()
     private val ioDispatcher = Dispatchers.IO
 

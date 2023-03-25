@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.lasha.lastodo.R
 import com.lasha.lastodo.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment(R.layout.fragment_profile) {
+class ProfileFragment : Fragment() {
 
     private val viewModel: ProfileViewModel by viewModels()
 
@@ -45,7 +44,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             }
             settingsBtnProf.setOnClickListener {
-                val action = ProfileFragmentDirections.actionProfileFragmentToTodosFragment(null)
+                val action = ProfileFragmentDirections.actionProfileFragmentToTodosFragment(newTodo = null)
                 findNavController().navigate(action)
             }
         }
