@@ -29,12 +29,13 @@ class NotificationReceiver : BroadcastReceiver() {
             val description = intent.getStringExtra("text")
 
             createNotificationChannel(context = it)
-            if (!title.isNullOrEmpty() && !description.isNullOrEmpty())
-            createNotification(
-                context,
-                title = title,
-                description = description
-            )
+            if (!title.isNullOrEmpty() && !description.isNullOrEmpty()) {
+                createNotification(
+                    context,
+                    title = title,
+                    description = description
+                )
+            }
         }
     }
 
