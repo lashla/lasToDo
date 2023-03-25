@@ -87,36 +87,6 @@
         app:layout_constraintEnd_toEndOf="@+id/deadlineBtn"
         app:layout_constraintTop_toTopOf="@+id/deadlineBtn" />
 
-    <ImageView
-        android:id="@+id/ivEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_8"
-        android:alpha="0.5"
-        android:contentDescription="@string/add_image_optional"
-        android:src="@drawable/ic_image"
-        app:layout_constraintBottom_toBottomOf="@+id/addImageBtn"
-        app:layout_constraintEnd_toEndOf="@+id/addImageBtn"
-        app:layout_constraintTop_toTopOf="@+id/addImageBtn" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/addImageBtn"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginHorizontal="@dimen/dp_24"
-        android:layout_marginVertical="@dimen/dp_16"
-        android:alpha="0.5"
-        android:background="@drawable/ic_rectangle_rounded_text_cont"
-        android:fontFamily="@font/mandali"
-        android:paddingHorizontal="8dp"
-        android:text="@string/add_image_optional"
-        android:textAlignment="viewStart"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deadlineBtn" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addEditBtn"
         android:layout_width="match_parent"
@@ -150,6 +120,6 @@
         android:textSize="@dimen/sp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addImageBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/deadlineBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

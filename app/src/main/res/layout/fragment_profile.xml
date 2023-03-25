@@ -32,7 +32,7 @@
                 android:id="@+id/settingsBtnProf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/dp_8"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/todo"
                 android:minWidth="@dimen/dp_48"
@@ -51,14 +51,17 @@
         android:layout_gravity="center"
         android:src="@drawable/ic_profile_icon" />
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         android:layout_weight="1"
-        android:layout_marginStart="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_100"
-        android:layout_marginEnd="@dimen/dp_24"
+        android:layout_marginHorizontal="@dimen/dp_24"
         android:layout_marginBottom="@dimen/dp_40">
 
         <TextView
@@ -75,6 +78,7 @@
             android:id="@+id/fullnameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/orange_secondary"
             app:layout_constraintBottom_toTopOf="@+id/emailTv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -93,6 +97,7 @@
             android:id="@+id/emailTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/orange_secondary"
             app:layout_constraintBottom_toTopOf="@+id/passwordTv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fullnameTv" />
@@ -110,6 +115,7 @@
             android:id="@+id/passwordTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/orange_secondary"
             android:text="@string/change_password"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +132,7 @@
         android:id="@+id/logoutBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_12"
+        android:layout_marginHorizontal="@dimen/dp_24"
         android:layout_marginBottom="@dimen/dp_76"
         android:background="@drawable/ic_button_background_orange"
         android:fontFamily="@font/mandali"

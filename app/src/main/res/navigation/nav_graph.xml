@@ -9,7 +9,7 @@
         android:id="@+id/todosFragment"
         android:name="com.lasha.lastodo.ui.todos.TodosFragment"
         android:label="TodosFragment"
-        tools:layout="@layout/todos_fragment">
+        tools:layout="@layout/fragment_todo_list">
         <action
             android:id="@+id/action_todosFragment_to_showTodoFragment"
             app:destination="@id/showTodoFragment" />
@@ -39,7 +39,7 @@
         android:id="@+id/showTodoFragment"
         android:name="com.lasha.lastodo.ui.show_todo.ShowTodoFragment"
         android:label="ShowTodoFragment"
-        tools:layout="@layout/show_todo">
+        tools:layout="@layout/fragment_todo_details">
         <action
             android:id="@+id/action_showTodoFragment_to_todosFragment"
             app:destination="@id/todosFragment" />
@@ -56,7 +56,7 @@
     <dialog
         android:id="@+id/bottomSheet"
         android:name="com.lasha.lastodo.ui.bottom_sheet.AddEditDialogFragment"
-        tools:layout="@layout/add_edit_dialog"
+        tools:layout="@layout/dialog_add_edit"
         >
         <argument
             android:name="currentTodo"
@@ -72,7 +72,7 @@
     <dialog
         android:id="@+id/deleteTodoDialog"
         android:name="com.lasha.lastodo.ui.show_todo.DeleteTodoDialog"
-        tools:layout="@layout/delete_todo"
+        tools:layout="@layout/dialog_delete_todo"
         android:label="DeleteTodoDialog" >
         <argument
             android:name="currentTodo"
@@ -86,7 +86,7 @@
         android:id="@+id/filterDialogFragment"
         android:name="com.lasha.lastodo.ui.todos.FilterDialogFragment"
         android:label="FilterDialogFragment"
-        tools:layout="@layout/filer_dialog"
+        tools:layout="@layout/dialog_filter"
         >
         <action
             android:id="@+id/action_filterDialogFragment_to_todosFragment"

@@ -17,6 +17,7 @@ class DeleteTodoViewModel @Inject constructor(private val roomRepository: Reposi
             if (isInternetConnected){
                 roomRepository.deleteFromRemote(todos)
             }
+            //TODO("Implement work manager for remote deletion when internet will be connected")
             roomRepository.deleteLocalTodo(todos)
         }
     }

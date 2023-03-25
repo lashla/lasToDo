@@ -13,9 +13,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/backBtn"
@@ -30,6 +31,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back_btn" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
 
             <ImageButton
                 android:id="@+id/deleteBtn"
@@ -49,13 +55,11 @@
                 android:id="@+id/editBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/edit"
                 android:background="@android:color/transparent"
                 android:minWidth="@dimen/dp_48"
                 android:minHeight="@dimen/dp_48"
-                android:src="@drawable/ic_edit"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/ic_edit" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/clockBtn"
@@ -65,11 +69,8 @@
                 android:contentDescription="@string/todo"
                 android:minWidth="@dimen/dp_48"
                 android:minHeight="@dimen/dp_48"
-                android:src="@drawable/ic_clock"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/editBtn"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:src="@drawable/ic_clock" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -87,30 +88,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
+    <ScrollView
+            android:id="@+id/relativeText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            app:layout_constraintBottom_toTopOf="@+id/dateOfTodo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleOfCurrentTodo">
 
-    <RelativeLayout
-        android:id="@+id/relativeText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0"
-        app:layout_constraintBottom_toTopOf="@+id/dateOfTodo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleOfCurrentTodo">
 
         <TextView
-            android:id="@+id/todoDescription"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/dp_24"
-            android:layout_marginStart="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginEnd="@dimen/dp_8"
-            android:layout_marginBottom="@dimen/dp_8"
-            android:fontFamily="@font/montserrat_alternates"
-            tools:text="meow meow meow"
-            android:textSize="@dimen/sp_16" />
+                android:id="@+id/todoDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_24"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:fontFamily="@font/montserrat_alternates"
+                tools:text="meow meow meow"
+                android:textSize="@dimen/sp_16" />
 
-    </RelativeLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/dateOfTodo"

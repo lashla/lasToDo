@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.lasha.lastodo.R
 import com.lasha.lastodo.databinding.FragmentLoginBinding
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SignInFragment: Fragment(R.layout.fragment_login) {
 
-    private lateinit var viewModel: SignInViewModel
+    private val viewModel by viewModels<SignInViewModel>()
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = requireNotNull(_binding)
@@ -48,7 +48,6 @@ class SignInFragment: Fragment(R.layout.fragment_login) {
     }
 
     private fun initViewModel(){
-        viewModel = ViewModelProvider(this)[SignInViewModel::class.java]
         viewModel.currentUser.observe(viewLifecycleOwner){
             if (it != null){
                 val action = SignInFragmentDirections.actionSignInFragmentToTodosFragment(null)

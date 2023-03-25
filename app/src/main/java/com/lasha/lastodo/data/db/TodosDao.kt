@@ -5,11 +5,12 @@ import com.lasha.lastodo.data.model.Todo
 
 @Dao
 interface TodosDao {
+
     @Query("SELECT * FROM todos")
     suspend fun getAll(): List<Todo>
 
     @Insert(entity = Todo::class, onConflict = OnConflictStrategy.REPLACE)
-    suspend fun intert(todos: Todo)
+    suspend fun insert(todos: Todo)
 
     @Insert(entity = Todo::class, onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertLocalTodos(todos: List<Todo>)
@@ -28,5 +29,4 @@ interface TodosDao {
 
     @Update(entity = Todo::class)
     suspend fun updateLocalTodo(todos: Todo)
-
 }

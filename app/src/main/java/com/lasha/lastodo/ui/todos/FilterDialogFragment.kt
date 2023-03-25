@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.lasha.lastodo.R
-import com.lasha.lastodo.databinding.FilerDialogBinding
+import com.lasha.lastodo.databinding.DialogFilterBinding
 
 class FilterDialogFragment : DialogFragment() {
 
-    private var _binding: FilerDialogBinding? = null
+    private var _binding: DialogFilterBinding? = null
     private val binding get() = requireNotNull(_binding)
 
     override fun onCreateView(
@@ -20,7 +20,7 @@ class FilterDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FilerDialogBinding.inflate(inflater, container, false)
+        _binding = DialogFilterBinding.inflate(inflater, container, false)
         return binding.root
     }
 

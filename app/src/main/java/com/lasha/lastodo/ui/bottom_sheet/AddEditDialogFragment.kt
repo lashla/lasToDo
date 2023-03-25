@@ -5,12 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,7 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todo
-import com.lasha.lastodo.databinding.AddEditDialogBinding
+import com.lasha.lastodo.databinding.DialogAddEditBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -30,10 +28,10 @@ class AddEditDialogFragment : BottomSheetDialogFragment() {
 
     private val navArgs by navArgs<AddEditDialogFragmentArgs>()
 
-    private var _binding: AddEditDialogBinding? = null
+    private var _binding: DialogAddEditBinding? = null
     private val binding get() = requireNotNull(_binding)
 
-    private lateinit var viewModel: AddEditViewModel
+    private lateinit var viewModel: AddEditDialogViewModel
     private var filePathUri: Uri? = null
     private var timeInMillis: Long = 0
     private var todo = Todo()
@@ -51,24 +49,15 @@ class AddEditDialogFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = AddEditDialogBinding.inflate(inflater, container, false)
+        _binding = DialogAddEditBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this)[AddEditViewModel::class.java]
+        viewModel = ViewModelProvider(this)[AddEditDialogViewModel::class.java]
         setupBottomSheetButtons()
         super.onViewCreated(view, savedInstanceState)
     }
-
-    private var resultGetFileLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            filePathUri = if (result.resultCode == Activity.RESULT_OK) {
-                result!!.data?.data
-            } else {
-                null
-            }
-        }
 
     private fun setupBottomSheetButtons() {
         binding.apply {
@@ -79,9 +68,6 @@ class AddEditDialogFragment : BottomSheetDialogFragment() {
             }
             deadlineBtn.setOnClickListener {
                 selectDatePicker()
-            }
-            addImageBtn.setOnClickListener {
-                openGalleryForImage()
             }
             addEditBtn.setOnClickListener {
                 if (navArgs.currentTodo != null) {
@@ -194,13 +180,5 @@ class AddEditDialogFragment : BottomSheetDialogFragment() {
             timeInMillis - java.time.Duration.ofMinutes(15).toMillis(),
             pending
         )
-    }
-
-    private fun openGalleryForImage() {
-        val pickPhoto = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
-        resultGetFileLauncher.launch(pickPhoto)
     }
 }
