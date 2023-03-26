@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.lasha.lastodo.R
 import com.lasha.lastodo.databinding.FragmentTodoDetailsBinding
+import com.lasha.lastodo.ui.utils.toTimeString
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +42,7 @@ class ShowTodoFragment : Fragment(R.layout.fragment_todo_details) {
             todoDescription.text = navArgs.currentTodo.contents
             todoDescription.visibility = View.VISIBLE
             deadlineDateView.text = navArgs.currentTodo.deadlineDate
-            dateOfTodo.text = navArgs.currentTodo.date
+            dateOfTodo.text = navArgs.currentTodo.date.toLong().toTimeString()
         }
     }
 

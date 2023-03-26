@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lasha.lastodo.data.model.Todo
 import com.lasha.lastodo.databinding.TodoItemBinding
+import com.lasha.lastodo.ui.utils.toTimeString
 
-class TodosRecyclerAdapter : RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolder>() {
+class TodosRecyclerAdapter(private val onItemClickListener: (Todo) -> Unit) :
+    RecyclerView.Adapter<TodoViewHolder>() {
 
     private var todoList = mutableListOf<Todo>()
 
@@ -15,10 +17,11 @@ class TodosRecyclerAdapter : RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolde
         notifyItemRangeRemoved(INSERT_POSITION, todoList.count())
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = TodoItemBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
+        return TodoViewHolder(
+            TodoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            onItemClickListener
+        )
     }
 
     fun updateTodoInfo(newInfo: MutableList<Todo>) {
@@ -26,40 +29,31 @@ class TodosRecyclerAdapter : RecyclerView.Adapter<TodosRecyclerAdapter.ViewHolde
         notifyItemRangeInserted(INSERT_POSITION, newInfo.count())
     }
 
-    fun insertItem(todo: Todo) {
-        todoList.add(todo)
-        notifyItemInserted(todoList.lastIndex)
+    override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
+        val item = todoList[position]
+        holder.bindItems(item)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val items = todoList[position]
-        with(holder) {
-            binding.run {
-                subject.text = items.subject
-                dateOfDeadline.text = items.date
-                contents.text = items.contents
-                root.setOnClickListener {
-                    onItemClickListener?.let {
-                        it(items)
-                    }
-                }
-            }
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return todoList.size
-    }
-
-    private var onItemClickListener: ((Todo) -> Unit)? = null
-
-    fun setOnItemClickListener(listener: (Todo) -> Unit) {
-        onItemClickListener = listener
-    }
-
-    class ViewHolder(val binding: TodoItemBinding) : RecyclerView.ViewHolder(binding.root)
+    override fun getItemCount() = todoList.size
 
     companion object {
         private const val INSERT_POSITION = 0
+    }
+}
+
+class TodoViewHolder(
+    private val binding: TodoItemBinding,
+    private val onItemClickListener: (Todo) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
+
+    fun bindItems(item: Todo) {
+        binding.run {
+            subject.text = item.subject
+            contents.text = item.contents
+            dateOfDeadline.text = item.date.toLong().toTimeString()
+            root.setOnClickListener {
+                onItemClickListener.invoke(item)
+            }
+        }
     }
 }

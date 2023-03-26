@@ -8,12 +8,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.lasha.lastodo.R
 import com.lasha.lastodo.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignInFragment: Fragment(R.layout.fragment_login) {
+class SignInFragment: Fragment() {
 
     private val viewModel by viewModels<SignInViewModel>()
 
@@ -50,7 +49,7 @@ class SignInFragment: Fragment(R.layout.fragment_login) {
     private fun initViewModel(){
         viewModel.currentUser.observe(viewLifecycleOwner){
             if (it != null){
-                val action = SignInFragmentDirections.actionSignInFragmentToTodosFragment(null)
+                val action = SignInFragmentDirections.actionSignInFragmentToTodosFragment(newTodo = null)
                 findNavController().navigate(action)
             }
         }
@@ -59,7 +58,7 @@ class SignInFragment: Fragment(R.layout.fragment_login) {
         }
         viewModel.isLoggedIn.observe(viewLifecycleOwner){
             if (it){
-                val action = SignInFragmentDirections.actionSignInFragmentToTodosFragment(null)
+                val action = SignInFragmentDirections.actionSignInFragmentToTodosFragment(newTodo = null)
                 findNavController().navigate(action)
             }
         }
