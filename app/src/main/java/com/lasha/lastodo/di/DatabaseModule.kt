@@ -1,4 +1,4 @@
-package com.lasha.lastodo.domain.di
+package com.lasha.lastodo.di
 
 import android.content.Context
 import androidx.room.Room

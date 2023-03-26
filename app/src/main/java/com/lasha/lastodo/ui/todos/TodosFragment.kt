@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lasha.lastodo.R
 import com.lasha.lastodo.data.model.Todo
 import com.lasha.lastodo.databinding.FragmentTodoListBinding
-import com.lasha.lastodo.domain.utils.CheckInternetConnection
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,7 +39,6 @@ class TodosFragment : Fragment() {
     ): View {
         _binding = FragmentTodoListBinding.inflate(inflater, container, false)
         initTodosView()
-        viewModel.getAllData(isInternetConnected())
         setupBtnListeners()
         setupBackPressAction()
         filterList()
@@ -105,12 +103,6 @@ class TodosFragment : Fragment() {
                 "deadline" -> {
                     viewModel.getSortedByDeadline()
                 }
-                "all" -> {
-                    viewModel.getAllData(isInternetConnected())
-                }
-                else -> {
-                    viewModel.getAllData(isInternetConnected())
-                }
             }
         }
     }
@@ -140,10 +132,6 @@ class TodosFragment : Fragment() {
         ContextCompat.checkSelfPermission(
             requireContext(), it
         ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun isInternetConnected(): Boolean {
-        return CheckInternetConnection.connectivityStatus(requireContext())
     }
 
     companion object {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -41,7 +42,7 @@ class ShowTodoFragment : Fragment(R.layout.fragment_todo_details) {
             titleOfCurrentTodo.text = navArgs.currentTodo.subject
             todoDescription.text = navArgs.currentTodo.contents
             todoDescription.visibility = View.VISIBLE
-            deadlineDateView.text = navArgs.currentTodo.deadlineDate
+            deadlineDateViewHolder.text = navArgs.currentTodo.deadlineDate
             dateOfTodo.text = navArgs.currentTodo.date.toLong().toTimeString()
         }
     }
@@ -49,8 +50,11 @@ class ShowTodoFragment : Fragment(R.layout.fragment_todo_details) {
     private fun setupClickListeners() {
         binding.run {
             clockBtn.setOnClickListener {
-                deadlineDateView.visibility = View.VISIBLE
-                deadlineDateViewHolder.visibility = View.VISIBLE
+                val isDeadlineVisible = deadlineDateViewHolder.isVisible
+                deadlineDateViewHolder.isVisible = !isDeadlineVisible
+                deadlineDateViewHolder.setOnClickListener {
+                    deadlineDateViewHolder.isVisible = !isDeadlineVisible
+                }
             }
             editBtn.setOnClickListener {
                 showEditSheetDialog()

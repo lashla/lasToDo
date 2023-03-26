@@ -37,6 +37,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/clockBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/todo"
+                android:minWidth="@dimen/dp_48"
+                android:minHeight="@dimen/dp_48"
+                android:src="@drawable/ic_clock" />
+
             <ImageButton
                 android:id="@+id/deleteBtn"
                 android:layout_width="wrap_content"
@@ -60,16 +70,6 @@
                 android:minWidth="@dimen/dp_48"
                 android:minHeight="@dimen/dp_48"
                 android:src="@drawable/ic_edit" />
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/clockBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/todo"
-                android:minWidth="@dimen/dp_48"
-                android:minHeight="@dimen/dp_48"
-                android:src="@drawable/ic_clock" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.Toolbar>
@@ -124,28 +124,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/deadlineDateViewHolder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingHorizontal="@dimen/dp_12"
         android:visibility="gone"
+        tools:text="2202-13-11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.771"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:srcCompat="@drawable/ic_deadline_dialog" />
-
-    <TextView
-        android:id="@+id/deadlineDateView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_2"
-        android:layout_marginEnd="@dimen/dp_2"
-        android:layout_marginBottom="@dimen/dp_8"
-        tools:text="2202-13-11"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/deadlineDateViewHolder"
-        app:layout_constraintEnd_toEndOf="@+id/deadlineDateViewHolder"
-        app:layout_constraintStart_toStartOf="@+id/deadlineDateViewHolder" />
+        android:background="@drawable/ic_deadline_dialog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

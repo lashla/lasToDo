@@ -27,6 +27,11 @@ class SignInViewModel @Inject constructor(private val repository: Repository) : 
         }
     }
 
+    fun syncData(isInternetConnected: Boolean){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.syncData(isInternetConnected)
+        }
+    }
 
     init {
         viewModelScope.launch(Dispatchers.IO) {

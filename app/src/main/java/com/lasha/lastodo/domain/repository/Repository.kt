@@ -6,7 +6,7 @@ import javax.inject.Singleton
 
 @Singleton
 interface Repository {
-    suspend fun getAllTodos(isInternetConnected: Boolean): List<Todo>
+    suspend fun getAllTodos(): List<Todo>
     suspend fun getSortedTodos(): List<Todo>
     suspend fun getSortedDeadline(): List<Todo>
     suspend fun insertLocalTodo(todos: Todo)
@@ -24,4 +24,5 @@ interface Repository {
     suspend fun logout()
     suspend fun getUser(): FirebaseUser?
     suspend fun clearData()
+    suspend fun syncData(isInternetConnected: Boolean)
 }

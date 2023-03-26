@@ -1,4 +1,4 @@
-package com.lasha.lastodo.domain.di
+package com.lasha.lastodo.di
 
 import com.lasha.lastodo.data.repository.RepositoryImpl
 import com.lasha.lastodo.data.db.TodosDao
