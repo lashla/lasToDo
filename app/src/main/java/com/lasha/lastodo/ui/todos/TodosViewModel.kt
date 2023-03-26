@@ -16,9 +16,9 @@ class TodosViewModel @Inject constructor(private val repository: Repository) : V
     val todosData = MutableLiveData<List<Todo>>()
     private val ioDispatcher = Dispatchers.IO
 
-    fun getAllData(isInternetConnected: Boolean) {
+    init {
         viewModelScope.launch(ioDispatcher) {
-            todosData.postValue(repository.getAllTodos(isInternetConnected))
+            todosData.postValue(repository.getAllTodos())
         }
     }
 

@@ -1,4 +1,4 @@
-package com.lasha.lastodo.domain.utils
+package com.lasha.lastodo.ui.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

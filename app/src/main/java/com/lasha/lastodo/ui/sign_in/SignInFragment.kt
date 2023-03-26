@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.lasha.lastodo.databinding.FragmentLoginBinding
+import com.lasha.lastodo.ui.utils.CheckInternetConnection
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,6 +25,7 @@ class SignInFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.syncData(checkIsInternetConnected())
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -63,4 +65,6 @@ class SignInFragment: Fragment() {
             }
         }
     }
+
+    fun checkIsInternetConnected() = CheckInternetConnection.connectivityStatus(requireContext())
 }

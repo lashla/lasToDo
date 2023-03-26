@@ -7,74 +7,14 @@ import com.lasha.lastodo.data.remote.RemoteService
 import com.lasha.lastodo.data.utils.checkIfLocalItemsUpToDate
 import com.lasha.lastodo.data.utils.checkIfRemoteItemsUpToDate
 import com.lasha.lastodo.domain.repository.Repository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Singleton
 
 @Singleton
 class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: RemoteService) :
     Repository {
 
-    override suspend fun getAllTodos(isInternetConnected: Boolean): List<Todo> {
-        val todos = mutableListOf<Todo>()
-        todosDao.getAll().let { localTodos ->
-            if (localTodos.isNotEmpty()) {
-                todos.addAll(localTodos)
-                if (isInternetConnected) {
-                    val todosFromFirebaseStorage = getFromFirestore()
-                    if (todosFromFirebaseStorage.size < localTodos.size) {
-                        saveTodosToFirestore(localTodos)
-                    } else if (todosFromFirebaseStorage.size > localTodos.size) {
-                        insertLocalTodos(todosFromFirebaseStorage)
-                        todos.removeAll(localTodos)
-                        todos.addAll(getAllTodos(true))
-                    }
-                    for (fireStoreItem in todosFromFirebaseStorage) {
-                        for (localItem in localTodos) {
-                            if (checkIfLocalItemsUpToDate(fireStoreItem, localItem)) {
-                                updateLocalTodo(
-                                    Todo(
-                                        localItem.id,
-                                        fireStoreItem.subject,
-                                        fireStoreItem.contents,
-                                        fireStoreItem.date,
-                                        fireStoreItem.photoPath,
-                                        fireStoreItem.deadlineDate,
-                                        fireStoreItem.photoLink
-                                    )
-                                )
-                                withContext(Dispatchers.Main) {
-                                    todos[localItem.id] = Todo(
-                                        localItem.id,
-                                        fireStoreItem.subject,
-                                        fireStoreItem.contents,
-                                        fireStoreItem.date,
-                                        fireStoreItem.photoPath,
-                                        fireStoreItem.deadlineDate,
-                                        fireStoreItem.photoLink
-                                    )
-                                }
-                            }
-                            if (checkIfRemoteItemsUpToDate(fireStoreItem, localItem)) {
-                                updateFirestore(
-                                    fireStoreItem.id,
-                                    Todo(
-                                        fireStoreItem.id,
-                                        localItem.subject,
-                                        localItem.contents,
-                                        localItem.date,
-                                        localItem.photoPath,
-                                        localItem.deadlineDate,
-                                        localItem.photoLink
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return todos
+    override suspend fun getAllTodos(): List<Todo> {
+        return todosDao.getAll()
     }
 
     override suspend fun getSortedTodos(): List<Todo> {
@@ -139,6 +79,52 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
 
     override suspend fun clearData() {
         return todosDao.clearData()
+    }
+
+    override suspend fun syncData(isInternetConnected: Boolean) {
+        todosDao.getAll().let { localTodos ->
+            if (localTodos.isNotEmpty()) {
+                if (isInternetConnected) {
+                    val todosFromFirebaseStorage = getFromFirestore()
+                    if (todosFromFirebaseStorage.size < localTodos.size) {
+                        saveTodosToFirestore(localTodos)
+                    } else if (todosFromFirebaseStorage.size > localTodos.size) {
+                        insertLocalTodos(todosFromFirebaseStorage)
+                    }
+                    for (fireStoreItem in todosFromFirebaseStorage) {
+                        for (localItem in localTodos) {
+                            if (checkIfLocalItemsUpToDate(fireStoreItem, localItem)) {
+                                updateLocalTodo(
+                                    Todo(
+                                        localItem.id,
+                                        fireStoreItem.subject,
+                                        fireStoreItem.contents,
+                                        fireStoreItem.date,
+                                        fireStoreItem.photoPath,
+                                        fireStoreItem.deadlineDate,
+                                        fireStoreItem.photoLink
+                                    )
+                                )
+                            }
+                            if (checkIfRemoteItemsUpToDate(fireStoreItem, localItem)) {
+                                updateFirestore(
+                                    fireStoreItem.id,
+                                    Todo(
+                                        fireStoreItem.id,
+                                        localItem.subject,
+                                        localItem.contents,
+                                        localItem.date,
+                                        localItem.photoPath,
+                                        localItem.deadlineDate,
+                                        localItem.photoLink
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override suspend fun getUser(): FirebaseUser? {
