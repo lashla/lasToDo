@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.lasha.lastodo.databinding.FragmentLoginBinding
 import com.lasha.lastodo.ui.utils.CheckInternetConnection
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SignInFragment: Fragment() {
 
-    private val viewModel by viewModels<SignInViewModel>()
+    private val viewModel by activityViewModels<SignInViewModel>()
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = requireNotNull(_binding)
@@ -39,7 +39,7 @@ class SignInFragment: Fragment() {
     private fun setClickListeners(){
         binding.run {
             loginBtn.setOnClickListener {
-                viewModel.loginUser(loginEt.text.toString(), passwordEt.text.toString())
+                viewModel.loginUser(loginEt.text.toString(), passwordEt.text.toString(), checkIsInternetConnected())
             }
             dontHaveAccountTv.setOnClickListener {
                 val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
@@ -49,6 +49,7 @@ class SignInFragment: Fragment() {
     }
 
     private fun initViewModel(){
+        viewModel.checkIsLoggedIn()
         viewModel.currentUser.observe(viewLifecycleOwner){
             if (it != null){
                 val action = SignInFragmentDirections.actionSignInFragmentToTodosFragment(newTodo = null)
@@ -66,5 +67,5 @@ class SignInFragment: Fragment() {
         }
     }
 
-    fun checkIsInternetConnected() = CheckInternetConnection.connectivityStatus(requireContext())
+    private fun checkIsInternetConnected() = CheckInternetConnection.connectivityStatus(requireContext())
 }

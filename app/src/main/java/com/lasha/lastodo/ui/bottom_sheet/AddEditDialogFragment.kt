@@ -122,27 +122,37 @@ class AddEditDialogFragment : BottomSheetDialogFragment() {
         val currentDate = System.currentTimeMillis()
         binding.apply {
             if (titleEt.text.isNotEmpty() && descriptionEt.text.isNotEmpty()) {
-                viewModel.updateTodo(
+                navArgs.currentTodo?.id?.let {
                     Todo(
-                        navArgs.currentTodo!!.id,
+                        it,
                         titleEt.text.toString(),
                         descriptionEt.text.toString(),
                         currentDate.toString(),
                         filePathUri.toString(),
                         deadlineBtn.text.toString()
                     )
-                )
-                val action = AddEditDialogFragmentDirections.actionBottomSheetToShowTodoFragment(
+                }?.let {
+                    viewModel.updateTodo(
+                        it
+                    )
+                }
+                val action = navArgs.currentTodo?.id?.let {
                     Todo(
-                        navArgs.currentTodo!!.id,
+                        it,
                         titleEt.text.toString(),
                         descriptionEt.text.toString(),
                         currentDate.toString(),
                         filePathUri.toString(),
                         deadlineBtn.text.toString()
                     )
-                )
-                findNavController().navigate(action)
+                }?.let {
+                    AddEditDialogFragmentDirections.actionBottomSheetToShowTodoFragment(
+                        it
+                    )
+                }
+                if (action != null) {
+                    findNavController().navigate(action)
+                }
             }
         }
     }

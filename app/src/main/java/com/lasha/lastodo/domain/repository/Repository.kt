@@ -14,7 +14,7 @@ interface Repository {
     suspend fun deleteLocalTodo(todos: Todo)
     suspend fun updateLocalTodo(todos: Todo)
     suspend fun signUpWIthEmailPassword(email: String, password: String): FirebaseUser?
-    suspend fun signInWIthEmailPassword(email: String, password: String): FirebaseUser?
+    suspend fun signInWIthEmailPassword(email: String, password: String, isInternetConnected: Boolean): FirebaseUser?
     suspend fun saveTodoToFirestore(todos: Todo)
     suspend fun saveTodosToFirestore(todos: List<Todo>)
     suspend fun getFromFirestore(): List<Todo>
@@ -23,6 +23,6 @@ interface Repository {
     suspend fun checkLoginState(): Boolean
     suspend fun logout()
     suspend fun getUser(): FirebaseUser?
-    suspend fun clearData()
+    suspend fun clearLocalData()
     suspend fun syncData(isInternetConnected: Boolean)
 }
