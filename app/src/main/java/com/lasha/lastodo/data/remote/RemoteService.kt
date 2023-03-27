@@ -36,24 +36,24 @@ class RemoteService(
     }
 
     suspend fun saveTodoToFirebase(todos: Todo) {
-        FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+        FireStore.collection("userData").document(firebaseAuth.currentUser?.uid.toString())
             .collection("todos").add(todos).await()
     }
 
     suspend fun saveTodosToFirebase(todos: List<Todo>) {
         for (element in todos) {
-            FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+            FireStore.collection("userData").document(firebaseAuth.currentUser?.uid.toString())
                 .collection("todos").add(element).await()
         }
     }
 
     suspend fun deleteTodoFromRemote(todo: Todo) {
         val querySnapshot =
-            FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+            FireStore.collection("userData").document(firebaseAuth.currentUser?.uid.toString())
                 .collection("todos").whereEqualTo("id", todo.id).get().await()
         if (querySnapshot.documents.isNotEmpty()) {
             for (document in querySnapshot) {
-                FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+                FireStore.collection("userData").document(firebaseAuth.currentUser?.uid.toString())
                     .collection("todos").document(document.id).delete().await()
             }
         }
@@ -61,11 +61,11 @@ class RemoteService(
 
     suspend fun updateFirebase(id: Int, todo: Todo) {
         val querySnapshot =
-            FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+            FireStore.collection("userData").document(firebaseAuth.currentUser?.uid.toString())
                 .collection("todos").whereEqualTo("id", id).get().await()
         if (querySnapshot.documents.isNotEmpty()) {
             for (document in querySnapshot) {
-                FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+                FireStore.collection("userData").document(firebaseAuth.currentUser?.uid.toString())
                     .collection("todos").document(document.id).set(todo).await()
             }
         }
@@ -73,7 +73,7 @@ class RemoteService(
 
     suspend fun getFromFirebase(): List<Todo> {
         val querySnapshot =
-            FireStore.collection("userData").document(firebaseAuth.currentUser!!.uid)
+            FireStore.collection("userData").document(firebaseAuth.currentUser?.uid.toString())
                 .collection("todos").get().await()
         val todoList = ArrayList<Todo>()
         for (document in querySnapshot) {

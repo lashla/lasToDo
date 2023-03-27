@@ -45,7 +45,8 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
         return remoteService.signUpWIthEmailPassword(email, password)
     }
 
-    override suspend fun signInWIthEmailPassword(email: String, password: String): FirebaseUser? {
+    override suspend fun signInWIthEmailPassword(email: String, password: String, isInternetConnected: Boolean): FirebaseUser? {
+        syncData(isInternetConnected)
         return remoteService.signInWIthEmailPassword(email, password)
     }
 
@@ -77,54 +78,57 @@ class RepositoryImpl(private val todosDao: TodosDao, private val remoteService: 
         remoteService.logout()
     }
 
-    override suspend fun clearData() {
+    override suspend fun clearLocalData() {
         return todosDao.clearData()
     }
 
     override suspend fun syncData(isInternetConnected: Boolean) {
-        todosDao.getAll().let { localTodos ->
-            if (localTodos.isNotEmpty()) {
-                if (isInternetConnected) {
-                    val todosFromFirebaseStorage = getFromFirestore()
-                    if (todosFromFirebaseStorage.size < localTodos.size) {
-                        saveTodosToFirestore(localTodos)
-                    } else if (todosFromFirebaseStorage.size > localTodos.size) {
-                        insertLocalTodos(todosFromFirebaseStorage)
-                    }
-                    for (fireStoreItem in todosFromFirebaseStorage) {
-                        for (localItem in localTodos) {
-                            if (checkIfLocalItemsUpToDate(fireStoreItem, localItem)) {
-                                updateLocalTodo(
-                                    Todo(
-                                        localItem.id,
-                                        fireStoreItem.subject,
-                                        fireStoreItem.contents,
-                                        fireStoreItem.date,
-                                        fireStoreItem.photoPath,
-                                        fireStoreItem.deadlineDate,
-                                        fireStoreItem.photoLink
-                                    )
+        var localTodos = todosDao.getAll()
+            if (isInternetConnected) {
+                var todosFromFirebaseStorage = getFromFirestore()
+                if (todosFromFirebaseStorage.size < localTodos.size) {
+                    saveTodosToFirestore(localTodos)
+                } else if (todosFromFirebaseStorage.size > localTodos.size) {
+                    insertLocalTodos(todosFromFirebaseStorage)
+                }
+                if (localTodos.isEmpty()){
+                    localTodos = todosFromFirebaseStorage
+                }
+                if (todosFromFirebaseStorage.isEmpty()){
+                    todosFromFirebaseStorage = localTodos
+                }
+                for (fireStoreItem in todosFromFirebaseStorage) {
+                    for (localItem in localTodos) {
+                        if (checkIfLocalItemsUpToDate(fireStoreItem, localItem)) {
+                            updateLocalTodo(
+                                Todo(
+                                    localItem.id,
+                                    fireStoreItem.subject,
+                                    fireStoreItem.contents,
+                                    fireStoreItem.date,
+                                    fireStoreItem.photoPath,
+                                    fireStoreItem.deadlineDate,
+                                    fireStoreItem.photoLink
                                 )
-                            }
-                            if (checkIfRemoteItemsUpToDate(fireStoreItem, localItem)) {
-                                updateFirestore(
+                            )
+                        }
+                        if (checkIfRemoteItemsUpToDate(fireStoreItem, localItem)) {
+                            updateFirestore(
+                                fireStoreItem.id,
+                                Todo(
                                     fireStoreItem.id,
-                                    Todo(
-                                        fireStoreItem.id,
-                                        localItem.subject,
-                                        localItem.contents,
-                                        localItem.date,
-                                        localItem.photoPath,
-                                        localItem.deadlineDate,
-                                        localItem.photoLink
-                                    )
+                                    localItem.subject,
+                                    localItem.contents,
+                                    localItem.date,
+                                    localItem.photoPath,
+                                    localItem.deadlineDate,
+                                    localItem.photoLink
                                 )
-                            }
+                            )
                         }
                     }
                 }
             }
-        }
     }
 
     override suspend fun getUser(): FirebaseUser? {

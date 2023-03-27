@@ -23,7 +23,7 @@ class ProfileViewModel @Inject constructor(private val repository: Repository): 
 
     fun logout(){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.clearData()
+            repository.clearLocalData()
             repository.logout()
         }
     }
